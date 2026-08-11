@@ -221,19 +221,25 @@ header.hide ~ .subnav{transform:translateY(calc(-100% - var(--nav) - var(--util)
 .subnav a.act{color:var(--red);background:var(--red-w)}
 .subnav a.act em{color:var(--red-lt)}
 
-/* overlay menu */
-.ovl{position:fixed;inset:0;z-index:1045;background:linear-gradient(160deg,var(--w),var(--blue-w) 60%,var(--red-w));
-  padding:calc(var(--nav) + var(--util) + 40px) 16px 30px;clip-path:circle(0% at 94% 4%);
-  transition:clip-path .7s var(--ez);overflow-y:auto}
-.ovl.open{clip-path:circle(160% at 94% 4%)}
+/* overlay menu — compact dropdown card, not full-screen */
+.ovl-bg{position:fixed;inset:0;z-index:1040;background:rgba(11,21,51,.38);backdrop-filter:blur(2px);
+  opacity:0;visibility:hidden;transition:opacity .3s var(--ez),visibility .3s}
+.ovl-bg.open{opacity:1;visibility:visible}
+.ovl{position:fixed;z-index:1045;top:calc(var(--nav) + var(--util) + 8px);right:12px;left:12px;
+  max-height:min(74vh,560px);border-radius:var(--r);background:var(--w);box-shadow:var(--s3);
+  padding:10px 14px 16px;overflow-y:auto;transform-origin:top right;
+  transform:scale(.94) translateY(-8px);opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .3s var(--ez),opacity .25s var(--ez),visibility .3s}
+.ovl.open{transform:scale(1) translateY(0);opacity:1;visibility:visible;pointer-events:auto}
+@media(min-width:480px){.ovl{left:auto;width:340px}}
 .ovl li{border-top:1px solid var(--line)}
 .ovl li:last-of-type{border-bottom:1px solid var(--line)}
-.ovl a{display:flex;align-items:center;gap:14px;padding:15px 3px;font-family:var(--hd);font-weight:700;
-  font-size:clamp(23px,7vw,38px);text-transform:uppercase;color:var(--ink);transition:all .3s var(--ez)}
-.ovl a:hover,.ovl a:active{color:var(--red);padding-left:14px}
-.ovl a em{font-style:normal;font-size:11px;letter-spacing:.18em;color:var(--blue);font-family:var(--bd);font-weight:800}
-.ovl a small{margin-left:auto;font-family:var(--bd);font-size:10.5px;font-weight:500;color:var(--mut);text-transform:none;letter-spacing:0;text-align:right}
-.ovl .oc{margin-top:22px;display:flex;gap:9px;flex-wrap:wrap}
+.ovl a{display:flex;align-items:center;gap:12px;padding:12px 3px;font-family:var(--hd);font-weight:700;
+  font-size:16.5px;text-transform:uppercase;color:var(--ink);transition:all .3s var(--ez)}
+.ovl a:hover,.ovl a:active{color:var(--red);padding-left:8px}
+.ovl a em{font-style:normal;font-size:10px;letter-spacing:.18em;color:var(--blue);font-family:var(--bd);font-weight:800}
+.ovl a small{margin-left:auto;font-family:var(--bd);font-size:9.5px;font-weight:500;color:var(--mut);text-transform:none;letter-spacing:0;text-align:right}
+.ovl .oc{margin-top:14px;display:flex;gap:9px;flex-wrap:wrap}
 
 /* ============================================================
    HERO
@@ -1092,6 +1098,7 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
   </div>
 </nav>
 
+<div class="ovl-bg" id="ovlBg"></div>
 <div class="ovl" id="ovl">
   <ol class="wrap" style="padding:0">
     <li><a href="#/home"><em>01</em> Home <small>Academy &amp; programs</small></a></li>
@@ -1935,11 +1942,13 @@ document.querySelectorAll('.tabs button').forEach(b=>{
 function go(n){savePos();markClick();location.hash='#/'+n}
 
 /* ---------- MENU ---------- */
-const ovl=document.getElementById('ovl'),mbtn=document.getElementById('mbtn');
-mbtn.addEventListener('click',()=>{ovl.classList.toggle('open');mbtn.classList.toggle('x');
-  document.body.classList.toggle('menu-open',ovl.classList.contains('open'));sClk()});
-ovl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ovl.classList.remove('open');
-  mbtn.classList.remove('x');document.body.classList.remove('menu-open')}));
+const ovl=document.getElementById('ovl'),mbtn=document.getElementById('mbtn'),ovlBg=document.getElementById('ovlBg');
+function closeMenu(){ovl.classList.remove('open');mbtn.classList.remove('x');
+  ovlBg&&ovlBg.classList.remove('open');document.body.classList.remove('menu-open')}
+mbtn.addEventListener('click',()=>{const open=ovl.classList.toggle('open');mbtn.classList.toggle('x',open);
+  ovlBg&&ovlBg.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);sClk()});
+ovl.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+ovlBg&&ovlBg.addEventListener('click',closeMenu);
 
 /* ---------- HEADER / BELT / SPY ---------- */
 let ly=0;const spy=[...document.querySelectorAll('.subnav a')];
