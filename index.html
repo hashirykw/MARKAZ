@@ -774,6 +774,30 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
 .cart-sub{display:flex;justify-content:space-between;align-items:center;margin:16px 0;font-family:var(--hd);
   font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--ink)}
 .cart-sub b{font-family:var(--dsp);font-size:20px;color:var(--red)}
+
+/* payment method + bank transfer + screenshot upload */
+.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pay-opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border:1.5px solid var(--line);
+  border-radius:var(--r-s);font-family:var(--hd);font-weight:600;font-size:11.5px;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--mut);transition:all .22s var(--ez)}
+.pay-opt svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pay-opt.on{border-color:var(--red);color:var(--red);background:var(--red-w)}
+.bank-box{background:var(--mist);border:1.5px solid var(--edge);border-radius:var(--r-s);padding:14px 15px;margin:12px 0 16px}
+.bank-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;
+  border-bottom:1px dashed var(--edge);font-size:12px}
+.bank-row:last-of-type{border-bottom:none}
+.bank-row span{color:var(--mut)}
+.bank-row b{font-family:var(--hd);font-weight:700;color:var(--ink);letter-spacing:.02em}
+.bank-copy{width:26px;height:26px;border-radius:7px;background:var(--w);border:1.5px solid var(--edge);
+  display:grid;place-items:center;flex-shrink:0}
+.bank-copy svg{width:12px;height:12px;fill:none;stroke:var(--blue);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ss-upload{display:flex;align-items:center;justify-content:center;min-height:64px;border:1.5px dashed var(--edge);
+  border-radius:var(--r-s);background:var(--w);cursor:pointer;overflow:hidden;transition:border-color .22s}
+.ss-upload:hover{border-color:var(--blue)}
+.ss-upload span{display:flex;align-items:center;gap:8px;font-family:var(--hd);font-weight:600;font-size:11.5px;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--blue);padding:14px}
+.ss-upload span svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ss-upload img{width:100%;max-height:150px;object-fit:cover;display:block}
 .prod-add{position:absolute;top:9px;right:9px;z-index:2;width:32px;height:32px;border-radius:50%;
   background:rgba(255,255,255,.92);color:var(--blue);display:grid;place-items:center;font-size:18px;line-height:1;
   transition:all .25s var(--ez);opacity:0;transform:scale(.8)}
@@ -831,9 +855,51 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
 .gi:hover span{transform:translateY(-3px);color:#FFC9CB}
 
 /* member cards */
+.mem{cursor:pointer}
 .mem::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:var(--r);
   box-shadow:inset 0 0 0 0 var(--red);transition:box-shadow .35s var(--ez)}
 .mem:hover::before{box-shadow:inset 0 0 0 3px var(--red)}
+.mem-tap{position:absolute;bottom:10px;right:10px;z-index:3;width:26px;height:26px;border-radius:50%;
+  background:rgba(255,255,255,.94);display:grid;place-items:center;opacity:0;transform:translateY(4px);
+  transition:opacity .25s var(--ez),transform .25s var(--ez)}
+.mem-tap svg{width:12px;height:12px;fill:none;stroke:var(--red);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.mem:hover .mem-tap{opacity:1;transform:translateY(0)}
+.rec{cursor:pointer}
+
+/* member modal — medals + skill bars on white surface */
+.mm-medals{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px}
+.mm-medal{display:inline-flex;align-items:center;gap:6px;background:var(--gold-g);color:#38290A;
+  font-family:var(--hd);font-weight:600;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  padding:6px 12px 6px 8px;border-radius:99px;box-shadow:0 4px 12px rgba(212,160,23,.28)}
+.mm-medal svg{width:13px;height:13px;fill:#38290A;flex-shrink:0}
+.mm-bar{margin-bottom:11px}
+.mm-bar .bl{display:flex;justify-content:space-between;font-size:10.5px;font-family:var(--hd);font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--txt);margin-bottom:4px}
+.mm-bar .bl b{color:var(--ink)}
+.mm-bar .bt{height:5px;border-radius:9px;background:var(--cloud);overflow:hidden}
+.mm-bar .bt i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--blue),var(--red));
+  transition:width 1s var(--ez)}
+.mm-quote{font-family:var(--hd);font-size:13.5px;font-style:normal;color:var(--txt);line-height:1.6;
+  border-left:3px solid var(--red);padding-left:12px;margin:14px 0}
+
+/* coach book & message section */
+.book-g{display:grid;gap:34px;align-items:center}
+@media(min-width:860px){.book-g{grid-template-columns:.8fr 1.2fr;gap:52px}}
+.book-cov{position:relative;max-width:270px;margin:0 auto}
+.book-cov img{border-radius:var(--r-s);box-shadow:var(--s3);aspect-ratio:3/4.4;object-fit:cover;width:100%}
+.book-cov .bdg{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  background:var(--gold-g);color:#38290A;font-family:var(--hd);font-weight:600;font-size:11px;
+  letter-spacing:.07em;text-transform:uppercase;padding:8px 16px;border-radius:99px;box-shadow:0 8px 20px rgba(212,160,23,.35)}
+.msg-card{background:var(--w);border:1.5px solid var(--line);border-radius:var(--r);padding:26px 24px;
+  margin-top:26px;position:relative}
+.msg-card .mq{font-family:var(--dsp);font-size:44px;line-height:1;color:var(--red-t);position:absolute;top:10px;left:18px}
+.msg-card p{position:relative;font-size:14px;line-height:1.75;color:var(--txt);margin-bottom:14px}
+.msg-sig{display:flex;align-items:center;gap:11px;margin-top:16px}
+.msg-sig img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+.msg-sig b{display:block;font-family:var(--hd);font-size:13px;color:var(--ink);text-transform:none}
+.msg-sig span{font-size:11.5px;color:var(--mut)}
+.book3d{width:52px;height:52px;flex-shrink:0;margin-left:auto;animation:float3d 4.5s ease-in-out infinite}
+.book3d canvas{width:100%;height:100%;display:block}
 
 /* schedule rows — dot pulse + arrow */
 .sc-card .dot{transition:transform .3s var(--ez),box-shadow .3s}
@@ -1253,17 +1319,21 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
     </div>
     <div class="wrap" style="padding-right:0">
       <div class="rail">
-        <div class="rec" data-rv style="--i:0">
+        <div class="rec" data-mi="abdul" data-rv style="--i:0">
           <img loading="lazy" src="https://images.unsplash.com/photo-1608583252022-09323426b8b6?fm=jpg&q=80&w=600&auto=format&fit=crop" alt="Head coach"><span class="tag">Head Coach</span>
           <div class="rec-in"><h4>AbdulSamad Khan</h4><span class="role">Founder · 4th Dan</span><div class="bar"><div class="bl"><span>Technique</span><b>96%</b></div><div class="bt"><i data-w="96"></i></div></div><div class="bar"><div class="bl"><span>Experience</span><b>92%</b></div><div class="bt"><i data-w="92"></i></div></div><div class="bar"><div class="bl"><span>Coaching</span><b>98%</b></div><div class="bt"><i data-w="98"></i></div></div></div>
         </div>
-        <div class="rec r" data-rv style="--i:1">
+        <div class="rec r" data-mi="hamza" data-rv style="--i:1">
           <img loading="lazy" src="https://images.unsplash.com/photo-1656653424873-8491cd7bf5f8?fm=jpg&q=80&w=600&auto=format&fit=crop" alt="Athlete"><span class="tag b">National</span>
           <div class="rec-in"><h4>Hamza Raza</h4><span class="role">Taekwondo · 1st Dan</span><div class="bar"><div class="bl"><span>Kicking</span><b>90%</b></div><div class="bt"><i data-w="90"></i></div></div><div class="bar"><div class="bl"><span>Footwork</span><b>84%</b></div><div class="bt"><i data-w="84"></i></div></div><div class="bar"><div class="bl"><span>Sparring</span><b>88%</b></div><div class="bt"><i data-w="88"></i></div></div></div>
         </div>
-        <div class="rec" data-rv style="--i:2">
+        <div class="rec" data-mi="bilal" data-rv style="--i:2">
           <img loading="lazy" src="https://images.unsplash.com/photo-1587979649655-196320f29d0d?fm=jpg&q=80&w=600&auto=format&fit=crop" alt="MMA athlete"><span class="tag">Fighters Squad</span>
           <div class="rec-in"><h4>Bilal Ahmed</h4><span class="role">MMA · Striking & Ground</span><div class="bar"><div class="bl"><span>Striking</span><b>86%</b></div><div class="bt"><i data-w="86"></i></div></div><div class="bar"><div class="bl"><span>Ground</span><b>79%</b></div><div class="bt"><i data-w="79"></i></div></div><div class="bar"><div class="bl"><span>Cardio</span><b>93%</b></div><div class="bt"><i data-w="93"></i></div></div></div>
+        </div>
+        <div class="rec r" data-mi="fatima" data-rv style="--i:3">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?fm=jpg&q=80&w=600&auto=format&fit=crop" alt="Grappling athlete"><span class="tag b">Regional Gold</span>
+          <div class="rec-in"><h4>Fatima Noor</h4><span class="role">Grappling · Blue Belt</span><div class="bar"><div class="bl"><span>Guard</span><b>88%</b></div><div class="bt"><i data-w="88"></i></div></div><div class="bar"><div class="bl"><span>Takedowns</span><b>81%</b></div><div class="bt"><i data-w="81"></i></div></div><div class="bar"><div class="bl"><span>Conditioning</span><b>90%</b></div><div class="bt"><i data-w="90"></i></div></div></div>
         </div>
       </div>
       <div class="wrap" style="padding-left:0"><div class="railhint"><i></i> Swipe for more</div></div>
@@ -1565,6 +1635,35 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
     </div>
   </section>
 
+  <section class="bg-red cut">
+    <div class="wrap">
+      <div class="book-g">
+        <div class="book-cov" data-rv>
+          <img loading="lazy" src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?fm=jpg&q=80&w=600&auto=format&fit=crop" alt="Way of Honor book by Coach AbdulSamad Khan">
+          <span class="bdg">Author</span>
+        </div>
+        <div data-rv style="--i:1">
+          <div class="eyb">On the shelf</div>
+          <h2 style="font-size:clamp(24px,6.5vw,38px);margin:10px 0 14px">Way of Honor: <em class="r">Lessons from the Mat</em></h2>
+          <p>Coach AbdulSamad's own book, drawn from twelve years on the floor at Markaz — chapters on discipline, honest grading, competition nerves and raising fighters who stay humble. Written for students, parents and anyone starting late.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:18px">
+            <a class="btn btn-r" href="https://wa.me/923002672558?text=I%27d%20like%20to%20get%20a%20copy%20of%20Way%20of%20Honor.">Get a copy</a>
+            <span class="tl" style="cursor:default;pointer-events:none">Available at the academy front desk</span>
+          </div>
+          <div class="msg-card">
+            <span class="mq">"</span>
+            <p>To everyone who's ever walked through our doors nervous on day one — that nervousness is the whole point. It means you showed up to try something hard. Stay for the first ninety days and you won't recognise who you were before you started. That's the only promise I make here.</p>
+            <div class="msg-sig">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1608583252022-09323426b8b6?fm=jpg&q=80&w=100&auto=format&fit=crop" alt="Coach AbdulSamad Khan">
+              <div><b>AbdulSamad Khan</b><span>Founder &amp; Head Coach, Markaz</span></div>
+              <span class="book3d" aria-hidden="true"><canvas id="book3d"></canvas></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="ouj" id="ouj-full">
     <div class="wrap ouj-g">
       <div class="ouj-logo tilt" data-rv><img src="ouj-logo.png" alt="Markaz OUJ Performance logo"></div>
@@ -1694,6 +1793,7 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
 <!-- ==================== MEMBERS ==================== -->
 <div class="page" id="p-members">
   <section class="bg-deep cut-b" style="padding-top:calc(var(--nav) + var(--util) + 44px);padding-bottom:44px">
+    <div class="deco3d" aria-hidden="true"><canvas id="medal3d"></canvas></div>
     <div class="wrap">
       <div class="crumb"><a href="#/home">Home</a><i>›</i><span>Members</span></div>
       <div class="eyb w">Community</div>
@@ -1708,11 +1808,14 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
         <button class="chip">Players</button><button class="chip">Fighters Squad</button>
       </div>
       <div class="mg">
-        <a class="mem" href="#/coach" data-rv style="--i:0"><img loading="lazy" src="https://images.unsplash.com/photo-1608583252022-09323426b8b6?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Head coach"><div class="mem-b"><b>AbdulSamad Khan</b><span>Founder &amp; Head Coach</span></div></a>
-        <div class="mem" data-rv style="--i:1"><img loading="lazy" src="https://images.unsplash.com/photo-1656653424873-8491cd7bf5f8?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Player"><div class="mem-b"><b>Hamza Raza</b><span>National Team · Taekwondo</span></div></div>
-        <div class="mem" data-rv style="--i:2"><img loading="lazy" src="https://images.unsplash.com/photo-1587979649655-196320f29d0d?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Squad athlete"><div class="mem-b"><b>Bilal Ahmed</b><span>Fighters Squad · MMA</span></div></div>
-        <div class="mem" data-rv style="--i:3"><img loading="lazy" src="https://images.unsplash.com/photo-1579332409436-dc40da6edeaf?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Girls batch lead"><div class="mem-b"><b>Ayesha Siddiqui</b><span>Girls Batch Instructor</span></div></div>
+        <div class="mem" data-mi="abdul" data-rv style="--i:0"><img loading="lazy" src="https://images.unsplash.com/photo-1608583252022-09323426b8b6?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Head coach"><span class="mem-tap"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 16.8 6.4 20l1.1-6.6L3 9l6.4-1.1z"/></svg></span><div class="mem-b"><b>AbdulSamad Khan</b><span>Founder &amp; Head Coach</span></div></div>
+        <div class="mem" data-mi="hamza" data-rv style="--i:1"><img loading="lazy" src="https://images.unsplash.com/photo-1656653424873-8491cd7bf5f8?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Player"><span class="mem-tap"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 16.8 6.4 20l1.1-6.6L3 9l6.4-1.1z"/></svg></span><div class="mem-b"><b>Hamza Raza</b><span>National Team · Taekwondo</span></div></div>
+        <div class="mem" data-mi="bilal" data-rv style="--i:2"><img loading="lazy" src="https://images.unsplash.com/photo-1587979649655-196320f29d0d?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Squad athlete"><span class="mem-tap"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 16.8 6.4 20l1.1-6.6L3 9l6.4-1.1z"/></svg></span><div class="mem-b"><b>Bilal Ahmed</b><span>Fighters Squad · MMA</span></div></div>
+        <div class="mem" data-mi="ayesha" data-rv style="--i:3"><img loading="lazy" src="https://images.unsplash.com/photo-1579332409436-dc40da6edeaf?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Girls batch lead"><span class="mem-tap"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 16.8 6.4 20l1.1-6.6L3 9l6.4-1.1z"/></svg></span><div class="mem-b"><b>Ayesha Siddiqui</b><span>Girls Batch Instructor</span></div></div>
+        <div class="mem" data-mi="fatima" data-rv style="--i:0"><img loading="lazy" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Grappling athlete"><span class="mem-tap"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 16.8 6.4 20l1.1-6.6L3 9l6.4-1.1z"/></svg></span><div class="mem-b"><b>Fatima Noor</b><span>Fighters Squad · Grappling</span></div></div>
+        <div class="mem" data-mi="usman" data-rv style="--i:1"><img loading="lazy" src="https://images.unsplash.com/photo-1517438476312-10d79c077509?fm=jpg&q=80&w=500&auto=format&fit=crop" alt="Kickboxing official"><span class="mem-tap"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 16.8 6.4 20l1.1-6.6L3 9l6.4-1.1z"/></svg></span><div class="mem-b"><b>Usman Tariq</b><span>Kickboxing Official</span></div></div>
       </div>
+      <p style="margin-top:12px;font-size:12px;color:var(--mut)"><svg style="width:11px;height:11px;vertical-align:-1px;fill:none;stroke:currentColor;stroke-width:2.4;display:inline-block;margin-right:3px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-5M12 8h.01"/></svg>Tap any member for their full profile, medals and record.</p>
       <p style="margin-top:20px;font-size:12.5px;color:var(--mut)">Team results and medal record on the <a class="il" href="#/assoc">associations page</a>.</p>
     </div>
   </section>
@@ -1820,6 +1923,22 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
   </div>
 </div></div>
 
+<div class="mo" id="memModal"><div class="mc">
+  <div class="mc-ph"><img id="mmI" src="" alt=""><button class="x" id="mmX" style="position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.94);font-size:22px;color:var(--ink);line-height:1;display:grid;place-items:center">×</button>
+    <span class="tag" id="mmTag">Role</span></div>
+  <div class="mc-b">
+    <div class="eyb" id="mmCat">Category</div>
+    <h3 id="mmN">Name</h3>
+    <span id="mmRole" style="display:block;margin-bottom:12px;font-family:var(--hd);font-weight:600;font-size:12px;letter-spacing:.06em;color:var(--mut);text-transform:uppercase"></span>
+    <p id="mmD"></p>
+    <div id="mmQuoteWrap"></div>
+    <div class="eyb b" style="margin-bottom:8px">Medals &amp; recognitions</div>
+    <div class="mm-medals" id="mmMedals"></div>
+    <div id="mmBars"></div>
+    <a class="btn btn-r btn-full" id="mmCta" href="#" target="_blank" rel="noopener" style="margin-top:6px">Message on WhatsApp</a>
+  </div>
+</div></div>
+
 <div class="mo" id="cartMo"><div class="mc">
   <div class="mc-b" style="padding-top:24px">
     <button class="x" id="cartX" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--mist);font-size:20px;color:var(--ink);line-height:1;display:grid;place-items:center">×</button>
@@ -1833,11 +1952,44 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
       <h3 style="margin-bottom:12px">Checkout</h3>
       <div class="fld" style="margin-bottom:11px"><label>Your name</label><input id="coN" type="text" placeholder="Full name"></div>
       <div class="fld" style="margin-bottom:11px"><label>Phone</label><input id="coP" type="tel" placeholder="03xx xxxxxxx"></div>
+      <div class="fld" style="margin-bottom:11px">
+        <label>Payment method</label>
+        <div class="pay-opts">
+          <button type="button" class="pay-opt on" data-pm="cod">
+            <svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M4 9h16v11H4z"/><path d="M9 13a3 3 0 006 0"/></svg>
+            Cash on delivery
+          </button>
+          <button type="button" class="pay-opt" data-pm="online">
+            <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            Online transfer
+          </button>
+        </div>
+      </div>
+      <div class="bank-box" id="bankBox" style="display:none">
+        <div class="eyb b" style="margin-bottom:8px">Transfer to</div>
+        <div class="bank-row"><span>Bank</span><b>Meezan Bank Ltd.</b></div>
+        <div class="bank-row"><span>Account title</span><b>Markaz Martial Arts Academy</b></div>
+        <div class="bank-row"><span>Account No.</span><b id="bankAcc">0123 4567 8901 234</b>
+          <button type="button" class="bank-copy" id="bankCopyBtn" aria-label="Copy account number">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button></div>
+        <div class="bank-row"><span>IBAN</span><b>PK36 MEZN 0001 2345 6789 0123</b></div>
+        <p style="font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.5">Transfer the total shown below, then upload a screenshot of the payment so we can confirm your order.</p>
+        <div class="fld" style="margin-top:12px;margin-bottom:0">
+          <label>Payment screenshot</label>
+          <label class="ss-upload" id="ssUpload">
+            <input type="file" id="coSS" accept="image/*" style="display:none">
+            <span id="ssLabel"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg>Upload screenshot</span>
+            <img id="ssPreview" alt="Payment screenshot preview" style="display:none">
+          </label>
+        </div>
+      </div>
       <div class="fld" style="margin-bottom:16px"><label>Notes (size, colour, pickup time)</label><textarea id="coM" placeholder="Anything we should know"></textarea></div>
       <div class="cart-sub"><span>Total</span><b id="coTotal">Rs 0</b></div>
       <button class="btn btn-r btn-full" onclick="sendOrder()">Send order on WhatsApp
         <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      <button class="tl" style="margin-top:12px" onclick="backToCart()"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to cart</button>
+      <p style="font-size:11px;color:var(--mut);margin-top:10px;line-height:1.5">For online transfer, attach your screenshot in the WhatsApp chat once it opens — links can't carry images on their own.</p>
+      <button class="tl" style="margin-top:6px" onclick="backToCart()"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to cart</button>
     </div>
   </div>
 </div></div>
@@ -1921,6 +2073,10 @@ let byClick=false;          /* true when navigation came from a link/tab, false 
 function markClick(){byClick=true;setTimeout(()=>byClick=false,700)}
 function savePos(){SPOS[cur]=scrollY}
 addEventListener('scroll',()=>{if(!document.hidden)SPOS[cur]=scrollY},{passive:true});
+/* persist page + scroll across real reloads / tab closes (not just in-session back/forward) */
+function persistState(){try{sessionStorage.setItem('mkz_state',JSON.stringify({page:cur,pos:SPOS}))}catch(e){}}
+addEventListener('visibilitychange',()=>{if(document.hidden)persistState()});
+addEventListener('pagehide',persistState);
 /* any internal link counts as a deliberate navigation */
 document.addEventListener('click',e=>{
   const a=e.target.closest('a[href^="#"]');
@@ -3585,6 +3741,75 @@ function qS(n){q=Math.max(1,q+n);document.getElementById('mQ').textContent=q;sCl
 function addCart(){addToCart(cp,q);sAdd();toast(P[cp].n+' × '+q+' added');closeP()}
 document.getElementById('mX').addEventListener('click',closeP);
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeP()});
+
+/* ---------- MEMBER PROFILES ---------- */
+const MEDAL_SVG='<svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 16.8 6.4 20l1.1-6.6L3 9l6.4-1.1z"/></svg>';
+const MEMBERS={
+  abdul:{img:'https://images.unsplash.com/photo-1608583252022-09323426b8b6?fm=jpg&q=80&w=800&auto=format&fit=crop',
+    tag:'Head Coach',cat:'Founder · Officials',n:'AbdulSamad Khan',role:'Founder &amp; Head Coach · 4th Dan Black Belt',
+    d:"Opened Markaz in Gulberg Town so anyone in Karachi could learn Taekwondo properly, from age five up. WTF-certified and a national competition coach, he's also the author of \u201cWay of Honor: Lessons from the Mat\u201d and still corrects technique on the floor every session.",
+    quote:"\u201cEvery belt you earn here should mean something. I'm not interested in handing out rank \u2014 I'm interested in building people who can back it up.\u201d",
+    medals:['WTF Certified','4th Dan Black Belt','National Coach','Grading Examiner'],
+    bars:[['Technique',96],['Experience',92],['Coaching',98]],
+    wa:'https://wa.me/923002672558?text=I%20want%20to%20train%20with%20Coach%20AbdulSamad.',cta:'Train with Coach Abdul',
+    link:'#/coach',linkLabel:'Full coach profile & book'},
+  hamza:{img:'https://images.unsplash.com/photo-1656653424873-8491cd7bf5f8?fm=jpg&q=80&w=800&auto=format&fit=crop',
+    tag:'National',cat:'Fighters Squad · Players',n:'Hamza Raza',role:'National Team · Taekwondo · 1st Dan',
+    d:'Came up through the regular batches before earning a spot on the Fighters Squad. Represents Markaz at national-level Taekwondo events and trains six sessions a week alongside his studies.',
+    medals:['National Silver 2025','Regional Gold ×2','1st Dan Black Belt'],
+    bars:[['Kicking',90],['Footwork',84],['Sparring',88]],
+    wa:'https://wa.me/923002672558?text=I%20want%20to%20ask%20about%20the%20Fighters%20Squad.',cta:'Ask about the Fighters Squad'},
+  bilal:{img:'https://images.unsplash.com/photo-1587979649655-196320f29d0d?fm=jpg&q=80&w=800&auto=format&fit=crop',
+    tag:'Fighters Squad',cat:'Fighters Squad · Players',n:'Bilal Ahmed',role:'MMA · Striking &amp; Ground',
+    d:'Cross-trains kickboxing and grappling into a complete MMA game. Known in the gym for grinding out extra rounds after class — the conditioning shows in every fight.',
+    medals:['Regional MMA Bronze','Grappling Blue Belt'],
+    bars:[['Striking',86],['Ground',79],['Cardio',93]],
+    wa:'https://wa.me/923002672558?text=I%20want%20to%20ask%20about%20MMA%20training.',cta:'Ask about MMA training'},
+  ayesha:{img:'https://images.unsplash.com/photo-1579332409436-dc40da6edeaf?fm=jpg&q=80&w=800&auto=format&fit=crop',
+    tag:'Instructor',cat:'Officials',n:'Ayesha Siddiqui',role:'Girls Batch Instructor · 2nd Dan',
+    d:'Leads the dedicated girls batch — a comfortable, serious training environment covering the full WTF syllabus alongside practical self-defence. Students consistently say the batch changed how they carry themselves.',
+    medals:['2nd Dan Black Belt','Youth Safeguarding Certified'],
+    bars:[['Technique',89],['Teaching',95],['Self-defence focus',97]],
+    wa:'https://wa.me/923002672558?text=I%20want%20to%20ask%20about%20the%20Girls%20Batch.',cta:'Ask about the Girls Batch'},
+  fatima:{img:'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?fm=jpg&q=80&w=800&auto=format&fit=crop',
+    tag:'Player',cat:'Fighters Squad · Players',n:'Fatima Noor',role:'Grappling · Blue Belt',
+    d:'Started in the girls batch and moved into grappling within a year. Now trains alongside the Fighters Squad and competes in regional no-gi tournaments.',
+    medals:['Regional No-Gi Gold','Blue Belt'],
+    bars:[['Guard',88],['Takedowns',81],['Conditioning',90]],
+    wa:'https://wa.me/923002672558?text=I%20want%20to%20ask%20about%20grappling.',cta:'Ask about grappling'},
+  usman:{img:'https://images.unsplash.com/photo-1517438476312-10d79c077509?fm=jpg&q=80&w=800&auto=format&fit=crop',
+    tag:'Official',cat:'Officials',n:'Usman Tariq',role:'Kickboxing Official · Grading Panel',
+    d:'Runs the kickboxing conditioning blocks and sits on the grading panel for adult belts. Fifteen years on the mats, most of them at Markaz.',
+    medals:['Grading Panel','MMA Conditioning Specialist'],
+    bars:[['Coaching',91],['Conditioning design',94],['Officiating',89]],
+    wa:'https://wa.me/923002672558?text=I%20want%20to%20ask%20about%20kickboxing.',cta:'Ask about kickboxing'}
+};
+function openM(key){
+  const m=MEMBERS[key]; if(!m)return;
+  document.getElementById('mmI').src=m.img; document.getElementById('mmI').alt=m.n;
+  document.getElementById('mmTag').textContent=m.tag;
+  document.getElementById('mmCat').textContent=m.cat;
+  document.getElementById('mmN').textContent=m.n;
+  document.getElementById('mmRole').innerHTML=m.role;
+  document.getElementById('mmD').textContent=m.d;
+  document.getElementById('mmQuoteWrap').innerHTML=m.quote?'<div class="mm-quote">'+m.quote+'</div>':'';
+  document.getElementById('mmMedals').innerHTML=m.medals.map(x=>'<span class="mm-medal">'+MEDAL_SVG+x+'</span>').join('');
+  document.getElementById('mmBars').innerHTML=m.bars.map(function(b){return
+    '<div class="mm-bar"><div class="bl"><span>'+b[0]+'</span><b>'+b[1]+'%</b></div><div class="bt"><i style="width:0" data-w="'+b[1]+'"></i></div></div>';}).join('')+
+    (m.link?'<a class="tl r" href="'+m.link+'" style="margin-top:2px">'+m.linkLabel+' <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>':'');
+  document.getElementById('mmCta').href=m.wa; document.getElementById('mmCta').textContent=m.cta;
+  document.getElementById('memModal').classList.add('on'); sPop();
+  setTimeout(function(){document.querySelectorAll('#mmBars .bt i[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%'})},80);
+}
+function closeM(){document.getElementById('memModal').classList.remove('on');sClk()}
+document.getElementById('mmX').addEventListener('click',function(e){e.stopPropagation();closeM()});
+document.getElementById('memModal').addEventListener('click',function(e){if(e.target.id==='memModal')closeM()});
+document.querySelectorAll('[data-mi]').forEach(function(el){
+  el.style.cursor='pointer';
+  el.addEventListener('click',function(e){e.preventDefault();openM(el.dataset.mi)});
+  el.addEventListener('mouseenter',sTick);
+});
+
 let tt;function toast(m){const t=document.getElementById('toast');document.getElementById('tM').textContent=m;
   t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2500)}
 
@@ -3673,16 +3898,58 @@ function showCheckout(){if(!CART.length)return;
   document.getElementById('checkoutView').style.display='';sClk()}
 function backToCart(){document.getElementById('checkoutView').style.display='none';
   document.getElementById('cartView').style.display='';renderCart();sClk()}
+
+/* ---------- PAYMENT METHOD + SCREENSHOT ---------- */
+let PAYMENT='cod',SS_FILE=null;
+function resetPayment(){
+  PAYMENT='cod';SS_FILE=null;
+  document.querySelectorAll('.pay-opt').forEach(function(x){x.classList.toggle('on',x.dataset.pm==='cod')});
+  const bb=document.getElementById('bankBox');if(bb)bb.style.display='none';
+  const ss=document.getElementById('coSS');if(ss)ss.value='';
+  const prev=document.getElementById('ssPreview'),lbl=document.getElementById('ssLabel');
+  if(prev){prev.style.display='none';prev.src=''}
+  if(lbl)lbl.style.display='';
+}
+document.querySelectorAll('.pay-opt').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.pay-opt').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');PAYMENT=b.dataset.pm;
+    document.getElementById('bankBox').style.display=PAYMENT==='online'?'':'none';
+    sClk();
+  });
+  b.addEventListener('mouseenter',sTick);
+});
+const bankCopyBtn=document.getElementById('bankCopyBtn');
+if(bankCopyBtn)bankCopyBtn.addEventListener('click',function(){
+  const acc=document.getElementById('bankAcc').textContent.replace(/\s/g,'');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(acc).then(function(){toast('Account number copied')});
+  }else{toast('Account: '+acc)}
+  sClk();
+});
+const coSS=document.getElementById('coSS');
+if(coSS)coSS.addEventListener('change',function(){
+  const f=coSS.files&&coSS.files[0];SS_FILE=f||null;
+  const lbl=document.getElementById('ssLabel'),prev=document.getElementById('ssPreview');
+  if(f){const url=URL.createObjectURL(f);prev.src=url;prev.style.display='block';lbl.style.display='none';toast('Screenshot ready')}
+  else{prev.style.display='none';lbl.style.display=''}
+});
+
 function sendOrder(){
   const n=document.getElementById('coN').value.trim(),p=document.getElementById('coP').value.trim();
   const m=document.getElementById('coM').value.trim();
   if(!n||!p){toast('Add your name and phone');sClk();return}
   if(!CART.length){toast('Your cart is empty');sClk();return}
+  if(PAYMENT==='online'&&!SS_FILE){toast('Upload your payment screenshot first');sClk();return}
   const lines=CART.map(c=>'• '+P[c.i].n+' × '+c.q+' — '+P[c.i].p).join('\n');
+  const payLine=PAYMENT==='online'
+    ?'Payment: Online transfer (Meezan Bank — screenshot attached in this chat)'
+    :'Payment: Cash on delivery';
   const t=encodeURIComponent('Assalam o Alaikum, I would like to order from the Markaz Store.\n\n'+lines+
-    '\n\nTotal: '+fmtRs(cartTotal())+'\n\nName: '+n+'\nPhone: '+p+(m?'\nNotes: '+m:''));
+    '\n\nTotal: '+fmtRs(cartTotal())+'\n\nName: '+n+'\nPhone: '+p+'\n'+payLine+(m?'\nNotes: '+m:''));
   sBell();open('https://wa.me/923002672558?text='+t,'_blank');
-  CART=[];saveCart();updateCartBadge();closeCart()}
+  if(PAYMENT==='online')setTimeout(function(){toast('Now attach your screenshot in the WhatsApp chat')},900);
+  CART=[];saveCart();updateCartBadge();resetPayment();closeCart()}
 const cartBtn=document.getElementById('cartBtn');
 if(cartBtn)cartBtn.addEventListener('click',openCart);
 const cartX=document.getElementById('cartX');
@@ -3732,7 +3999,17 @@ if(HOV&&!RM){
 ['pointerdown','keydown'].forEach(ev=>addEventListener(ev,function o(){ac();removeEventListener(ev,o)},{once:true}));
 
 /* ---------- BOOT ---------- */
-if(location.hash)route();else showPage('home');
+(function boot(){
+  if(location.hash){route();return}
+  let saved=null;
+  try{saved=JSON.parse(sessionStorage.getItem('mkz_state')||'null')}catch(e){}
+  if(saved&&saved.page&&PAGES.includes(saved.page)){
+    Object.assign(SPOS,saved.pos||{});
+    showPage(saved.page);
+    const y=SPOS[saved.page];
+    setTimeout(()=>{if(typeof y==='number'&&y>0)scrollTo({top:y,behavior:'auto'})},30);
+  }else{showPage('home')}
+})();
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -3977,6 +4254,35 @@ spinIcon3D('belt3d',(THREE,g)=>{
     new THREE.MeshStandardMaterial({color:0xD8121A,metalness:.6,roughness:.2,
       emissive:0x440000,emissiveIntensity:.45}));
   gem.position.set(0,0,.62); g.add(gem);
+});
+
+/* coach book section — floating open book */
+spinIcon3D('book3d',(THREE,g)=>{
+  const mat=new THREE.MeshStandardMaterial({color:0xFAFBFD,roughness:.6});
+  const coverMat=new THREE.MeshStandardMaterial({color:0xD8121A,roughness:.45,metalness:.1});
+  const pageL=new THREE.Mesh(new THREE.BoxGeometry(1,.05,1.2),mat);
+  pageL.position.set(-.5,0,0); pageL.rotation.z=.12; g.add(pageL);
+  const pageR=new THREE.Mesh(new THREE.BoxGeometry(1,.05,1.2),mat);
+  pageR.position.set(.5,0,0); pageR.rotation.z=-.12; g.add(pageR);
+  const spine=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,1.2,10),coverMat);
+  spine.rotation.z=Math.PI/2; g.add(spine);
+});
+
+/* members hero — floating gold medal on ribbon */
+spinIcon3D('medal3d',(THREE,g)=>{
+  const gold=new THREE.MeshStandardMaterial({color:0xD4A017,metalness:.85,roughness:.25,
+    emissive:0x3a2600,emissiveIntensity:.3});
+  const disc=new THREE.Mesh(new THREE.CylinderGeometry(.72,.72,.14,28),gold);
+  disc.rotation.x=Math.PI/2; g.add(disc);
+  const star=new THREE.Mesh(new THREE.OctahedronGeometry(.28),
+    new THREE.MeshStandardMaterial({color:0xD8121A,metalness:.5,roughness:.2,
+      emissive:0x440000,emissiveIntensity:.4}));
+  star.position.z=.09; g.add(star);
+  [-.22,.22].forEach(x=>{
+    const rib=new THREE.Mesh(new THREE.BoxGeometry(.24,.02,.9),
+      new THREE.MeshStandardMaterial({color:0x1240C8,roughness:.55}));
+    rib.position.set(x,.55,-.05); rib.rotation.x=-.25; g.add(rib);
+  });
 });
 </script>
 </body>
