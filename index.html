@@ -28,6 +28,16 @@
 "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.1","reviewCount":"612"},
 "sameAs":["https://instagram.com/markazmartialartsacademy","https://facebook.com/mmamarkaz"]}
 </script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Do I need any experience to join?","acceptedAnswer":{"@type":"Answer","text":"None. Most people who walk in have never trained. The first month is fundamentals for exactly this reason."}},
+{"@type":"Question","name":"What should I bring to my first class?","acceptedAnswer":{"@type":"Answer","text":"Comfortable clothes, a towel and water. Dobok, gloves and shin guards can wait — coaches will tell you what to buy, available at the Markaz store."}},
+{"@type":"Question","name":"Is the girls batch separate?","acceptedAnswer":{"@type":"Answer","text":"Yes — Tuesday, Thursday and Saturday as a closed, women-only session with the same syllabus plus self-defence."}},
+{"@type":"Question","name":"How young can kids start training?","acceptedAnswer":{"@type":"Answer","text":"From age five. Training is built around coordination, listening and self-control first — contact is introduced slowly and always supervised."}},
+{"@type":"Question","name":"Is the Taekwondo course recognised?","acceptedAnswer":{"@type":"Answer","text":"Yes — the full World Taekwondo Federation syllabus with structured gradings."}},
+{"@type":"Question","name":"Can I train just for fitness, not competition?","acceptedAnswer":{"@type":"Answer","text":"Plenty do and never compete. You'll get the conditioning either way — and leave knowing how to defend yourself."}}
+]}
+</script>
 <style>
 /* ============================================================
    TOKENS — white base, logo red + blue. Mobile-first sizing.
@@ -416,6 +426,48 @@ header.hide ~ .subnav{transform:translateY(calc(-100% - var(--nav) - var(--util)
 
 /* pricing */
 .pgrid{display:grid;gap:14px;margin-top:26px}
+/* schedule urgency badge */
+.sc-card{position:relative}
+.spots{position:absolute;top:-9px;right:14px;background:var(--red);color:#fff;font-family:var(--hd);font-weight:700;
+  font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:99px;
+  box-shadow:0 4px 10px rgba(216,18,26,.35);display:flex;align-items:center;gap:4px}
+.spots i{width:6px;height:6px;border-radius:50%;background:#fff;display:inline-block;animation:spotsPulse 1.4s ease-in-out infinite}
+.spots.ok{background:var(--green);box-shadow:0 4px 10px rgba(46,158,82,.35)}
+@keyframes spotsPulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* size guide */
+.szg{margin-top:14px;display:flex;align-items:center;gap:8px;font-family:var(--hd);font-weight:600;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--blue);cursor:pointer;background:none;border:none}
+.szg svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.szg-tbl{width:100%;border-collapse:collapse;margin-top:14px;font-size:12.5px}
+.szg-tbl th,.szg-tbl td{padding:8px 10px;border:1px solid var(--edge);text-align:center}
+.szg-tbl th{background:var(--mist);font-family:var(--hd);text-transform:uppercase;letter-spacing:.03em;font-size:11px;color:var(--mut)}
+/* store bundle card */
+.bundle{background:linear-gradient(150deg,var(--blue-dk),var(--blue) 65%);border-radius:var(--r);padding:22px 20px;
+  color:#fff;margin:26px 0;display:grid;gap:14px;position:relative;overflow:hidden}
+.bundle::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 0%,rgba(255,255,255,.14),transparent 60%)}
+.bundle .kick{background:var(--gold-g);color:#38290A}
+.bundle h3{color:#fff;font-size:clamp(20px,5vw,28px);position:relative}
+.bundle p{color:rgba(255,255,255,.82);font-size:13px;position:relative}
+.bundle .save{color:#FFE9A8;font-family:var(--hd);font-weight:700;font-size:12.5px;letter-spacing:.03em}
+.bundle-items{display:flex;flex-wrap:wrap;gap:8px;position:relative}
+.bundle-items span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:99px;
+  padding:5px 12px;font-size:11.5px;font-family:var(--hd);letter-spacing:.02em}
+.bundle-price{display:flex;align-items:baseline;gap:10px;position:relative}
+.bundle-price .now{font-family:var(--dsp);font-size:30px}
+.bundle-price .was{text-decoration:line-through;color:rgba(255,255,255,.55);font-size:14px}
+/* events */
+.evt-list{display:grid;gap:12px;margin-top:22px}
+.evt{display:flex;gap:16px;align-items:center;background:var(--w);border:1.5px solid var(--edge);border-radius:var(--r-s);
+  padding:14px 16px;box-shadow:var(--s1)}
+.evt-d{flex-shrink:0;width:58px;height:58px;border-radius:10px;background:var(--blue-w);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;font-family:var(--hd);color:var(--blue)}
+.evt-d b{font-family:var(--dsp);font-size:20px;line-height:1}
+.evt-d span{font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.evt-b{flex:1;min-width:0}
+.evt-b h4{font-size:15px}
+.evt-b p{color:var(--mut);font-size:12px;margin-top:3px}
+.evt-tag{flex-shrink:0;font-family:var(--hd);font-weight:600;font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+  padding:5px 10px;border-radius:99px;background:var(--red-w);color:var(--red)}
 .pc{border:1px solid var(--line);border-radius:var(--r);padding:24px 20px;background:var(--w);box-shadow:var(--s1);
   transition:all .4s var(--ez);position:relative;overflow:hidden}
 .pc:hover{transform:translateY(-6px);box-shadow:var(--s2)}
@@ -782,7 +834,14 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
   text-transform:uppercase;color:var(--mut);transition:all .22s var(--ez)}
 .pay-opt svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .pay-opt.on{border-color:var(--red);color:var(--red);background:var(--red-w)}
+.pay-opt b{font-weight:800;font-size:12.5px;letter-spacing:.01em}
+.pay-opt.jc.on{border-color:#D5127A;color:#D5127A;background:#FDECF5}
+.pay-opt.ep.on{border-color:#0B8A43;color:#0B8A43;background:#E9F8EF}
+.wallet-note{font-size:11px;color:var(--mut);margin-top:2px}
 .bank-box{background:var(--mist);border:1.5px solid var(--edge);border-radius:var(--r-s);padding:14px 15px;margin:12px 0 16px}
+.confirm-note{display:flex;align-items:flex-start;gap:8px;background:var(--blue-w);border:1.5px solid var(--blue-t);
+  border-radius:var(--r-s);padding:10px 12px;margin-top:12px;font-size:11.5px;color:var(--txt);line-height:1.55}
+.confirm-note svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;stroke:var(--blue);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .bank-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;
   border-bottom:1px dashed var(--edge);font-size:12px}
 .bank-row:last-of-type{border-bottom:none}
@@ -1170,10 +1229,11 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
     <a href="#story" data-s="story"><em>03</em>Academy</a>
     <a href="#schedule" data-s="schedule"><em>04</em>Schedule</a>
     <a href="#path" data-s="path"><em>05</em>First 90 Days</a>
-    <a href="#gallery" data-s="gallery"><em>06</em>Gallery</a>
-    <a href="#ouj" data-s="ouj"><em>07</em>OUJ</a>
-    <a href="#faq" data-s="faq"><em>08</em>FAQ</a>
-    <a href="#contact" data-s="contact"><em>09</em>Contact</a>
+    <a href="#events" data-s="events"><em>06</em>Events</a>
+    <a href="#gallery" data-s="gallery"><em>07</em>Gallery</a>
+    <a href="#ouj" data-s="ouj"><em>08</em>OUJ</a>
+    <a href="#faq" data-s="faq"><em>09</em>FAQ</a>
+    <a href="#contact" data-s="contact"><em>10</em>Contact</a>
   </div>
 </nav>
 
@@ -1214,7 +1274,7 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
         <div class="hfact">
           <a href="#programs">Ages <b>5 and up</b></a>
           <a href="#programs">Dedicated <b>Girls batch</b></a>
-          <a href="#story">Google <b>4.1★ · 612</b></a>
+          <a href="https://www.google.com/search?q=Markaz+Martial+Arts+Academy+Karachi+reviews#lrd=reviews" target="_blank" rel="noopener">Google <b>4.1★ · 612</b></a>
         </div>
       </div>
     </div>
@@ -1354,7 +1414,7 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
         <p>Head Coach <a class="il r" href="#/coach">AbdulSamad Khan</a> opened the doors in Gulberg Town so anyone in Karachi could learn properly, from age five up. Students grade honestly and <a class="il" href="#/assoc">compete nationally</a>.</p>
         <div class="creds">
           <div><b>WTF</b><span>Certified</span></div>
-          <div><b>4.1★</b><span>612 reviews</span></div>
+          <div><a href="https://www.google.com/search?q=Markaz+Martial+Arts+Academy+Karachi+reviews#lrd=reviews" target="_blank" rel="noopener" style="display:block"><b>4.1★</b><span>612 reviews on Google</span></a></div>
           <div><b>5+</b><span>Start age</span></div>
         </div>
         <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
@@ -1374,21 +1434,27 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
       </div>
       <div class="sc-cards">
         <div class="sc-card" data-rv style="--i:0"><span class="dot" style="background:#fff"></span>
+          <span class="spots"><i></i>5 spots left</span>
           <div class="info"><b>Kids (5–12)</b><span>Mon · Wed · Fri — Taekwondo</span></div>
           <div class="tm"><b>4:00 PM</b><a href="https://wa.me/923002672558?text=Kids%20batch">Join ›</a></div></div>
         <div class="sc-card" data-rv style="--i:1"><span class="dot" style="background:#D8121A"></span>
+          <span class="spots"><i></i>4 spots left</span>
           <div class="info"><b>Girls Batch</b><span>Tue · Thu · Sat — TKD &amp; self-defence</span></div>
           <div class="tm"><b>4:00 PM</b><a href="https://wa.me/923002672558?text=Girls%20batch">Join ›</a></div></div>
         <div class="sc-card" data-rv style="--i:2"><span class="dot" style="background:#F4C430"></span>
+          <span class="spots ok"><i></i>Open batch</span>
           <div class="info"><b>Teens &amp; Adults</b><span>Mon · Wed · Fri — Kickboxing</span></div>
           <div class="tm"><b>6:00 PM</b><a href="https://wa.me/923002672558?text=Kickboxing">Join ›</a></div></div>
         <div class="sc-card" data-rv style="--i:3"><span class="dot" style="background:#0B1533"></span>
+          <span class="spots"><i></i>3 spots left</span>
           <div class="info"><b>Fighters Squad</b><span>Tue · Thu · Sat — MMA &amp; grappling</span></div>
           <div class="tm"><b>7:30 PM</b><a href="https://wa.me/923002672558?text=Fighters%20Squad">Join ›</a></div></div>
         <div class="sc-card" data-rv style="--i:4"><span class="dot" style="background:#1240C8"></span>
+          <span class="spots ok"><i></i>Open batch</span>
           <div class="info"><b>Open Mat</b><span>Sunday — sparring &amp; conditioning</span></div>
           <div class="tm"><b>By appt.</b><a href="https://wa.me/923002672558?text=Open%20Mat">Ask ›</a></div></div>
       </div>
+      <p style="text-align:center;margin-top:14px;font-size:11px;color:var(--mut)">Spot counts are updated by coaches and are approximate — message us to confirm before you head over.</p>
 
       <div class="pgrid">
         <div class="pc" data-rv style="--i:0"><div class="kick">Starter</div><h4>Kids Taekwondo</h4>
@@ -1417,6 +1483,28 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
         <div class="step" data-rv style="--i:2"><div class="n">3</div><div><div class="wk">Weeks 5–8</div><h4>Drilling live</h4><p>Positional rounds with a coach watching. Resistance rises as fast as your control does.</p></div></div>
         <div class="step" data-rv style="--i:3"><div class="n">4</div><div><div class="wk">Weeks 9–12</div><h4>First grading</h4><p>Controlled full rounds, then your first honest belt test.</p></div></div>
       </div>
+    </div>
+  </section>
+
+  <section id="events">
+    <div class="wrap">
+      <div class="sh" data-rv><div class="eyb">Mark your calendar</div><h2>Upcoming <em>events</em></h2>
+        <p>Gradings, camps and competitions. Message us on WhatsApp to reserve a spot.</p></div>
+      <div class="evt-list">
+        <div class="evt" data-rv style="--i:0"><div class="evt-d"><b>23</b><span>Aug</span></div>
+          <div class="evt-b"><h4>Kids &amp; Teens Belt Grading</h4><p>Fundamentals through green belt — open to all eligible students.</p></div>
+          <span class="evt-tag">Grading</span></div>
+        <div class="evt" data-rv style="--i:1"><div class="evt-d"><b>06</b><span>Sep</span></div>
+          <div class="evt-b"><h4>Fighters Squad Sparring Camp</h4><p>Full-day conditioning and live-round camp for the competitive squad.</p></div>
+          <span class="evt-tag">Camp</span></div>
+        <div class="evt" data-rv style="--i:2"><div class="evt-d"><b>20</b><span>Sep</span></div>
+          <div class="evt-b"><h4>Girls Batch Self-Defence Workshop</h4><p>Open workshop for the girls batch and their families — no experience needed.</p></div>
+          <span class="evt-tag">Workshop</span></div>
+        <div class="evt" data-rv style="--i:3"><div class="evt-d"><b>11</b><span>Oct</span></div>
+          <div class="evt-b"><h4>Inter-Academy Taekwondo Tournament</h4><p>Karachi-wide tournament — Markaz fighters compete across weight classes.</p></div>
+          <span class="evt-tag">Tournament</span></div>
+      </div>
+      <p style="text-align:center;margin-top:16px;font-size:11.5px;color:var(--mut)">Dates can shift closer to the day — confirm on <a class="il" href="https://wa.me/923002672558?text=Can%20you%20confirm%20the%20date%20for%20your%20next%20event%3F">WhatsApp</a> before you plan around one.</p>
     </div>
   </section>
 
@@ -1543,6 +1631,10 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
         <div class="eyb">Markaz store</div>
         <h2>Gear that <em class="r">survives the round</em></h2>
         <p>Doboks, gloves and protective gear — supplied through Markaz and <a class="il" href="#/coach#ouj-full">OUJ Performance</a>.</p>
+        <button class="szg" id="szgOpen" type="button">
+          <svg viewBox="0 0 24 24"><path d="M3 5h18M3 12h18M3 19h10"/></svg>
+          Size guide — dobok &amp; gloves
+        </button>
       </div>
     </div>
     <div class="wrap">
@@ -1570,6 +1662,15 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
   </section>
   <section style="padding-top:26px">
     <div class="wrap">
+      <div class="bundle" data-rv>
+        <div class="kick" style="width:fit-content">Starter kit</div>
+        <h3>New student bundle</h3>
+        <p>Everything you need to start training properly, in one order — for the price of two items bought separately.</p>
+        <div class="bundle-items"><span>Training dobok</span><span>10oz sparring gloves</span><span>Shin guards</span></div>
+        <div class="bundle-price"><span class="now">Rs 8,500</span><span class="was">Rs 9,900</span><span class="save">Save Rs 1,400</span></div>
+        <a class="btn btn-w btn-full" style="width:fit-content" href="https://wa.me/923002672558?text=I%27d%20like%20to%20order%20the%20New%20Student%20Bundle%20(dobok%20%2B%20gloves%20%2B%20shin%20guards).">Order the bundle on WhatsApp</a>
+        <p style="font-size:11px;color:rgba(255,255,255,.65);position:relative">Tell us your size and we'll confirm availability before you pay — see the <a class="il" style="color:#FFE9A8;box-shadow:inset 0 -2px 0 rgba(255,233,168,.4)" id="szgOpenBundle">size guide</a>.</p>
+      </div>
       <div class="pgd" id="pgrid"></div>
       <p style="margin-top:20px;font-size:12px;color:var(--mut)">Collect in person at the academy, or message us to reserve your size. Unsure what you need for your batch? <a class="il" href="#/home#contact">Ask us first</a> — the coaches will tell you.</p>
     </div>
@@ -1961,7 +2062,15 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
           </button>
           <button type="button" class="pay-opt" data-pm="online">
             <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-            Online transfer
+            Bank transfer
+          </button>
+          <button type="button" class="pay-opt jc" data-pm="jazzcash">
+            <b>JC</b>
+            JazzCash
+          </button>
+          <button type="button" class="pay-opt ep" data-pm="easypaisa">
+            <b>EP</b>
+            Easypaisa
           </button>
         </div>
       </div>
@@ -1984,13 +2093,60 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
           </label>
         </div>
       </div>
+      <div class="bank-box" id="walletBox" style="display:none">
+        <div class="eyb b" id="walletTitle" style="margin-bottom:8px">Send to</div>
+        <div class="bank-row"><span>Account title</span><b>Markaz Martial Arts Academy</b></div>
+        <div class="bank-row"><span>Wallet number</span><b id="walletNum">0300 2672 558</b>
+          <button type="button" class="bank-copy" id="walletCopyBtn" aria-label="Copy wallet number">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button></div>
+        <p style="font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.5" id="walletHelp">Send the total shown below via mobile account transfer, then upload a screenshot so we can confirm your order.</p>
+        <div class="fld" style="margin-top:12px;margin-bottom:0">
+          <label>Payment screenshot</label>
+          <label class="ss-upload" id="ssUploadW">
+            <input type="file" id="coSSW" accept="image/*" style="display:none">
+            <span id="ssLabelW"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg>Upload screenshot</span>
+            <img id="ssPreviewW" alt="Payment screenshot preview" style="display:none">
+          </label>
+        </div>
+      </div>
       <div class="fld" style="margin-bottom:16px"><label>Notes (size, colour, pickup time)</label><textarea id="coM" placeholder="Anything we should know"></textarea></div>
       <div class="cart-sub"><span>Total</span><b id="coTotal">Rs 0</b></div>
       <button class="btn btn-r btn-full" onclick="sendOrder()">Send order on WhatsApp
         <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      <p style="font-size:11px;color:var(--mut);margin-top:10px;line-height:1.5">For online transfer, attach your screenshot in the WhatsApp chat once it opens — links can't carry images on their own.</p>
-      <button class="tl" style="margin-top:6px" onclick="backToCart()"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to cart</button>
+      <p style="font-size:11px;color:var(--mut);margin-top:10px;line-height:1.5">For bank transfer, JazzCash or Easypaisa, attach your screenshot in the WhatsApp chat once it opens — links can't carry images on their own.</p>
+      <div class="confirm-note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+        <span>We'll confirm your order on WhatsApp within 2 hours (9 AM–10 PM). No confirmation call needed unless something's unclear.</span></div>
+      <button class="tl" style="margin-top:14px" onclick="backToCart()"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to cart</button>
     </div>
+  </div>
+</div></div>
+
+<div class="mo" id="szgModal"><div class="mc">
+  <div class="mc-b" style="padding-top:24px">
+    <button class="x" id="szgX" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--mist);font-size:20px;color:var(--ink);line-height:1;display:grid;place-items:center">×</button>
+    <div class="eyb b">Fit reference</div>
+    <h3 style="margin-top:8px">Size guide</h3>
+    <p style="font-size:12.5px;color:var(--mut);margin-top:6px">General reference — coaches can measure you in person before your first order.</p>
+    <h4 style="margin-top:18px;font-size:13px;color:var(--blue)">Dobok (by height)</h4>
+    <table class="szg-tbl">
+      <tr><th>Size</th><th>Height</th><th>Age (approx.)</th></tr>
+      <tr><td>XS</td><td>110–130 cm</td><td>5–8 yrs</td></tr>
+      <tr><td>S</td><td>130–150 cm</td><td>9–12 yrs</td></tr>
+      <tr><td>M</td><td>150–165 cm</td><td>Teens / petite adult</td></tr>
+      <tr><td>L</td><td>165–178 cm</td><td>Adult</td></tr>
+      <tr><td>XL</td><td>178–190 cm</td><td>Adult</td></tr>
+    </table>
+    <h4 style="margin-top:18px;font-size:13px;color:var(--blue)">Gloves (by hand span / age)</h4>
+    <table class="szg-tbl">
+      <tr><th>Size</th><th>Best for</th></tr>
+      <tr><td>6–8 oz</td><td>Kids &amp; light sparring</td></tr>
+      <tr><td>10 oz</td><td>Teens / technique &amp; bag work</td></tr>
+      <tr><td>12 oz</td><td>Adult sparring</td></tr>
+      <tr><td>14–16 oz</td><td>Heavy bag &amp; larger builds</td></tr>
+    </table>
+    <p style="font-size:11.5px;color:var(--mut);margin-top:14px;line-height:1.5">Between sizes, or ordering for a fast-growing kid? Message us the height and age before you order and we'll confirm the right fit.</p>
+    <a class="btn btn-b btn-full" style="margin-top:14px" href="https://wa.me/923002672558?text=I%20need%20help%20picking%20a%20size%20for%20a%20dobok%2Fgloves.">Ask us to confirm my size</a>
   </div>
 </div></div>
 
@@ -3901,20 +4057,36 @@ function backToCart(){document.getElementById('checkoutView').style.display='non
 
 /* ---------- PAYMENT METHOD + SCREENSHOT ---------- */
 let PAYMENT='cod',SS_FILE=null;
+const WALLETS={
+  online:{box:'bankBox',needsSS:true},
+  jazzcash:{box:'walletBox',needsSS:true,title:'Send via JazzCash',num:'0300 2672 558',help:'Send the total shown below via JazzCash mobile account, then upload a screenshot so we can confirm your order.'},
+  easypaisa:{box:'walletBox',needsSS:true,title:'Send via Easypaisa',num:'0300 2672 558',help:'Send the total shown below via Easypaisa mobile account, then upload a screenshot so we can confirm your order.'}
+};
 function resetPayment(){
   PAYMENT='cod';SS_FILE=null;
   document.querySelectorAll('.pay-opt').forEach(function(x){x.classList.toggle('on',x.dataset.pm==='cod')});
   const bb=document.getElementById('bankBox');if(bb)bb.style.display='none';
-  const ss=document.getElementById('coSS');if(ss)ss.value='';
-  const prev=document.getElementById('ssPreview'),lbl=document.getElementById('ssLabel');
-  if(prev){prev.style.display='none';prev.src=''}
-  if(lbl)lbl.style.display='';
+  const wb=document.getElementById('walletBox');if(wb)wb.style.display='none';
+  [['coSS','ssPreview','ssLabel'],['coSSW','ssPreviewW','ssLabelW']].forEach(function(ids){
+    const ss=document.getElementById(ids[0]);if(ss)ss.value='';
+    const prev=document.getElementById(ids[1]),lbl=document.getElementById(ids[2]);
+    if(prev){prev.style.display='none';prev.src=''}
+    if(lbl)lbl.style.display='';
+  });
 }
 document.querySelectorAll('.pay-opt').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('.pay-opt').forEach(function(x){x.classList.remove('on')});
     b.classList.add('on');PAYMENT=b.dataset.pm;
-    document.getElementById('bankBox').style.display=PAYMENT==='online'?'':'none';
+    const bankBox=document.getElementById('bankBox'),walletBox=document.getElementById('walletBox');
+    bankBox.style.display=PAYMENT==='online'?'':'none';
+    if(PAYMENT==='jazzcash'||PAYMENT==='easypaisa'){
+      const w=WALLETS[PAYMENT];
+      document.getElementById('walletTitle').textContent=w.title;
+      document.getElementById('walletNum').textContent=w.num;
+      document.getElementById('walletHelp').textContent=w.help;
+      walletBox.style.display='';
+    }else{walletBox.style.display='none'}
     sClk();
   });
   b.addEventListener('mouseenter',sTick);
@@ -3927,28 +4099,42 @@ if(bankCopyBtn)bankCopyBtn.addEventListener('click',function(){
   }else{toast('Account: '+acc)}
   sClk();
 });
-const coSS=document.getElementById('coSS');
-if(coSS)coSS.addEventListener('change',function(){
-  const f=coSS.files&&coSS.files[0];SS_FILE=f||null;
-  const lbl=document.getElementById('ssLabel'),prev=document.getElementById('ssPreview');
-  if(f){const url=URL.createObjectURL(f);prev.src=url;prev.style.display='block';lbl.style.display='none';toast('Screenshot ready')}
-  else{prev.style.display='none';lbl.style.display=''}
+const walletCopyBtn=document.getElementById('walletCopyBtn');
+if(walletCopyBtn)walletCopyBtn.addEventListener('click',function(){
+  const num=document.getElementById('walletNum').textContent.replace(/\s/g,'');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(num).then(function(){toast('Wallet number copied')});
+  }else{toast('Wallet: '+num)}
+  sClk();
 });
+function bindSSInput(inputId,prevId,lblId){
+  const el=document.getElementById(inputId);
+  if(!el)return;
+  el.addEventListener('change',function(){
+    const f=el.files&&el.files[0];SS_FILE=f||null;
+    const lbl=document.getElementById(lblId),prev=document.getElementById(prevId);
+    if(f){const url=URL.createObjectURL(f);prev.src=url;prev.style.display='block';lbl.style.display='none';toast('Screenshot ready')}
+    else{prev.style.display='none';lbl.style.display=''}
+  });
+}
+bindSSInput('coSS','ssPreview','ssLabel');
+bindSSInput('coSSW','ssPreviewW','ssLabelW');
 
 function sendOrder(){
   const n=document.getElementById('coN').value.trim(),p=document.getElementById('coP').value.trim();
   const m=document.getElementById('coM').value.trim();
   if(!n||!p){toast('Add your name and phone');sClk();return}
   if(!CART.length){toast('Your cart is empty');sClk();return}
-  if(PAYMENT==='online'&&!SS_FILE){toast('Upload your payment screenshot first');sClk();return}
+  if(WALLETS[PAYMENT]&&WALLETS[PAYMENT].needsSS&&!SS_FILE){toast('Upload your payment screenshot first');sClk();return}
   const lines=CART.map(c=>'• '+P[c.i].n+' × '+c.q+' — '+P[c.i].p).join('\n');
-  const payLine=PAYMENT==='online'
-    ?'Payment: Online transfer (Meezan Bank — screenshot attached in this chat)'
-    :'Payment: Cash on delivery';
+  let payLine='Payment: Cash on delivery';
+  if(PAYMENT==='online')payLine='Payment: Bank transfer (Meezan Bank — screenshot attached in this chat)';
+  else if(PAYMENT==='jazzcash')payLine='Payment: JazzCash (screenshot attached in this chat)';
+  else if(PAYMENT==='easypaisa')payLine='Payment: Easypaisa (screenshot attached in this chat)';
   const t=encodeURIComponent('Assalam o Alaikum, I would like to order from the Markaz Store.\n\n'+lines+
     '\n\nTotal: '+fmtRs(cartTotal())+'\n\nName: '+n+'\nPhone: '+p+'\n'+payLine+(m?'\nNotes: '+m:''));
   sBell();open('https://wa.me/923002672558?text='+t,'_blank');
-  if(PAYMENT==='online')setTimeout(function(){toast('Now attach your screenshot in the WhatsApp chat')},900);
+  if(WALLETS[PAYMENT]&&WALLETS[PAYMENT].needsSS)setTimeout(function(){toast('Now attach your screenshot in the WhatsApp chat')},900);
   CART=[];saveCart();updateCartBadge();resetPayment();closeCart()}
 const cartBtn=document.getElementById('cartBtn');
 if(cartBtn)cartBtn.addEventListener('click',openCart);
@@ -3957,6 +4143,14 @@ if(cartX)cartX.addEventListener('click',closeCart);
 const cartMoEl=document.getElementById('cartMo');
 if(cartMoEl)cartMoEl.addEventListener('click',e=>{if(e.target.id==='cartMo')closeCart()});
 updateCartBadge();
+
+/* ---------- SIZE GUIDE MODAL ---------- */
+const szgOpen=document.getElementById('szgOpen'),szgModal=document.getElementById('szgModal'),szgX=document.getElementById('szgX');
+if(szgOpen)szgOpen.addEventListener('click',()=>{szgModal.classList.add('on');sPop()});
+if(szgX)szgX.addEventListener('click',()=>{szgModal.classList.remove('on');sClk()});
+if(szgModal)szgModal.addEventListener('click',e=>{if(e.target.id==='szgModal'){szgModal.classList.remove('on');sClk()}});
+const szgOpenBundle=document.getElementById('szgOpenBundle');
+if(szgOpenBundle)szgOpenBundle.addEventListener('click',e=>{e.preventDefault();szgModal.classList.add('on');sPop()});
 
 /* ---------- REVEAL / COUNTERS / BARS ---------- */
 let io;
