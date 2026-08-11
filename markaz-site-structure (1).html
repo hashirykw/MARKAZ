@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markaz Martial Arts Academy — Site Structure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1220; --white:#FFFFFF; --off:#F6F7F9;
+    --red:#E01C24; --red-dark:#A6141A;
+    --blue:#0B3C8A; --blue-dark:#082A61;
+    --gold:#D4A017;
+    --belt-white:#FFFFFF; --belt-yellow:#F4C430; --belt-green:#3C8A3C; --belt-blue:#0B3C8A; --belt-red:#E01C24; --belt-black:#111111;
+    --display:'Anton', sans-serif; --head:'Oswald', sans-serif; --body:'Work Sans', sans-serif;
+    --radius:2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--body); color:var(--ink); background:var(--white); line-height:1.5; overflow-x:hidden;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3{font-family:var(--head); text-transform:uppercase; letter-spacing:0.02em; line-height:1.05;}
+  .eyebrow{font-family:var(--head); font-weight:600; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:var(--red);}
+  .section-head{max-width:620px; margin-bottom:50px;}
+  .section-head h2{font-size:clamp(28px,4vw,42px); margin-top:8px;}
+  .section-head p{color:#556; margin-top:12px; font-size:15px;}
+  section{padding:80px 0;}
+  .btn{display:inline-flex; align-items:center; gap:8px; font-family:var(--head); font-weight:600; font-size:13px; letter-spacing:0.05em; text-transform:uppercase; padding:11px 22px; border-radius:var(--radius); cursor:pointer; border:2px solid transparent; transition:transform .15s, box-shadow .15s;}
+  .btn-primary{background:var(--red); color:#fff;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(224,28,36,.35);}
+  .btn-outline{border-color:var(--ink); color:var(--ink);}
+  .btn-outline:hover{background:var(--ink); color:#fff;}
+
+  /* belt bar */
+  .belt-track{position:fixed; top:0; left:0; width:100%; height:5px; z-index:1001; display:flex; background:#eee;}
+  .belt-track span{flex:1; height:100%;}
+
+  /* navbar with page tabs */
+  header{position:fixed; top:5px; left:0; width:100%; z-index:1000; background:rgba(255,255,255,.95); backdrop-filter:blur(10px); border-bottom:1px solid rgba(11,18,32,.08);}
+  .navbar{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:1180px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--head); font-weight:700; font-size:18px;}
+  .brand .mark{width:34px; height:34px; border-radius:50%; background:conic-gradient(var(--red) 0 50%, var(--blue) 50% 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--display); font-size:15px;}
+  .brand small{display:block; font-family:var(--body); font-weight:500; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#667; margin-top:-2px;}
+  nav.pagetabs{display:flex; gap:6px; font-family:var(--head); font-size:12.5px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:#f0f1f4; padding:5px; border-radius:99px;}
+  nav.pagetabs button{background:none; border:none; padding:9px 18px; border-radius:99px; cursor:pointer; color:#556; font:inherit;}
+  nav.pagetabs button.active{background:var(--ink); color:#fff;}
+  .nav-cta{display:flex; align-items:center; gap:14px;}
+  .burger{display:none; flex-direction:column; gap:5px; cursor:pointer;}
+  .burger span{width:22px; height:2px; background:var(--ink);}
+
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* ===== HOME HERO ===== */
+  .hero{position:relative; margin-top:64px; padding:100px 24px 80px; overflow:hidden; background:var(--ink); color:#fff;}
+  .hero::before{content:""; position:absolute; inset:0; background:linear-gradient(115deg, var(--blue-dark) 0%, var(--blue-dark) 42%, transparent 42.5%), linear-gradient(115deg, transparent 57.5%, var(--red-dark) 58%, var(--red-dark) 100%); opacity:.9;}
+  .hero-inner{position:relative; max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center;}
+  .hero-tag{display:inline-flex; align-items:center; gap:8px; font-family:var(--head); font-size:11px; letter-spacing:.16em; text-transform:uppercase; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); padding:7px 13px; border-radius:99px; margin-bottom:18px;}
+  .hero-tag i{width:6px; height:6px; border-radius:50%; background:var(--gold);}
+  .hero h1{font-family:var(--display); font-size:clamp(38px,5.6vw,68px); margin-bottom:16px;}
+  .hero h1 span{color:var(--gold);}
+  .hero p{font-size:16px; color:rgba(255,255,255,.82); max-width:460px; margin-bottom:26px;}
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;}
+  .hero-stats{display:flex; gap:30px; flex-wrap:wrap;}
+  .hero-stats div b{display:block; font-family:var(--display); font-size:24px;}
+  .hero-stats div span{font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:rgba(255,255,255,.6);}
+  .hero-visual{position:relative; aspect-ratio:4/5; border-radius:var(--radius); background:repeating-linear-gradient(45deg, rgba(255,255,255,.06) 0 2px, transparent 2px 14px), #14204a; border:1px solid rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center;}
+  .hero-visual .ph-label{font-family:var(--head); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.55); border:1px dashed rgba(255,255,255,.3); padding:9px 14px;}
+
+  .marquee{background:var(--gold); color:var(--ink); overflow:hidden; white-space:nowrap; padding:11px 0; font-family:var(--head); font-weight:600; letter-spacing:.08em; text-transform:uppercase; font-size:12.5px;}
+  .marquee div{display:inline-block; animation:scroll 22s linear infinite;}
+  .marquee span{margin:0 24px;}
+  @keyframes scroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+
+  /* about */
+  .about{background:var(--off);}
+  .about-grid{display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:center;}
+  .about-photo{position:relative; aspect-ratio:3/4; background:linear-gradient(160deg, var(--blue), var(--ink)); border-radius:var(--radius); display:flex; align-items:flex-end; padding:22px; color:#fff;}
+  .about-photo .badge{position:absolute; top:18px; right:18px; background:var(--red); font-family:var(--head); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; padding:7px 11px; border-radius:99px;}
+  .about-photo .cap b{font-family:var(--head); text-transform:uppercase; font-size:17px; display:block;}
+  .about-photo .cap span{font-size:12px; color:rgba(255,255,255,.7);}
+  .about-copy p{color:#445; margin-bottom:14px; font-size:15px;}
+  .credentials{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px;}
+  .credentials div{border-top:3px solid var(--red); padding-top:8px;}
+  .credentials b{display:block; font-family:var(--display); font-size:20px;}
+  .credentials span{font-size:11px; color:#667; text-transform:uppercase; letter-spacing:.05em;}
+
+  /* programs */
+  .programs-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#e7e8ec; border:1px solid #e7e8ec;}
+  .program-card{background:#fff; padding:30px 26px; transition:background .2s;}
+  .program-card:hover{background:var(--ink); color:#fff;}
+  .p-belt{width:40px; height:7px; border-radius:99px; margin-bottom:18px;}
+  .program-card h3{font-size:19px; margin-bottom:8px;}
+  .program-card p{font-size:13.5px; color:#667;}
+  .program-card:hover p{color:rgba(255,255,255,.72);}
+
+  /* schedule */
+  .schedule{background:var(--ink); color:#fff;}
+  .schedule .section-head p{color:rgba(255,255,255,.6);}
+  .sched-table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  .sched-table th{text-align:left; font-family:var(--head); font-weight:500; letter-spacing:.06em; text-transform:uppercase; font-size:11.5px; color:rgba(255,255,255,.5); padding:11px 14px; border-bottom:1px solid rgba(255,255,255,.15);}
+  .sched-table td{padding:14px; border-bottom:1px solid rgba(255,255,255,.08);}
+  .dot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:8px;}
+
+  /* gallery + associations preview strips (home) */
+  .strip-grid{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:110px; gap:8px;}
+  .g-item{background:linear-gradient(135deg,#eef1f7,#dfe4ee); display:flex; align-items:center; justify-content:center; font-family:var(--head); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:#8b93a8; border-radius:var(--radius);}
+  .g-item.big{grid-column:span 2; grid-row:span 2;}
+  .assoc-logos{display:grid; grid-template-columns:repeat(5,1fr); gap:16px;}
+  .assoc-logo{aspect-ratio:1/1; background:#fff; border:1px solid #e7e8ec; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-family:var(--head); font-size:10px; text-align:center; color:#8b93a8; padding:10px;}
+
+  /* footer */
+  footer{background:#070B14; color:rgba(255,255,255,.75); padding:60px 0 0; margin-top:0;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr .8fr .8fr 1fr; gap:36px; padding-bottom:44px; border-bottom:1px solid rgba(255,255,255,.1);}
+  .footer-brand .brand{color:#fff;}
+  .footer-brand p{font-size:13.5px; color:rgba(255,255,255,.55); margin:14px 0 18px; max-width:270px;}
+  .social-row{display:flex; gap:10px;}
+  .social-row a{width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,.25); display:flex; align-items:center; justify-content:center; font-size:12px;}
+  .social-row a:hover{background:var(--red); border-color:var(--red);}
+  footer h4{font-family:var(--head); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:#fff; margin-bottom:16px;}
+  footer li{margin-bottom:10px; font-size:13.5px;}
+  footer li a:hover{color:var(--gold);}
+  .footer-bottom{display:flex; justify-content:space-between; align-items:center; padding:20px 0; font-size:11.5px; color:rgba(255,255,255,.4); flex-wrap:wrap; gap:10px;}
+  .whatsapp-fab{position:fixed; bottom:24px; right:24px; width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; box-shadow:0 10px 24px rgba(37,211,102,.4); z-index:999;}
+
+  /* ===== STORE PAGE ===== */
+  .store-hero{margin-top:64px; padding:60px 0 30px; background:var(--off);}
+  .store-filters{display:flex; gap:10px; flex-wrap:wrap; margin-top:20px;}
+  .chip{padding:8px 16px; border-radius:99px; border:1px solid #ddd; font-family:var(--head); font-size:12px; letter-spacing:.04em; text-transform:uppercase; cursor:pointer;}
+  .chip.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .product-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-top:36px;}
+  .product-card{border:1px solid #eaeaea; border-radius:var(--radius); overflow:hidden;}
+  .product-photo{aspect-ratio:1/1; background:linear-gradient(135deg,#eef1f7,#dfe4ee); display:flex; align-items:center; justify-content:center; font-family:var(--head); font-size:11px; color:#8b93a8; text-transform:uppercase; position:relative;}
+  .product-photo .tag{position:absolute; top:10px; left:10px; background:var(--red); color:#fff; font-size:9.5px; padding:4px 8px; border-radius:99px; font-family:var(--head); letter-spacing:.06em;}
+  .product-info{padding:16px;}
+  .product-info b{display:block; font-size:14.5px; margin-bottom:4px;}
+  .product-info .price{color:var(--red); font-family:var(--head); font-weight:600; font-size:14px;}
+  .product-info .cat{font-size:11px; color:#889; text-transform:uppercase; letter-spacing:.05em;}
+  .add-btn{width:100%; margin-top:10px; padding:9px; background:var(--ink); color:#fff; border:none; font-family:var(--head); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; border-radius:var(--radius);}
+  .add-btn:hover{background:var(--red);}
+
+  /* ===== COACH PAGE ===== */
+  .coach-hero{margin-top:64px; padding:70px 0; background:var(--ink); color:#fff; position:relative; overflow:hidden;}
+  .coach-hero::before{content:""; position:absolute; inset:0; background:radial-gradient(circle at 80% 20%, rgba(212,160,23,.15), transparent 50%);}
+  .coach-hero-grid{position:relative; display:grid; grid-template-columns:.8fr 1.2fr; gap:50px; align-items:center;}
+  .coach-photo-lg{aspect-ratio:3/4; background:linear-gradient(160deg,#1c2a55,#0B1220); border:1px solid rgba(255,255,255,.15); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.4); font-family:var(--head); font-size:11px; letter-spacing:.1em; text-transform:uppercase;}
+  .coach-tags{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+  .coach-tags span{border:1px solid rgba(255,255,255,.3); padding:5px 12px; border-radius:99px; font-size:11px; font-family:var(--head); letter-spacing:.05em; text-transform:uppercase;}
+  .philosophy-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .phil-card{padding:26px; border:1px solid #eaeaea; border-radius:var(--radius);}
+  .phil-card .num{font-family:var(--display); font-size:30px; color:var(--red); margin-bottom:10px;}
+  .phil-card h3{font-size:16px; margin-bottom:8px;}
+  .phil-card p{font-size:13.5px; color:#667;}
+  .cert-list{display:flex; flex-wrap:wrap; gap:12px;}
+  .cert-pill{background:var(--off); border:1px solid #e7e8ec; padding:10px 18px; border-radius:99px; font-size:13px; display:flex; align-items:center; gap:8px;}
+  .cert-pill i{width:7px; height:7px; border-radius:50%; background:var(--gold);}
+
+  /* ===== ASSOCIATIONS PAGE ===== */
+  .assoc-hero{margin-top:64px; padding:70px 0 40px; background:var(--off);}
+  .assoc-tier{margin-bottom:60px;}
+  .assoc-tier-head{display:flex; align-items:baseline; gap:12px; margin-bottom:24px; border-bottom:2px solid var(--ink); padding-bottom:10px;}
+  .assoc-tier-head h3{font-size:20px;}
+  .assoc-tier-head span{font-size:12px; color:#889; text-transform:uppercase; letter-spacing:.05em;}
+  .achievement-row{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .achievement-card{border-left:3px solid var(--gold); background:var(--off); padding:20px;}
+  .achievement-card b{display:block; font-family:var(--display); font-size:26px;}
+  .achievement-card span{font-size:12px; color:#667; text-transform:uppercase; letter-spacing:.04em;}
+
+  /* ===== MEMBERS PAGE ===== */
+  .members-hero{margin-top:64px; padding:70px 0 40px; background:var(--ink); color:#fff;}
+  .role-tabs{display:flex; gap:10px; margin-bottom:36px; flex-wrap:wrap;}
+  .role-tab{padding:9px 18px; border:1px solid #ddd; border-radius:99px; font-family:var(--head); font-size:12px; letter-spacing:.04em; text-transform:uppercase; cursor:pointer;}
+  .role-tab.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .member-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+  .member-card{border:1px solid #eaeaea; border-radius:var(--radius); overflow:hidden;}
+  .member-photo{aspect-ratio:1/1; background:linear-gradient(160deg,#dfe6f5,#c7d3ef); display:flex; align-items:center; justify-content:center; color:#5a6a9a; font-family:var(--head); font-size:11px; letter-spacing:.08em; text-transform:uppercase;}
+  .member-info{padding:14px;}
+  .member-info b{display:block; font-family:var(--head); font-size:14px; text-transform:uppercase;}
+  .member-info span{font-size:12px; color:var(--red); font-weight:600;}
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .testi-card{background:var(--off); border-left:3px solid var(--red); padding:24px;}
+  .testi-card p{font-size:14px; color:#334; margin-bottom:16px; font-style:italic;}
+  .testi-who{display:flex; align-items:center; gap:10px;}
+  .testi-avatar{width:34px; height:34px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--head); font-size:12px;}
+
+  /* ===== 3D REVOLVING RING (hero) ===== */
+  .ring-wrap{position:relative; width:100%; height:100%; min-height:340px; display:flex; align-items:center; justify-content:center; perspective:900px;}
+  .ring-mat{position:absolute; bottom:36px; width:250px; height:80px; border-radius:50%; background:radial-gradient(ellipse at center, rgba(212,160,23,.35), transparent 70%); filter:blur(2px); transform:rotateX(75deg);}
+  .ring-3d{position:relative; width:210px; height:210px; transform-style:preserve-3d; animation:ringSpin 13s linear infinite;}
+  @keyframes ringSpin{from{transform:rotateY(0deg) rotateX(6deg);} to{transform:rotateY(360deg) rotateX(6deg);}}
+  .ring-post{position:absolute; width:5px; height:150px; top:30px; left:50%; margin-left:-2.5px; background:linear-gradient(var(--gold), var(--red)); border-radius:3px; transform-origin:center; box-shadow:0 0 10px rgba(212,160,23,.5);}
+  .ring-rope{position:absolute; width:5px; left:50%; margin-left:-2.5px; border-radius:3px; transform-origin:center;}
+  .ring-canvas{position:absolute; top:50%; left:50%; width:150px; height:150px; margin:-75px 0 0 -75px; border:2px solid rgba(255,255,255,.35); border-radius:6px; background:rgba(255,255,255,.03); transform:rotateX(90deg) translateZ(30px);}
+  .hero-visual .ph-label{position:absolute; bottom:14px; font-family:var(--head); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.4);}
+
+  /* ===== SIGNAGE-STYLE PICTOGRAM ICONS ===== */
+  .signage{display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; flex-shrink:0;}
+  .signage svg{width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+  .signage.sg-red{background:var(--red); color:#fff;}
+  .signage.sg-gold{background:var(--gold); color:var(--ink);}
+  .signage.sg-blue{background:var(--blue); color:#fff;}
+  .signage.sg-ink{background:var(--ink); color:#fff;}
+  .signage.sg-lg{width:46px; height:46px;}
+  .signage.sg-lg svg{width:24px; height:24px;}
+
+  /* ===== PRODUCT POPUP MODAL ===== */
+  .modal-overlay{position:fixed; inset:0; background:rgba(6,8,14,.7); backdrop-filter:blur(3px); z-index:2000; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .25s ease;}
+  .modal-overlay.show{opacity:1; pointer-events:auto;}
+  .modal-card{background:#fff; width:min(720px,92vw); border-radius:var(--radius); overflow:hidden; display:grid; grid-template-columns:1fr 1fr; transform:scale(.85) rotateX(8deg); opacity:0; transition:transform .3s cubic-bezier(.2,.8,.2,1), opacity .3s ease; transform-origin:center;}
+  .modal-overlay.show .modal-card{transform:scale(1) rotateX(0deg); opacity:1;}
+  .modal-photo{background:linear-gradient(135deg,#eef1f7,#dfe4ee); display:flex; align-items:center; justify-content:center; font-family:var(--head); font-size:11px; color:#8b93a8; text-transform:uppercase; position:relative;}
+  .modal-body{padding:32px 28px; position:relative;}
+  .modal-close{position:absolute; top:14px; right:16px; cursor:pointer; font-family:var(--head); font-size:20px; color:#889; background:none; border:none;}
+  .modal-cat{font-size:11px; color:var(--red); text-transform:uppercase; letter-spacing:.08em; font-family:var(--head); margin-bottom:8px;}
+  .modal-body h3{font-size:24px; margin-bottom:10px;}
+  .modal-price{font-family:var(--display); font-size:22px; color:var(--ink); margin-bottom:14px;}
+  .modal-body p.desc{font-size:14px; color:#556; margin-bottom:22px;}
+  .qty-row{display:flex; align-items:center; gap:14px; margin-bottom:20px;}
+  .qty-row button{width:32px; height:32px; border:1px solid #ddd; background:#fff; font-size:16px; cursor:pointer; border-radius:var(--radius);}
+  .toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:#fff; padding:14px 24px; border-radius:99px; font-family:var(--head); font-size:13px; letter-spacing:.04em; text-transform:uppercase; z-index:2100; opacity:0; transition:opacity .25s, transform .25s; display:flex; align-items:center; gap:10px;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* ===== CHATBOT ===== */
+  .chat-fab{position:fixed; bottom:24px; right:92px; width:54px; height:54px; border-radius:50%; background:var(--ink); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 10px 24px rgba(0,0,0,.35); z-index:999; cursor:pointer; border:2px solid var(--gold);}
+  .chat-panel{position:fixed; bottom:90px; right:24px; width:320px; max-height:460px; background:#fff; border-radius:var(--radius); box-shadow:0 20px 50px rgba(0,0,0,.25); z-index:1998; display:flex; flex-direction:column; overflow:hidden; transform:translateY(16px) scale(.96); opacity:0; pointer-events:none; transition:all .22s ease;}
+  .chat-panel.show{transform:translateY(0) scale(1); opacity:1; pointer-events:auto;}
+  .chat-head{background:var(--ink); color:#fff; padding:16px 18px; display:flex; align-items:center; gap:10px;}
+  .chat-head .mark{width:30px; height:30px; border-radius:50%; background:conic-gradient(var(--red) 0 50%, var(--blue) 50% 100%); flex-shrink:0;}
+  .chat-head b{display:block; font-family:var(--head); font-size:13px; text-transform:uppercase;}
+  .chat-head span{font-size:11px; color:rgba(255,255,255,.55); display:flex; align-items:center; gap:5px;}
+  .chat-head span i{width:6px; height:6px; border-radius:50%; background:#3ddc73;}
+  .chat-close{margin-left:auto; cursor:pointer; font-size:18px; background:none; border:none; color:#fff;}
+  .chat-body{padding:16px; overflow-y:auto; flex:1; background:var(--off);}
+  .chat-bubble{background:#fff; border:1px solid #eee; padding:10px 14px; border-radius:12px 12px 12px 2px; font-size:13px; margin-bottom:12px; max-width:88%; animation:bubbleIn .25s ease;}
+  .chat-bubble.user{margin-left:auto; background:var(--ink); color:#fff; border-radius:12px 12px 2px 12px; border:none;}
+  @keyframes bubbleIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .chat-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;}
+  .chat-action{display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #e2e4ea; padding:9px 10px; border-radius:var(--radius); font-size:11.5px; font-family:var(--head); letter-spacing:.02em; text-transform:uppercase; cursor:pointer;}
+  .chat-action:hover{border-color:var(--red); color:var(--red);}
+  .typing{display:flex; gap:4px; padding:10px 14px; background:#fff; border:1px solid #eee; border-radius:12px 12px 12px 2px; width:fit-content; margin-bottom:12px;}
+  .typing span{width:6px; height:6px; border-radius:50%; background:#aab; animation:typingBounce 1s infinite;}
+  .typing span:nth-child(2){animation-delay:.15s;} .typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes typingBounce{0%,60%,100%{transform:translateY(0);} 30%{transform:translateY(-4px);}}
+
+  @media(max-width:900px){
+    nav.pagetabs{display:none;}
+    .burger{display:flex;}
+    .hero-inner, .about-grid, .coach-hero-grid{grid-template-columns:1fr;}
+    .programs-grid, .philosophy-grid, .assoc-logos, .achievement-row{grid-template-columns:repeat(2,1fr);}
+    .product-grid, .member-grid, .strip-grid{grid-template-columns:repeat(2,1fr);}
+    .testi-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="belt-track">
+  <span style="background:var(--belt-white); border-right:1px solid #ddd;"></span>
+  <span style="background:var(--belt-yellow);"></span>
+  <span style="background:var(--belt-green);"></span>
+  <span style="background:var(--belt-blue);"></span>
+  <span style="background:var(--belt-red);"></span>
+  <span style="background:var(--belt-black);"></span>
+</div>
+
+<header>
+  <div class="navbar">
+    <div class="brand"><div class="mark">M</div><div>Markaz Martial Arts<small>Way of Honor</small></div></div>
+    <nav class="pagetabs">
+      <button class="active" data-page="home">Home</button>
+      <button data-page="store">Store</button>
+      <button data-page="coach">Coach</button>
+      <button data-page="associations">Associations</button>
+      <button data-page="members">Members</button>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="https://wa.me/923002672558">Free Trial</a>
+      <div class="burger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag"><i></i> Karachi · Federal B Area · WTF Certified</div>
+        <h1>Train. Fight.<br><span>Evolve.</span></h1>
+        <p>Taekwondo, Kickboxing, Grappling and MMA under certified coaches and real fighters — inside Karachi's most complete martial arts academy.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://wa.me/923002672558">Book a Free Trial</a>
+          <a class="btn btn-outline" style="border-color:rgba(255,255,255,.4); color:#fff;" href="#programs">See Programs</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>4.1★</b><span>Google Rating</span></div>
+          <div><b>612</b><span>Reviews</span></div>
+          <div><b>6</b><span>Disciplines</span></div>
+          <div><b>500+</b><span>Community</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="ring-wrap">
+          <div class="ring-mat"></div>
+          <div class="ring-3d" id="ring3d">
+            <div class="ring-canvas"></div>
+          </div>
+          <div class="ph-label">The Ring · Always Turning</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee"><div>
+    <span>Discipline</span><span>✦</span><span>Respect</span><span>✦</span><span>Way of Honor</span><span>✦</span><span>World Taekwondo Federation</span><span>✦</span><span>Kids & Adults</span><span>✦</span><span>Girls Batch</span><span>✦</span>
+    <span>Discipline</span><span>✦</span><span>Respect</span><span>✦</span><span>Way of Honor</span><span>✦</span><span>World Taekwondo Federation</span><span>✦</span><span>Kids & Adults</span><span>✦</span><span>Girls Batch</span><span>✦</span>
+  </div></div>
+
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-photo"><div class="badge">Founder's Message</div><div class="cap"><b>AbdulSamad Khan</b><span>Head Coach · WTF Certified</span></div></div>
+      <div class="about-copy">
+        <div class="eyebrow">The Academy</div>
+        <h2>Pakistan's most complete Taekwondo institute</h2>
+        <p>Markaz Martial Arts Academy runs a complete World Taekwondo Federation syllabus alongside dedicated Kickboxing, Grappling and MMA training — led by Head Coach AbdulSamad Khan at Markaz-e-Khail-o-Saqafat, Gulberg Town.</p>
+        <p>Certified instruction, competition-level coaching and a belt system that actually means something. Students compete nationally and represent the academy at international events.</p>
+        <div class="credentials">
+          <div><b>WTF</b><span>Certified Syllabus</span></div>
+          <div><b>3x</b><span>Sessions / Week</span></div>
+          <div><b>5+</b><span>Starting Age</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="programs">
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Training</div><h2>Pick your discipline</h2><p>Separate batches for kids, adults and a dedicated girls batch. Beginners start on day one.</p></div>
+    </div>
+    <div class="wrap" style="padding:0 24px;">
+      <div class="programs-grid">
+        <div class="program-card"><div class="p-belt" style="background:var(--belt-white); border:1px solid #ddd;"></div><h3>Taekwondo</h3><p>Full WTF syllabus, sparring and official belt gradings.</p></div>
+        <div class="program-card"><div class="p-belt" style="background:var(--belt-yellow);"></div><h3>Kickboxing</h3><p>Pad work, combinations and fight-level conditioning.</p></div>
+        <div class="program-card"><div class="p-belt" style="background:var(--belt-green);"></div><h3>Grappling</h3><p>Takedowns, control and submissions on the mat.</p></div>
+        <div class="program-card"><div class="p-belt" style="background:var(--belt-blue);"></div><h3>MMA</h3><p>Striking and grappling fused into one live system.</p></div>
+        <div class="program-card"><div class="p-belt" style="background:var(--belt-red);"></div><h3>Girls Batch</h3><p>Dedicated Taekwondo and self-defence, women-only.</p></div>
+        <div class="program-card"><div class="p-belt" style="background:var(--belt-black);"></div><h3>Fighters Squad</h3><p>Competition sparring and tournament prep.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="schedule" id="schedule">
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow" style="color:var(--gold);">Timings</div><h2>Weekly schedule</h2><p>Doors open 9:00 AM — timings confirmed on WhatsApp.</p></div>
+      <table class="sched-table">
+        <tr><th>Batch</th><th>Days</th><th>Time</th><th>Discipline</th></tr>
+        <tr><td><span class="dot" style="background:var(--belt-white); border:1px solid #999;"></span>Kids (5–12)</td><td>Mon · Wed · Fri</td><td>4:00 – 5:30 PM</td><td>Taekwondo</td></tr>
+        <tr><td><span class="dot" style="background:var(--belt-red);"></span>Girls Batch</td><td>Tue · Thu · Sat</td><td>4:00 – 5:30 PM</td><td>Taekwondo / Self-defence</td></tr>
+        <tr><td><span class="dot" style="background:var(--belt-yellow);"></span>Teens & Adults</td><td>Mon · Wed · Fri</td><td>6:00 – 7:30 PM</td><td>Kickboxing</td></tr>
+        <tr><td><span class="dot" style="background:var(--belt-black);"></span>Fighters</td><td>Tue · Thu · Sat</td><td>7:30 – 9:00 PM</td><td>MMA & Grappling</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Gallery</div><h2>On the mat</h2><p>Training, ceremonies and tournament moments.</p></div>
+      <div class="strip-grid">
+        <div class="g-item big">Belt Ceremony</div>
+        <div class="g-item">Sparring</div>
+        <div class="g-item">Kids Batch</div>
+        <div class="g-item">Kickboxing</div>
+        <div class="g-item">Girls Batch</div>
+        <div class="g-item">MMA Rounds</div>
+        <div class="g-item">Grappling</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--off);">
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Network</div><h2>Our associations</h2><p>Federations and clubs Markaz is affiliated with — full details on the Associations page.</p></div>
+      <div class="assoc-logos">
+        <div class="assoc-logo">World Taekwondo Federation</div>
+        <div class="assoc-logo">Pakistan Taekwondo Federation</div>
+        <div class="assoc-logo">Sindh Taekwondo Assoc.</div>
+        <div class="assoc-logo">Karachi Clubs Network</div>
+        <div class="assoc-logo">Partner Academy</div>
+      </div>
+      <div style="margin-top:24px;"><button class="btn btn-outline" onclick="showPage('associations')">View All Associations</button></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Visit</div><h2>Find us on the mat</h2></div>
+      <p style="margin-bottom:6px;"><b>Address:</b> Markaz-e-Khail-o-Saqafat, Ziauddin Road, Federal B Area, Block 10, Gulberg Town, Karachi 75950</p>
+      <p style="margin-bottom:6px;"><b>Phone:</b> 0300 2672558</p>
+      <p><b>WhatsApp:</b> <a href="https://wa.me/923002672558" style="color:var(--red);">wa.me/923002672558</a></p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= STORE ================= -->
+<div class="page" id="page-store">
+  <section class="store-hero">
+    <div class="wrap">
+      <div class="eyebrow">Shop</div>
+      <h2>Gear up</h2>
+      <p style="color:#556; margin-top:10px;">Doboks, gloves, pads, belts and academy merchandise — all in one place.</p>
+      <div class="store-filters">
+        <div class="chip active">All</div>
+        <div class="chip">Doboks / Uniforms</div>
+        <div class="chip">Gloves & Pads</div>
+        <div class="chip">Belts</div>
+        <div class="chip">Protective Gear</div>
+        <div class="chip">Academy Merch</div>
+      </div>
+    </div>
+  </section>
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="product-grid">
+        <div class="product-card" onclick="openProduct('WTF-Approved Dobok','Rs. 4,500','Uniforms','Official competition-grade dobok, WTF-approved cut and fabric.')"><div class="product-photo"><span class="tag">New</span>Product Photo</div><div class="product-info"><b>WTF-Approved Dobok</b><span class="cat">Uniforms</span><div class="price">Rs. 4,500</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('WTF-Approved Dobok')">Add to Cart</button></div></div>
+        <div class="product-card" onclick="openProduct('Sparring Gloves','Rs. 2,800','Gloves & Pads','Padded sparring gloves built for daily kickboxing and MMA rounds.')"><div class="product-photo">Product Photo</div><div class="product-info"><b>Sparring Gloves</b><span class="cat">Gloves & Pads</span><div class="price">Rs. 2,800</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('Sparring Gloves')">Add to Cart</button></div></div>
+        <div class="product-card" onclick="openProduct('Focus Mitts (Pair)','Rs. 3,200','Gloves & Pads','Coach-grade focus mitts for pad work and combination drills.')"><div class="product-photo"><span class="tag">Best Seller</span>Product Photo</div><div class="product-info"><b>Focus Mitts (Pair)</b><span class="cat">Gloves & Pads</span><div class="price">Rs. 3,200</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('Focus Mitts (Pair)')">Add to Cart</button></div></div>
+        <div class="product-card" onclick="openProduct('Colored Belt Set','Rs. 800','Belts','Full grading belt set, WTF-standard colors.')"><div class="product-photo">Product Photo</div><div class="product-info"><b>Colored Belt Set</b><span class="cat">Belts</span><div class="price">Rs. 800</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('Colored Belt Set')">Add to Cart</button></div></div>
+        <div class="product-card" onclick="openProduct('Shin Guards','Rs. 2,100','Protective Gear','Lightweight shin guards for sparring and grappling sessions.')"><div class="product-photo">Product Photo</div><div class="product-info"><b>Shin Guards</b><span class="cat">Protective Gear</span><div class="price">Rs. 2,100</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('Shin Guards')">Add to Cart</button></div></div>
+        <div class="product-card" onclick="openProduct('Headgear','Rs. 3,600','Protective Gear','Full-coverage headgear approved for competition sparring.')"><div class="product-photo">Product Photo</div><div class="product-info"><b>Headgear</b><span class="cat">Protective Gear</span><div class="price">Rs. 3,600</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('Headgear')">Add to Cart</button></div></div>
+        <div class="product-card" onclick="openProduct('Markaz Academy Hoodie','Rs. 3,000','Merch','Official Markaz academy hoodie, red/blue/white colorway.')"><div class="product-photo">Product Photo</div><div class="product-info"><b>Markaz Academy Hoodie</b><span class="cat">Merch</span><div class="price">Rs. 3,000</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('Markaz Academy Hoodie')">Add to Cart</button></div></div>
+        <div class="product-card" onclick="openProduct('Mouthguard','Rs. 600','Protective Gear','Boil-and-bite mouthguard for sparring and competition.')"><div class="product-photo">Product Photo</div><div class="product-info"><b>Mouthguard</b><span class="cat">Protective Gear</span><div class="price">Rs. 600</div><button class="add-btn" onclick="event.stopPropagation(); quickAdd('Mouthguard')">Add to Cart</button></div></div>
+      </div>
+      <p style="margin-top:30px; font-size:13px; color:#889;">Items marked "Coming Soon" instead of broken links or under-construction pages, per academy policy.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= COACH ================= -->
+<div class="page" id="page-coach">
+  <section class="coach-hero">
+    <div class="wrap coach-hero-grid">
+      <div class="coach-photo-lg">Coach Portrait</div>
+      <div>
+        <div class="coach-tags"><span>Head Coach</span><span>WTF Certified</span><span>15+ Yrs Experience</span></div>
+        <h1 style="font-family:var(--display); font-size:clamp(32px,5vw,56px); margin-bottom:14px;">AbdulSamad Khan</h1>
+        <p style="color:rgba(255,255,255,.8); max-width:520px; margin-bottom:22px;">Leading Markaz's Taekwondo program with a belt system built on real WTF standards — not shortcuts. Students train under a coach who has competed, not just certified.</p>
+        <a class="btn btn-primary" href="https://wa.me/923002672558">Train With Coach</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Approach</div><h2>Coaching philosophy</h2></div>
+      <div class="philosophy-grid">
+        <div class="phil-card"><div class="num">01</div><h3>Discipline First</h3><p>Every belt means something — grading is earned through structured, honest progression.</p></div>
+        <div class="phil-card"><div class="num">02</div><h3>Real Competition Prep</h3><p>Students are trained for actual sparring and national-level competition, not just forms.</p></div>
+        <div class="phil-card"><div class="num">03</div><h3>Individual Attention</h3><p>Small batch sizes so every student's technique gets corrected, every session.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--off);">
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Credentials</div><h2>Certifications & recognitions</h2></div>
+      <div class="cert-list">
+        <div class="cert-pill"><i></i>World Taekwondo Federation Certified</div>
+        <div class="cert-pill"><i></i>National Competition Coach</div>
+        <div class="cert-pill"><i></i>Black Belt, 4th Dan</div>
+        <div class="cert-pill"><i></i>Youth Safeguarding Certified</div>
+        <div class="cert-pill"><i></i>MMA Conditioning Specialist</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Coach's Schedule</div><h2>Train directly with the head coach</h2></div>
+      <table class="sched-table" style="color:var(--ink);">
+        <tr><th style="color:#889; border-color:#eee;">Batch</th><th style="color:#889; border-color:#eee;">Days</th><th style="color:#889; border-color:#eee;">Time</th></tr>
+        <tr><td style="border-color:#eee;">Fighters Squad</td><td style="border-color:#eee;">Tue · Thu · Sat</td><td style="border-color:#eee;">7:30 – 9:00 PM</td></tr>
+        <tr><td style="border-color:#eee;">Private Sessions</td><td style="border-color:#eee;">By appointment</td><td style="border-color:#eee;">Flexible</td></tr>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- ================= ASSOCIATIONS ================= -->
+<div class="page" id="page-associations">
+  <section class="assoc-hero">
+    <div class="wrap">
+      <div class="eyebrow">Network</div>
+      <h2>Our affiliations</h2>
+      <p style="color:#556; margin-top:10px; max-width:600px;">Markaz operates within a structured network — from international federations down to local club partnerships.</p>
+    </div>
+  </section>
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="assoc-tier">
+        <div class="assoc-tier-head"><h3>Federation Level</h3><span>International & National</span></div>
+        <div class="assoc-logos">
+          <div class="assoc-logo">World Taekwondo Federation</div>
+          <div class="assoc-logo">Pakistan Taekwondo Federation</div>
+          <div class="assoc-logo">Asian Taekwondo Union</div>
+        </div>
+      </div>
+      <div class="assoc-tier">
+        <div class="assoc-tier-head"><h3>Club Level</h3><span>Regional & Local</span></div>
+        <div class="assoc-logos">
+          <div class="assoc-logo">Sindh Taekwondo Association</div>
+          <div class="assoc-logo">Karachi Clubs Network</div>
+          <div class="assoc-logo">Partner Academy — Lahore</div>
+          <div class="assoc-logo">Partner Academy — Islamabad</div>
+        </div>
+      </div>
+      <div class="assoc-tier">
+        <div class="assoc-tier-head"><h3>International Achievements</h3><span>Selected Highlights</span></div>
+        <div class="achievement-row">
+          <div class="achievement-card"><b>3</b><span>National Golds</span></div>
+          <div class="achievement-card"><b>7</b><span>Regional Medals</span></div>
+          <div class="achievement-card"><b>2</b><span>International Reps</span></div>
+          <div class="achievement-card"><b>12</b><span>Years Active</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= MEMBERS ================= -->
+<div class="page" id="page-members">
+  <section class="members-hero">
+    <div class="wrap">
+      <div class="eyebrow" style="color:var(--gold);">Community</div>
+      <h1 style="font-family:var(--display); font-size:clamp(32px,5vw,52px);">Our Members</h1>
+      <p style="color:rgba(255,255,255,.75); max-width:540px; margin-top:12px;">Officials, players and the everyday students who make up the Markaz community — with real experiences, not stock reviews.</p>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="role-tabs">
+        <div class="role-tab active">All</div>
+        <div class="role-tab">Officials</div>
+        <div class="role-tab">Players</div>
+        <div class="role-tab">Fighters Squad</div>
+      </div>
+      <div class="member-grid">
+        <div class="member-card"><div class="member-photo">Photo</div><div class="member-info"><b>Official Name</b><span>Vice President</span></div></div>
+        <div class="member-card"><div class="member-photo">Photo</div><div class="member-info"><b>Player Name</b><span>National Team, Taekwondo</span></div></div>
+        <div class="member-card"><div class="member-photo">Photo</div><div class="member-info"><b>Player Name</b><span>Fighters Squad, MMA</span></div></div>
+        <div class="member-card"><div class="member-photo">Photo</div><div class="member-info"><b>Official Name</b><span>Head of Operations</span></div></div>
+      </div>
+    </div>
+  </section>
+  <section style="background:var(--off);">
+    <div class="wrap">
+      <div class="section-head"><div class="eyebrow">Feedback</div><h2>Member experience</h2></div>
+      <div class="testi-grid">
+        <div class="testi-card"><p>"Proper WTF syllabus with real belt gradings, not just a fitness class. My son has changed completely in six months."</p><div class="testi-who"><div class="testi-avatar">A</div><div><b>Parent</b></div></div></div>
+        <div class="testi-card"><p>"Joined kickboxing with zero fitness. The conditioning is brutal in the best way and coaches correct your form every round."</p><div class="testi-who"><div class="testi-avatar">S</div><div><b>Adult Student</b></div></div></div>
+        <div class="testi-card"><p>"The girls batch made all the difference — comfortable environment, serious training, real self-defence."</p><div class="testi-who"><div class="testi-avatar">H</div><div><b>Girls Batch Student</b></div></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <div class="brand"><div class="mark">M</div><div>Markaz Martial Arts<small style="color:rgba(255,255,255,.5)">Way of Honor</small></div></div>
+      <p>Taekwondo, Kickboxing, Grappling and MMA — Federal B Area, Gulberg Town, Karachi.</p>
+      <div class="social-row">
+        <a href="https://instagram.com/markazmartialartsacademy">IG</a>
+        <a href="https://facebook.com/mmamarkaz">FB</a>
+        <a href="https://wa.me/923002672558">WA</a>
+        <a href="tel:03002672558">✆</a>
+      </div>
+    </div>
+    <div><h4>Pages</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('store')">Store</a></li><li><a onclick="showPage('coach')">Coach</a></li><li><a onclick="showPage('associations')">Associations</a></li><li><a onclick="showPage('members')">Members</a></li></ul></div>
+    <div><h4>Programs</h4><ul><li>Taekwondo</li><li>Kickboxing</li><li>Grappling</li><li>MMA</li></ul></div>
+    <div><h4>Contact</h4><ul><li>0300 2672558</li><li>Gulberg Town, Karachi</li><li><a href="https://wa.me/923002672558">WhatsApp Us</a></li></ul></div>
+  </div>
+  <div class="wrap footer-bottom"><span>© 2026 Markaz Martial Arts Academy. All rights reserved.</span></div>
+</footer>
+
+<a class="whatsapp-fab" href="https://wa.me/923002672558">☏</a>
+<div class="chat-fab" id="chatFab" onclick="toggleChat()">💬</div>
+
+<!-- Product popup modal -->
+<div class="modal-overlay" id="productModal" onclick="if(event.target===this) closeProduct()">
+  <div class="modal-card">
+    <div class="modal-photo">Product Photo</div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeProduct()">×</button>
+      <div class="modal-cat" id="mCat">Category</div>
+      <h3 id="mName">Product Name</h3>
+      <div class="modal-price" id="mPrice">Rs. 0</div>
+      <p class="desc" id="mDesc">Description.</p>
+      <div class="qty-row">
+        <button onclick="qtyStep(-1)">−</button>
+        <span id="mQty">1</span>
+        <button onclick="qtyStep(1)">+</button>
+      </div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="confirmAdd()">
+        <span class="signage sg-gold"><svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></span>
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="signage sg-gold"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span id="toastMsg">Added to cart</span></div>
+
+<!-- Chatbot panel -->
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div class="mark"></div>
+    <div>
+      <b>Markaz Assistant</b>
+      <span><i></i>Online — replies instantly</span>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">×</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-bubble">Way of Honor 🥋 — where do you want to go?</div>
+    <div class="chat-actions" id="chatActions">
+      <div class="chat-action" onclick="chatGo('home','Home')"><span class="signage sg-red"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span>Home</div>
+      <div class="chat-action" onclick="chatGo('store','Store')"><span class="signage sg-gold"><svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M4 9h16v11H4z"/><path d="M9 13a3 3 0 0 0 6 0"/></svg></span>Store</div>
+      <div class="chat-action" onclick="chatGo('coach','Coach')"><span class="signage sg-blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span>Coach</div>
+      <div class="chat-action" onclick="chatGo('associations','Associations')"><span class="signage sg-ink"><svg viewBox="0 0 24 24"><path d="M4 21V4l16 5-16 5"/></svg></span>Associations</div>
+      <div class="chat-action" onclick="chatGo('members','Members')"><span class="signage sg-red"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 21c0-3 3-5 6-5s6 2 6 5"/><path d="M14 16c3 0 6 2 6 5"/></svg></span>Members</div>
+      <div class="chat-action" onclick="chatDirections()"><span class="signage sg-gold"><svg viewBox="0 0 24 24"><path d="M12 22s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Directions</div>
+      <div class="chat-action" onclick="chatCall()"><span class="signage sg-blue"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .8 3a2 2 0 0 1-.4 2.1L8.1 10.2a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c1 .4 2 .7 3 .8a2 2 0 0 1 1.7 2z"/></svg></span>Call Us</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ---------- SOUND ENGINE (Web Audio, no files needed) ---------- */
+  let audioCtx;
+  function tone(freq, dur, type, vol){
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+      osc.type = type; osc.frequency.value = freq;
+      gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + dur);
+    }catch(e){}
+  }
+  const sfxClick = () => tone(500, 0.07, 'square', 0.06);
+  const sfxPop   = () => tone(340, 0.08, 'triangle', 0.08);
+  const sfxBell  = () => { tone(988, 0.4, 'sine', 0.12); setTimeout(()=>tone(988,0.3,'sine',0.08),260); };
+  const sfxAdd   = () => { tone(660,0.09,'sine',0.1); setTimeout(()=>tone(880,0.12,'sine',0.1),90); };
+  const sfxChat  = () => tone(740, 0.1, 'sine', 0.08);
+
+  /* ---------- PAGE NAVIGATION ---------- */
+  function showPage(name){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.querySelectorAll('nav.pagetabs button').forEach(b => b.classList.toggle('active', b.dataset.page === name));
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  document.querySelectorAll('nav.pagetabs button').forEach(b => b.addEventListener('click', () => { sfxClick(); showPage(b.dataset.page); }));
+  document.querySelector('.nav-cta .btn-primary').addEventListener('click', sfxBell);
+
+  document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+    sfxClick();
+    document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  }));
+  document.querySelectorAll('.role-tab').forEach(c => c.addEventListener('click', () => {
+    sfxClick();
+    document.querySelectorAll('.role-tab').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  }));
+
+  /* ---------- 3D REVOLVING RING ---------- */
+  (function buildRing(){
+    const ring = document.getElementById('ring3d');
+    if(!ring) return;
+    const radius = 100, count = 10;
+    for(let i=0;i<count;i++){
+      const deg = (360/count)*i;
+      const post = document.createElement('div');
+      post.className = 'ring-post';
+      post.style.transform = `rotateY(${deg}deg) translateZ(${radius}px)`;
+      post.style.background = i % 3 === 0 ? 'linear-gradient(var(--gold),var(--red))' : (i % 3 === 1 ? 'linear-gradient(var(--blue),var(--ink))' : 'linear-gradient(#fff,#ccc)');
+      ring.appendChild(post);
+    }
+  })();
+
+  /* ---------- PRODUCT MODAL ---------- */
+  let currentQty = 1, currentProduct = '';
+  function openProduct(name, price, cat, desc){
+    currentProduct = name; currentQty = 1;
+    document.getElementById('mName').textContent = name;
+    document.getElementById('mPrice').textContent = price;
+    document.getElementById('mCat').textContent = cat;
+    document.getElementById('mDesc').textContent = desc;
+    document.getElementById('mQty').textContent = 1;
+    document.getElementById('productModal').classList.add('show');
+    sfxPop();
+  }
+  function closeProduct(){
+    document.getElementById('productModal').classList.remove('show');
+    sfxClick();
+  }
+  function qtyStep(n){
+    currentQty = Math.max(1, currentQty + n);
+    document.getElementById('mQty').textContent = currentQty;
+    sfxClick();
+  }
+  function confirmAdd(){
+    sfxAdd();
+    showToast(`${currentProduct} × ${currentQty} added to cart`);
+    closeProduct();
+  }
+  function quickAdd(name){
+    sfxAdd();
+    showToast(`${name} added to cart`);
+  }
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  /* ---------- CHATBOT ---------- */
+  function toggleChat(){
+    document.getElementById('chatPanel').classList.toggle('show');
+    sfxChat();
+  }
+  function chatBubble(text, isUser){
+    const body = document.getElementById('chatBody');
+    const b = document.createElement('div');
+    b.className = 'chat-bubble' + (isUser ? ' user' : '');
+    b.textContent = text;
+    body.insertBefore(b, document.getElementById('chatActions'));
+    body.scrollTop = body.scrollHeight;
+  }
+  function chatTyping(next){
+    const body = document.getElementById('chatBody');
+    const t = document.createElement('div');
+    t.className = 'typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    body.insertBefore(t, document.getElementById('chatActions'));
+    body.scrollTop = body.scrollHeight;
+    setTimeout(() => { t.remove(); next(); }, 550);
+  }
+  function chatGo(page, label){
+    sfxClick();
+    chatBubble('Take me to ' + label, true);
+    chatTyping(() => {
+      chatBubble('On it — opening ' + label + '.');
+      showPage(page);
+    });
+  }
+  function chatDirections(){
+    sfxClick();
+    chatBubble('Get directions', true);
+    chatTyping(() => chatBubble('Markaz-e-Khail-o-Saqafat, Ziauddin Road, Federal B Area, Block 10, Gulberg Town, Karachi.'));
+  }
+  function chatCall(){
+    sfxClick();
+    chatBubble('Call the academy', true);
+    chatTyping(() => chatBubble('Call us anytime at 0300 2672558, or tap WhatsApp for a faster reply.'));
+  }
+</script>
+
+</body>
+</html>
