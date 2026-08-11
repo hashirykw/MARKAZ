@@ -74,7 +74,7 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + var(--util) + 1
 body{font-family:var(--bd);color:var(--txt);background:var(--w);font-size:14px;line-height:1.6;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;font-weight:400}
 a{color:inherit;text-decoration:none}
-ul{list-style:none}
+ul,ol{list-style:none}
 img{display:block;max-width:100%}
 button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 h1,h2,h3,h4,h5{font-family:var(--hd);color:var(--ink);line-height:1.05;text-transform:uppercase;font-weight:700;letter-spacing:.01em}
@@ -189,7 +189,9 @@ body.scr header{box-shadow:var(--s1);background:rgba(255,255,255,.98)}
 .tabs button:hover{color:var(--blue);background:var(--w)}
 .tabs button.on{background:var(--blue);color:#fff;box-shadow:var(--sb)}
 .nav-r{display:flex;align-items:center;gap:8px}
-.mbtn{display:flex;flex-direction:column;gap:4.5px;padding:7px}
+body.menu-open .nav-r .btn{opacity:0;pointer-events:none;transform:scale(.9)}
+.nav-r .btn{transition:opacity .25s var(--ez),transform .25s var(--ez),background .2s,box-shadow .22s}
+.mbtn{display:flex;flex-direction:column;gap:4.5px;padding:7px;position:relative;z-index:2}
 .mbtn i{width:20px;height:2.2px;border-radius:2px;background:var(--blue);transition:transform .3s var(--ez),opacity .2s}
 .mbtn.x i:nth-child(1){transform:translateY(6.7px) rotate(45deg)}
 .mbtn.x i:nth-child(2){opacity:0}
@@ -199,7 +201,7 @@ body.scr header{box-shadow:var(--s1);background:rgba(255,255,255,.98)}
 .subnav{position:fixed;top:calc(3px + var(--util) + var(--nav));left:0;width:100%;z-index:1040;height:var(--sub);
   background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
   transition:transform .4s var(--ez),opacity .3s;display:none;box-shadow:0 1px 0 rgba(18,64,200,.04)}
-.subnav.show{display:block}
+
 header.hide ~ .subnav{transform:translateY(calc(-100% - var(--nav) - var(--util) - 6px));opacity:0}
 .subnav-in{max-width:1200px;margin:0 auto;padding:0 16px;height:100%;display:flex;align-items:center;gap:2px;
   overflow-x:auto;scrollbar-width:none}
@@ -236,7 +238,7 @@ header.hide ~ .subnav{transform:translateY(calc(-100% - var(--nav) - var(--util)
              linear-gradient(165deg,var(--w),var(--paper))}
 #ring{position:absolute;inset:0;width:100%;height:100%;z-index:1;touch-action:pan-y}
 .hero::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,255,255,.9) 0%,rgba(255,255,255,.42) 46%,rgba(255,255,255,.96) 100%)}
+  background:linear-gradient(180deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.9) 34%,rgba(255,255,255,.62) 62%,rgba(255,255,255,.97) 100%)}
 .hero .wrap{position:relative;z-index:3;width:100%}
 .hero-in{max-width:620px}
 .htag{display:inline-flex;align-items:center;gap:7px;font-family:var(--hd);font-size:11px;letter-spacing:.14em;
@@ -913,7 +915,7 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
   section{padding:88px 0}
   .tabs{display:flex}
   .mbtn{display:none}
-  .subnav{display:block}
+  .subnav.show{display:block}
   .dhint{display:flex}
   .mobar{display:none}
   .fab-wa{bottom:20px;right:20px}
@@ -1079,7 +1081,7 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
         </div>
       </div>
     </div>
-    <div class="dhint"><i>↔</i> Drag to spin</div>
+    <div class="dhint"><i>↔</i> Drag to spin the cage</div>
   </section>
 
   <div class="mq"><div class="mqt" id="mqt"></div><div class="mqt"></div></div>
@@ -1856,8 +1858,10 @@ function go(n){savePos();markClick();location.hash='#/'+n}
 
 /* ---------- MENU ---------- */
 const ovl=document.getElementById('ovl'),mbtn=document.getElementById('mbtn');
-mbtn.addEventListener('click',()=>{ovl.classList.toggle('open');mbtn.classList.toggle('x');sClk()});
-ovl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ovl.classList.remove('open');mbtn.classList.remove('x')}));
+mbtn.addEventListener('click',()=>{ovl.classList.toggle('open');mbtn.classList.toggle('x');
+  document.body.classList.toggle('menu-open',ovl.classList.contains('open'));sClk()});
+ovl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ovl.classList.remove('open');
+  mbtn.classList.remove('x');document.body.classList.remove('menu-open')}));
 
 /* ---------- HEADER / BELT / SPY ---------- */
 let ly=0;const spy=[...document.querySelectorAll('.subnav a')];
@@ -1884,82 +1888,112 @@ function buildRing(){
   const mob=innerWidth<900;
   r.setPixelRatio(Math.min(devicePixelRatio,mob?1.5:2));
   r.setSize(innerWidth,innerHeight,false);
-  const sc=new THREE.Scene();sc.fog=new THREE.Fog(0xFFFFFF,11,26);
-  const cam=new THREE.PerspectiveCamera(mob?54:40,innerWidth/innerHeight,.1,100);
-  cam.position.set(0,mob?3.4:3.1,mob?9.4:7.9);cam.lookAt(0,mob?1:1.05,0);
-  if(!mob)G.position.x=2.2;
+  const sc=new THREE.Scene();sc.fog=new THREE.Fog(0xFFFFFF,14,34);
+  const cam=new THREE.PerspectiveCamera(mob?50:40,innerWidth/innerHeight,.1,120);
+  cam.position.set(0,mob?5.4:5.0,mob?11.4:10.2);cam.lookAt(0,mob?.7:.9,0);
   const G=new THREE.Group();sc.add(G);
-  const B=0x1240C8,R=0xD8121A,W=0xFFFFFF,S=0xC9D6EC;
+  if(!mob)G.position.x=2.4;
+  const B=0x1240C8,R=0xD8121A,W=0xFFFFFF,S=0xB9C8E2;
+
+  /* ---- octagon geometry ---- */
+  const SIDES=8, RAD=4.0, APO=RAD*Math.cos(Math.PI/SIDES), SIDE_W=2*RAD*Math.sin(Math.PI/SIDES);
+  const CAGE_H=2.9;
+
+  /* ---- canvas mat: white with blue/red octagon markings ---- */
   const tc=document.createElement('canvas');tc.width=tc.height=512;const x=tc.getContext('2d');
   x.fillStyle='#FFF';x.fillRect(0,0,512,512);
-  x.strokeStyle='rgba(18,64,200,.09)';x.lineWidth=2;
+  x.strokeStyle='rgba(18,64,200,.07)';x.lineWidth=2;
   for(let i=0;i<=512;i+=64){x.beginPath();x.moveTo(i,0);x.lineTo(i,512);x.stroke();
     x.beginPath();x.moveTo(0,i);x.lineTo(512,i);x.stroke()}
   const g=x.createRadialGradient(256,256,20,256,256,250);
-  g.addColorStop(0,'rgba(18,64,200,.16)');g.addColorStop(.6,'rgba(216,18,26,.07)');g.addColorStop(1,'rgba(255,255,255,0)');
+  g.addColorStop(0,'rgba(18,64,200,.14)');g.addColorStop(.6,'rgba(216,18,26,.06)');g.addColorStop(1,'rgba(255,255,255,0)');
   x.fillStyle=g;x.beginPath();x.arc(256,256,250,0,7);x.fill();
-  x.strokeStyle='rgba(18,64,200,.5)';x.lineWidth=7;x.beginPath();x.arc(256,256,150,0,7);x.stroke();
-  x.strokeStyle='rgba(216,18,26,.4)';x.lineWidth=4;x.beginPath();x.arc(256,256,118,0,7);x.stroke();
+  function oct(cx,cy,rr){x.beginPath();
+    for(let i=0;i<8;i++){const an=Math.PI/8+i*Math.PI/4,px=cx+rr*Math.cos(an),py=cy+rr*Math.sin(an);
+      i?x.lineTo(px,py):x.moveTo(px,py)}x.closePath()}
+  x.strokeStyle='rgba(18,64,200,.55)';x.lineWidth=8;oct(256,256,168);x.stroke();
+  x.strokeStyle='rgba(216,18,26,.45)';x.lineWidth=5;oct(256,256,120);x.stroke();
   const tex=new THREE.CanvasTexture(tc);
-  const sd=new THREE.MeshStandardMaterial({color:0xF1F5FB,roughness:.8});
-  G.add(new THREE.Mesh(new THREE.BoxGeometry(6.4,.3,6.4),
-    [sd,sd,new THREE.MeshStandardMaterial({map:tex,roughness:.62,metalness:.04}),
-     new THREE.MeshStandardMaterial({color:0xE0E8F6,roughness:.9}),sd,sd]));
-  const sk=new THREE.Mesh(new THREE.BoxGeometry(6.9,.58,6.9),
-    new THREE.MeshStandardMaterial({color:B,roughness:.55,metalness:.12}));
-  sk.position.y=-.44;G.add(sk);
-  const pm=new THREE.MeshStandardMaterial({color:S,metalness:.88,roughness:.24});
-  [[-2.95,-2.95],[2.95,-2.95],[2.95,2.95],[-2.95,2.95]].forEach((cn,i)=>{
-    const p=new THREE.Mesh(new THREE.CylinderGeometry(.1,.12,2.6,16),pm);p.position.set(cn[0],1.35,cn[1]);G.add(p);
-    const cp=new THREE.Mesh(new THREE.SphereGeometry(.145,14,12),pm);cp.position.set(cn[0],2.7,cn[1]);G.add(cp);
-    const pd=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,1.55,14),
-      new THREE.MeshStandardMaterial({color:i%2?B:R,roughness:.45,metalness:.06}));
-    pd.position.set(cn[0],1.05,cn[1]);G.add(pd);
-    // turnbuckle straps
-    for(let k=0;k<3;k++){
-      const st=new THREE.Mesh(new THREE.TorusGeometry(.21,.018,6,16),
-        new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:.6}));
-      st.rotation.x=Math.PI/2;st.position.set(cn[0],.55+k*.5,cn[1]);G.add(st)}
-  });
 
-  // chain-link cage mesh panels (drag-to-spin cage)
-  const mc=document.createElement('canvas');mc.width=mc.height=256;
-  const m2=mc.getContext('2d');
-  m2.clearRect(0,0,256,256);
-  m2.strokeStyle='rgba(150,170,205,.85)';m2.lineWidth=3;
-  for(let i=-256;i<512;i+=26){
+  /* ---- octagonal mat + apron ---- */
+  const mat=new THREE.Mesh(new THREE.CylinderGeometry(RAD,RAD,.34,SIDES),
+    [new THREE.MeshStandardMaterial({color:0xEEF2FA,roughness:.85}),
+     new THREE.MeshStandardMaterial({map:tex,roughness:.62,metalness:.04}),
+     new THREE.MeshStandardMaterial({color:0xE0E8F6,roughness:.9})]);
+  G.add(mat);
+  const apron=new THREE.Mesh(new THREE.CylinderGeometry(RAD+.34,RAD+.34,.66,SIDES),
+    new THREE.MeshStandardMaterial({color:B,roughness:.5,metalness:.16}));
+  apron.position.y=-.5;G.add(apron);
+
+  /* ---- chain-link mesh texture ---- */
+  const mc=document.createElement('canvas');mc.width=mc.height=256;const m2=mc.getContext('2d');
+  m2.clearRect(0,0,256,256);m2.lineWidth=3.4;m2.strokeStyle='rgba(120,142,182,.9)';
+  for(let i=-256;i<512;i+=24){
     m2.beginPath();m2.moveTo(i,0);m2.lineTo(i+256,256);m2.stroke();
     m2.beginPath();m2.moveTo(i+256,0);m2.lineTo(i,256);m2.stroke()}
   const mesh=new THREE.CanvasTexture(mc);
-  mesh.wrapS=mesh.wrapT=THREE.RepeatWrapping;mesh.repeat.set(7,3);
-  const mm=new THREE.MeshBasicMaterial({map:mesh,transparent:true,opacity:.5,side:THREE.DoubleSide,depthWrite:false});
-  [[0,-2.95,0],[0,2.95,0],[-2.95,0,Math.PI/2],[2.95,0,Math.PI/2]].forEach(s=>{
-    const pl=new THREE.Mesh(new THREE.PlaneGeometry(5.9,2.35),mm);
-    pl.position.set(s[0],1.32,s[1]);pl.rotation.y=s[2]||0;G.add(pl)});
+  mesh.wrapS=mesh.wrapT=THREE.RepeatWrapping;mesh.repeat.set(3.2,2.4);
+  const mm=new THREE.MeshBasicMaterial({map:mesh,transparent:true,opacity:.52,
+    side:THREE.DoubleSide,depthWrite:false});
 
-  // ropes over the mesh
-  [[.62,R],[1.32,W],[2.02,B],[2.46,R]].forEach(h=>{
-    const m=new THREE.MeshStandardMaterial({color:h[1],roughness:.34,metalness:.14});
-    [[0,-2.95,0],[0,2.95,0],[-2.95,0,1],[2.95,0,1]].forEach(s=>{
-      const rp=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,5.9,10),m);
-      rp.rotation.z=Math.PI/2;if(s[2])rp.rotation.y=Math.PI/2;
-      rp.position.set(s[0],h[0],s[1]);G.add(rp)})});
-  sc.add(new THREE.AmbientLight(0xffffff,.85));
-  const k=new THREE.DirectionalLight(0xffffff,1.3);k.position.set(5,10,7);sc.add(k);
-  const fl=new THREE.DirectionalLight(0xD9E4FD,.7);fl.position.set(-7,5,-4);sc.add(fl);
-  const pR=new THREE.PointLight(R,.8,16);pR.position.set(-4,3.4,3);sc.add(pR);
-  const pB=new THREE.PointLight(B,.85,16);pB.position.set(4,3.4,-3);sc.add(pB);
-  let vy=.0032,cy=0,ty=0,dg=false,px=0,cx=-.02,tx=-.02;
+  const postMat=new THREE.MeshStandardMaterial({color:S,metalness:.9,roughness:.22});
+  const railRed=new THREE.MeshStandardMaterial({color:R,roughness:.35,metalness:.18});
+  const railBlue=new THREE.MeshStandardMaterial({color:B,roughness:.35,metalness:.18});
+
+  /* ---- 8 posts, 8 mesh panels, 8x3 rails ---- */
+  for(let i=0;i<SIDES;i++){
+    const cornerA=Math.PI/SIDES+i*(2*Math.PI/SIDES);   /* post sits at each vertex */
+    const pxq=RAD*Math.cos(cornerA), pzq=RAD*Math.sin(cornerA);
+    const post=new THREE.Mesh(new THREE.CylinderGeometry(.088,.1,CAGE_H,14),postMat);
+    post.position.set(pxq,CAGE_H/2,pzq);G.add(post);
+    const cap=new THREE.Mesh(new THREE.SphereGeometry(.12,12,10),postMat);
+    cap.position.set(pxq,CAGE_H,pzq);G.add(cap);
+    /* pad in club colours, alternating */
+    const pad=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,1.5,12),
+      new THREE.MeshStandardMaterial({color:i%2?B:R,roughness:.45,metalness:.06}));
+    pad.position.set(pxq,1.0,pzq);G.add(pad);
+
+    /* panel spans the flat between two vertices */
+    const midA=i*(2*Math.PI/SIDES);
+    const mx=APO*Math.cos(midA), mz=APO*Math.sin(midA);
+    const panel=new THREE.Mesh(new THREE.PlaneGeometry(SIDE_W,CAGE_H-.18),mm);
+    panel.position.set(mx,(CAGE_H-.18)/2+.09,mz);
+    panel.rotation.y=-midA+Math.PI/2;
+    G.add(panel);
+
+    /* three horizontal rails per flat */
+    [[.55,railRed],[1.62,railBlue],[CAGE_H-.16,railRed]].forEach(h=>{
+      const rail=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,SIDE_W,10),h[1]);
+      rail.rotation.z=Math.PI/2;rail.rotation.y=-midA+Math.PI/2;
+      rail.position.set(mx,h[0],mz);G.add(rail)});
+  }
+
+  /* soft floor glow */
+  const glow=new THREE.Mesh(new THREE.CircleGeometry(RAD+3.4,64),
+    new THREE.MeshBasicMaterial({color:B,transparent:true,opacity:.05}));
+  glow.rotation.x=-Math.PI/2;glow.position.y=-.84;G.add(glow);
+
+  /* ---- lights ---- */
+  sc.add(new THREE.AmbientLight(0xffffff,.9));
+  const k=new THREE.DirectionalLight(0xffffff,1.25);k.position.set(6,12,8);sc.add(k);
+  const fl=new THREE.DirectionalLight(0xD9E4FD,.75);fl.position.set(-8,6,-5);sc.add(fl);
+  const pR=new THREE.PointLight(R,.85,20);pR.position.set(-5,4,4);sc.add(pR);
+  const pB=new THREE.PointLight(B,.9,20);pB.position.set(5,4,-4);sc.add(pB);
+
+  /* ---- continuous 360° spin + drag ---- */
+  const IDLE=0.0042;
+  let vy=IDLE,cy=0,ty=0,dg=false,px=0,cx=-.03,tx=-.03;
   c.addEventListener('pointerdown',e=>{dg=true;px=e.clientX;c.setPointerCapture(e.pointerId)});
-  c.addEventListener('pointermove',e=>{if(!dg)return;const d=(e.clientX-px)/innerWidth;px=e.clientX;ty+=d*4.2;vy=d*.6});
+  c.addEventListener('pointermove',e=>{if(!dg)return;const d=(e.clientX-px)/innerWidth;px=e.clientX;ty+=d*4.6;vy=d*.62});
   ['pointerup','pointercancel','pointerleave'].forEach(ev=>c.addEventListener(ev,()=>dg=false));
-  if(HOV)addEventListener('mousemove',e=>{if(dg)return;tx=-.02+((e.clientY/innerHeight)-.5)*.18});
+  if(HOV)addEventListener('mousemove',e=>{if(dg)return;tx=-.03+((e.clientY/innerHeight)-.5)*.16});
   let raf=null,vis=true;
   function loop(){raf=requestAnimationFrame(loop);if(!vis)return;
-    if(!dg){ty+=vy;vy+=(.0032-vy)*.03}
-    cy+=(ty-cy)*.075;cx+=(tx-cx)*.05;G.rotation.y=cy;G.rotation.x=cx;
-    const t=performance.now()*.001;G.position.y=Math.sin(t*.62)*.09;
-    pR.position.x=Math.sin(t*.5)*4.6;pB.position.x=Math.cos(t*.5)*4.6;
+    if(!dg){ty+=vy;vy+=(IDLE-vy)*.03}          /* always drifts back to a full 360 rotation */
+    cy+=(ty-cy)*.08;cx+=(tx-cx)*.05;
+    G.rotation.y=cy;G.rotation.x=cx;
+    const t=performance.now()*.001;G.position.y=Math.sin(t*.6)*.08;
+    pR.position.x=Math.sin(t*.5)*5.2;pB.position.x=Math.cos(t*.5)*5.2;
     r.render(sc,cam)}
   addEventListener('resize',()=>{r.setSize(innerWidth,innerHeight,false);
     cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()});
