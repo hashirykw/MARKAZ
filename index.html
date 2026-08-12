@@ -129,25 +129,45 @@ section{padding:62px 0;position:relative}
 /* ============================================================
    BUTTONS + LINKS
    ============================================================ */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:var(--hd);font-weight:600;
-  font-size:13.5px;letter-spacing:.09em;text-transform:uppercase;padding:12px 20px;border-radius:99px;
-  border:2px solid transparent;transition:transform .22s var(--ez),box-shadow .22s var(--ez),background .2s,color .2s;
-  white-space:nowrap;line-height:1}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--hd);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 24px;border-radius:12px;border:0;white-space:nowrap;line-height:1;cursor:pointer;
+  isolation:isolate;overflow:hidden;-webkit-tap-highlight-color:transparent;
+  transition:transform .18s var(--ez),box-shadow .24s var(--ez),filter .2s var(--ez)}
+.btn>*{position:relative;z-index:2}
+/* soft inner top-light for a moulded edge */
+.btn::before{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 46%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34),inset 0 -2px 0 rgba(0,0,0,.14)}
+.btn:active{transform:translateY(1px) scale(.985)}
+.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.btn-r{background:var(--red);color:#fff}
-.btn-r:active,.btn-r:hover{background:var(--red-dk);transform:translateY(-2px);box-shadow:var(--sr)}
-.btn-b{background:var(--blue);color:#fff}
-.btn-b:active,.btn-b:hover{background:var(--blue-dk);transform:translateY(-2px);box-shadow:var(--sb)}
-.btn-o{border-color:var(--blue);color:var(--blue);background:var(--w)}
-.btn-o:hover{background:var(--blue);color:#fff;transform:translateY(-2px)}
-.btn-w{background:#fff;color:var(--blue)}
-.btn-w:hover{transform:translateY(-2px);box-shadow:var(--s3)}
-.btn-g{border-color:rgba(255,255,255,.6);color:#fff}
-.btn-g:hover{background:#fff;color:var(--blue);border-color:#fff}
-.btn-gold{background:var(--gold-g);color:#38290A}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(212,160,23,.35)}
-.btn-sm{padding:9px 15px;font-size:12px}
+.btn-r{background:linear-gradient(178deg,#EE2A32,var(--red) 52%,#B60F16);color:#fff;
+  box-shadow:0 1px 2px rgba(140,10,16,.4),0 6px 16px -4px rgba(216,18,26,.5)}
+.btn-r:hover{transform:translateY(-3px);filter:brightness(1.06);
+  box-shadow:0 2px 4px rgba(140,10,16,.4),0 16px 30px -8px rgba(216,18,26,.6)}
+.btn-b{background:linear-gradient(178deg,#2A5AE0,var(--blue) 52%,#0A2A8C);color:#fff;
+  box-shadow:0 1px 2px rgba(8,32,110,.4),0 6px 16px -4px rgba(18,64,200,.5)}
+.btn-b:hover{transform:translateY(-3px);filter:brightness(1.08);
+  box-shadow:0 2px 4px rgba(8,32,110,.4),0 16px 30px -8px rgba(18,64,200,.6)}
+.btn-o{background:var(--w);color:var(--blue);box-shadow:inset 0 0 0 2px var(--blue-t),0 2px 8px rgba(18,64,200,.1)}
+.btn-o::before{background:linear-gradient(180deg,rgba(18,64,200,.05),transparent 60%);box-shadow:none}
+.btn-o:hover{color:#fff;transform:translateY(-3px);background:linear-gradient(178deg,#2A5AE0,var(--blue) 52%,#0A2A8C);
+  box-shadow:0 2px 4px rgba(8,32,110,.35),0 14px 28px -8px rgba(18,64,200,.5)}
+.btn-w{background:linear-gradient(178deg,#fff,#EEF3FE);color:var(--blue);
+  box-shadow:0 1px 2px rgba(10,30,80,.16),0 8px 20px -6px rgba(10,30,80,.28)}
+.btn-w::before{box-shadow:inset 0 1px 0 #fff,inset 0 -2px 0 rgba(10,30,80,.08)}
+.btn-w:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(10,30,80,.2),0 18px 34px -8px rgba(10,30,80,.36)}
+.btn-g{color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+.btn-g::before{background:linear-gradient(180deg,rgba(255,255,255,.14),transparent 60%);box-shadow:none}
+.btn-g:hover{background:#fff;color:var(--blue);transform:translateY(-3px);box-shadow:inset 0 0 0 2px #fff,0 14px 28px -8px rgba(0,0,0,.3)}
+.btn-gold{background:linear-gradient(178deg,#F5D46B,#D4A017 54%,#93590A);color:#3A2A05;
+  box-shadow:0 1px 2px rgba(90,60,4,.4),0 6px 16px -4px rgba(212,160,23,.55)}
+.btn-gold:hover{transform:translateY(-3px);filter:brightness(1.06);
+  box-shadow:0 2px 4px rgba(90,60,4,.4),0 16px 30px -8px rgba(212,160,23,.6)}
+.btn-sm{padding:10px 16px;font-size:12.5px;border-radius:10px;gap:7px}
 .btn-full{width:100%}
+.btn-lg{padding:17px 30px;font-size:15.5px;border-radius:14px}
 
 .tl{display:inline-flex;align-items:center;gap:6px;font-family:var(--hd);font-weight:600;font-size:13px;
   letter-spacing:.09em;text-transform:uppercase;color:var(--blue);padding-bottom:2px;
@@ -190,21 +210,31 @@ section{padding:62px 0;position:relative}
 .util .lv i{width:6px;height:6px;border-radius:50%;background:#7DE8A4;animation:pl 2s infinite}
 @keyframes pl{0%{box-shadow:0 0 0 0 rgba(125,232,164,.7)}70%{box-shadow:0 0 0 7px rgba(125,232,164,0)}100%{box-shadow:0 0 0 0 rgba(125,232,164,0)}}
 header{position:fixed;top:calc(3px + var(--util));left:0;width:100%;z-index:1050;height:var(--nav);
-  background:rgba(255,255,255,.93);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--line);
-  transition:transform .4s var(--ez),box-shadow .3s}
+  background:rgba(255,255,255,.86);backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);
+  border-bottom:1px solid rgba(18,64,200,.1);
+  transition:transform .4s var(--ez),box-shadow .3s,background .3s}
+header::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--red) 55%,transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ez)}
+body.scr header::after{transform:scaleX(1)}
+body.scr header{background:rgba(255,255,255,.97);box-shadow:0 4px 20px -6px rgba(11,21,51,.14)}
 header.hide{transform:translateY(calc(-100% - var(--util) - 4px))}
-body.scr header{box-shadow:var(--s1);background:rgba(255,255,255,.98)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;height:100%;max-width:1200px;margin:0 auto;padding:0 16px}
 .brand{display:flex;align-items:center;gap:8px;min-width:0}
 .brand img{width:34px;flex-shrink:0;transition:transform .4s var(--ez)}
 .brand:hover img{transform:rotate(-9deg) scale(1.08)}
 .brand .bt{font-family:var(--hd);font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.02;text-transform:uppercase;white-space:nowrap}
 .brand .bs{display:block;font-family:var(--bd);font-size:7.5px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin-top:1px}
-.tabs{display:none;gap:2px;background:var(--mist);padding:4px;border-radius:99px;border:1px solid var(--line)}
-.tabs button{padding:8px 14px;border-radius:99px;font-family:var(--hd);font-size:13px;font-weight:600;
+.tabs{display:none;gap:2px;background:var(--mist);padding:4px;border-radius:99px;
+  border:1px solid var(--line);position:relative;box-shadow:inset 0 1px 3px rgba(11,21,51,.06)}
+.tabs .ind{position:absolute;top:4px;left:0;height:calc(100% - 8px);border-radius:99px;z-index:0;
+  background:linear-gradient(178deg,#2A5AE0,var(--blue) 52%,#0A2A8C);
+  box-shadow:0 2px 8px -2px rgba(18,64,200,.6);
+  transition:transform .42s var(--ez),width .42s var(--ez);pointer-events:none}
+.tabs button{position:relative;z-index:1;padding:9px 15px;border-radius:99px;font-family:var(--hd);font-size:13.5px;font-weight:700;
   letter-spacing:.07em;text-transform:uppercase;color:var(--mut);transition:all .3s var(--ez);white-space:nowrap}
-.tabs button:hover{color:var(--blue);background:var(--w)}
-.tabs button.on{background:var(--blue);color:#fff;box-shadow:var(--sb)}
+.tabs button:hover{color:var(--blue)}
+.tabs button.on{color:#fff}
 .nav-r{display:flex;align-items:center;gap:8px}
 body.menu-open .nav-r .btn{opacity:0;pointer-events:none;transform:scale(.9)}
 .nav-r .btn{transition:opacity .25s var(--ez),transform .25s var(--ez),background .2s,box-shadow .22s}
@@ -805,12 +835,16 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
    ============================================================ */
 .cartb{position:relative;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;
   border-radius:50%;border:1.5px solid var(--line);color:var(--ink);transition:all .25s var(--ez);flex-shrink:0}
-.cartb:hover{border-color:var(--blue);color:var(--blue)}
+.cartb:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);
+  box-shadow:0 6px 14px -4px rgba(18,64,200,.4)}
+.cartb{transition:all .22s var(--ez)}
+.cartb:active{transform:translateY(0) scale(.94)}
 .cartb svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .cartn{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;padding:0 4px;border-radius:99px;
   background:var(--red);color:#fff;font-family:var(--hd);font-size:9.5px;font-weight:700;display:none;
   align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2px #fff}
-.cartn.on{display:flex}
+.cartn.on{display:flex;animation:cartPop .35s var(--ez)}
+@keyframes cartPop{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
 .ci{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
 .ci img{width:56px;height:56px;border-radius:var(--r-s);object-fit:cover;flex-shrink:0;background:var(--mist)}
 .ci-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
@@ -886,8 +920,8 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
    HOVER LAYER
    ============================================================ */
 /* button shine sweep */
-.btn{overflow:hidden;isolation:isolate}
-.btn::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;z-index:-1;
+
+.btn::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;z-index:1;
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.42),transparent);
   transform:skewX(-18deg);transition:left .6s var(--ez)}
 .btn:hover::after{left:130%}
@@ -1059,6 +1093,55 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
   .nav-r .btn{display:none}
 }
 
+/* coach stat row */
+.coach-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px;max-width:540px}
+.coach-stats div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--r-s);padding:12px 13px;transition:all .35s var(--ez)}
+.coach-stats div:hover{background:rgba(255,255,255,.18);transform:translateY(-3px)}
+.coach-stats b{display:block;font-family:var(--dsp);font-size:26px;color:#fff;line-height:1}
+.coach-stats span{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:#FFC9CB;font-weight:600;font-family:var(--hd)}
+@media(min-width:560px){.coach-stats{grid-template-columns:repeat(4,1fr)}}
+
+/* coach journey timeline */
+.tline{position:relative;padding-left:30px;margin-top:6px}
+.tline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;border-radius:2px;
+  background:linear-gradient(180deg,var(--blue),var(--red))}
+.tl-i{position:relative;padding-bottom:24px}
+.tl-i:last-child{padding-bottom:0}
+.tl-i::before{content:"";position:absolute;left:-26px;top:4px;width:12px;height:12px;border-radius:50%;
+  background:var(--w);border:3px solid var(--blue);transition:all .3s var(--ez)}
+.tl-i:nth-child(even)::before{border-color:var(--red)}
+.tl-i:hover::before{transform:scale(1.3)}
+.tl-i .yr{font-family:var(--hd);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--red);font-weight:700;margin-bottom:3px}
+.tl-i h4{font-size:17px;margin-bottom:5px}
+.tl-i p{font-size:13px;color:var(--mut);line-height:1.6}
+
+/* pull quote */
+.pquote{position:relative;background:linear-gradient(160deg,var(--blue-w),var(--w));
+  border-left:5px solid var(--red);border-radius:0 var(--r) var(--r) 0;padding:26px 24px 24px;margin-top:8px}
+.pquote::before{content:"\201C";position:absolute;top:-6px;right:16px;font-family:var(--dsp);
+  font-size:80px;color:var(--blue-t);line-height:1}
+.pquote p{position:relative;font-size:16px;font-style:italic;color:var(--ink);line-height:1.6;margin-bottom:12px}
+.pquote cite{font-style:normal;font-family:var(--hd);font-size:12px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--mut);font-weight:600}
+
+/* delivery note inside checkout */
+.ship-note{display:flex;align-items:center;gap:10px;background:var(--blue-w);border:1px solid var(--blue-t);
+  border-radius:var(--r-s);padding:11px 13px;margin-bottom:12px;font-size:12.5px;color:var(--ink);line-height:1.45}
+.ship-note svg{width:20px;height:20px;flex-shrink:0;fill:none;stroke:var(--blue);stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.ship-note b{color:var(--blue)}
+
+/* site-wide delivery strip */
+.delbar{background:var(--ink);color:#fff;border-radius:var(--r);padding:16px 18px;display:grid;gap:12px}
+.delbar .dl{display:flex;align-items:flex-start;gap:11px}
+.delbar .dl svg{width:20px;height:20px;flex-shrink:0;margin-top:1px;fill:none;stroke:#FFC9CB;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.delbar .dl b{display:block;font-family:var(--hd);font-size:14px;text-transform:uppercase;color:#fff;letter-spacing:.03em}
+.delbar .dl span{font-size:12px;color:rgba(255,255,255,.72);line-height:1.5}
+@media(min-width:760px){.delbar{grid-template-columns:repeat(3,1fr);gap:20px;padding:20px 24px}}
+
 /* FX */
 [data-rv]{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ez),transform .7s var(--ez);
   transition-delay:calc(var(--i,0)*60ms)}
@@ -1208,6 +1291,7 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
       <span class="bt">Markaz<span class="bs">Way of Honor</span></span>
     </a>
     <nav class="tabs">
+      <span class="ind" id="tabInd"></span>
       <button class="on" data-p="home">Home</button>
       <button data-p="store">Store</button>
       <button data-p="coach">Coach &amp; OUJ</button>
@@ -1674,7 +1758,21 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
       <div class="pgd" id="pgrid"></div>
       <p style="margin-top:20px;font-size:12px;color:var(--mut)">Collect in person at the academy, or message us to reserve your size. Unsure what you need for your batch? <a class="il" href="#/home#contact">Ask us first</a> — the coaches will tell you.</p>
     </div>
-  </section>
+  
+      <div class="delbar" data-rv style="margin-top:22px">
+        <div class="dl">
+          <svg viewBox="0 0 24 24"><path d="M1 3h13v13H1zM14 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+          <div><b>Delivery across Pakistan</b><span>Karachi Rs 200 · other cities Rs 300–400. Free delivery on orders over Rs 15,000.</span></div>
+        </div>
+        <div class="dl">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div><b>1–5 working days</b><span>Karachi in 1–2 days. Dispatch confirmed on WhatsApp with a tracking number.</span></div>
+        </div>
+        <div class="dl">
+          <svg viewBox="0 0 24 24"><path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.3"/></svg>
+          <div><b>Or collect free</b><span>Pick up at Markaz-e-Khail-o-Saqafat, Ziauddin Road, Federal B Area, Block 10, Gulberg Town, Karachi.</span></div>
+        </div>
+      </div></section>
   <section class="bg-mist cut-t">
     <div class="wrap">
       <div class="sh" data-rv><div class="eyb b">Keep exploring</div><h2>Where to <em>go next</em></h2></div>
@@ -1704,7 +1802,14 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
         <div>
           <div class="ch-tags"><span>Founder</span><span>Head Coach</span><span>WTF Certified</span><span>4th Dan</span></div>
           <h1 class="dsp" style="font-size:clamp(30px,9vw,58px);color:#fff;margin-bottom:14px">AbdulSamad Khan</h1>
-          <p style="max-width:520px;margin-bottom:20px;font-size:14px">Head Coach at Markaz and the person behind its grading standards. Students train under a coach who has competed, not just certified — and who still corrects technique on the floor every session.</p>
+          <p style="max-width:540px;margin-bottom:16px;font-size:14.5px">Founder and Head Coach at Markaz, and the person behind its grading standards. Students train under a coach who has competed, not just certified — and who still walks the floor correcting technique in every single session, from the five-year-olds' first stance to the Fighters Squad's last round.</p>
+          <p style="max-width:540px;margin-bottom:22px;font-size:14.5px">He opened Markaz-e-Khail-o-Saqafat with one rule that has never moved: nobody is graded on attendance. If the belt goes around your waist, you earned it in front of him.</p>
+          <div class="coach-stats">
+            <div><b data-c="20" data-x="+">0</b><span>Years in Taekwondo</span></div>
+            <div><b data-c="12">0</b><span>Years coaching</span></div>
+            <div><b data-c="500" data-x="+">0</b><span>Students graded</span></div>
+            <div><b>4th</b><span>Dan black belt</span></div>
+          </div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
             <a class="btn btn-w" href="https://wa.me/923002672558?text=I%20want%20to%20train%20with%20Coach%20AbdulSamad.">Train with coach</a>
             <a class="tl w" href="#ouj-full">Jump to OUJ <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -1725,9 +1830,48 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
     </div>
   </section>
 
+  <section class="bg-blue">
+    <div class="wrap">
+      <div class="sh" data-rv><div class="eyb b">His journey</div><h2>Two decades on the <em class="r">same mat</em></h2>
+        <p>From a student in a borrowed dobok to the examiner who signs the gradings.</p></div>
+      <div class="story" style="align-items:start">
+        <div class="tline" data-rv>
+          <div class="tl-i"><div class="yr">The beginning</div><h4>Started as a student</h4>
+            <p>Walked into a Taekwondo hall in Karachi as a teenager with no background in sport, and never really left the mat again.</p></div>
+          <div class="tl-i"><div class="yr">Competing years</div><h4>National circuit</h4>
+            <p>Competed through the provincial and national Taekwondo circuit, learning the difference between technique that scores and technique that only looks good in a form.</p></div>
+          <div class="tl-i"><div class="yr">Black belt</div><h4>Graded to 4th Dan</h4>
+            <p>Progressed through the full WTF grading pathway to 4th Dan, and later qualified as a grading examiner — the reason Markaz belts are issued in-house to federation standard.</p></div>
+          <div class="tl-i"><div class="yr">Crossing over</div><h4>Kickboxing, grappling &amp; MMA</h4>
+            <p>Added striking and ground work so students leaving Taekwondo for MMA would not have to leave the academy to do it.</p></div>
+          <div class="tl-i"><div class="yr">Today</div><h4>Founded Markaz</h4>
+            <p>Opened Markaz-e-Khail-o-Saqafat in Gulberg Town, added the girls batch and the Fighters Squad, and still coaches every batch personally.</p></div>
+        </div>
+        <div data-rv style="--i:1">
+          <div class="pquote">
+            <p>A belt is not a reward for showing up. It is a record of what you can do on the day someone tests you — and I am the one who has to be able to defend it.</p>
+            <cite>AbdulSamad Khan · Founder &amp; Head Coach</cite>
+          </div>
+          <div class="sh" style="margin-top:34px;margin-bottom:16px"><div class="eyb">Coaching focus</div>
+            <h2 style="font-size:clamp(22px,5vw,32px);margin-top:9px">What he works on with you</h2></div>
+          <div class="ouj-pts" style="margin:0">
+            <div><i style="background:linear-gradient(178deg,#2A5AE0,#1240C8)"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></i><span><strong style="color:var(--ink)">Stance and base</strong> — before anything else, because every kick and every takedown defence is built on it</span></div>
+            <div><i style="background:linear-gradient(178deg,#EE2A32,#D8121A)"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></i><span><strong style="color:var(--ink)">Distance and timing</strong> — the two things that separate a student who spars from one who just drills</span></div>
+            <div><i style="background:linear-gradient(178deg,#2A5AE0,#1240C8)"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></i><span><strong style="color:var(--ink)">Composure under pressure</strong> — controlled rounds where the intensity rises only as fast as your control does</span></div>
+            <div><i style="background:linear-gradient(178deg,#EE2A32,#D8121A)"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></i><span><strong style="color:var(--ink)">Conduct off the mat</strong> — the "Way of Honor" in the crest is a grading criterion, not a slogan</span></div>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+            <a class="btn btn-b" href="https://wa.me/923002672558?text=I%20want%20to%20book%20a%20session%20with%20Coach%20AbdulSamad.">Book a session with him</a>
+            <a class="tl r" href="#/home#schedule">See his batches <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="bg-mist cut">
     <div class="wrap">
-      <div class="sh" data-rv><div class="eyb b">Credentials</div><h2>Certifications &amp; <em>recognitions</em></h2></div>
+            <div class="sh" data-rv><div class="eyb b">Credentials</div><h2>Certifications &amp; <em>recognitions</em></h2></div>
       <div class="pills" data-rv>
         <span class="pill"><i></i>WTF Certified</span><span class="pill"><i></i>Black Belt · 4th Dan</span>
         <span class="pill"><i></i>National Competition Coach</span><span class="pill"><i></i>Youth Safeguarding</span>
@@ -1979,6 +2123,10 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
       </div>
     </div>
     <div class="fbot">
+      <span style="display:block;width:100%;margin-bottom:6px;color:rgba(255,255,255,.78)">
+        <strong style="color:#fff">Store deliveries</strong> — Markaz-e-Khail-o-Saqafat, Ziauddin Road, Federal B Area,
+        Block 10, Gulberg Town, Karachi 75950 · nationwide shipping 1–5 working days · free over Rs 15,000
+      </span>
       <span>© 2026 Markaz Martial Arts Academy · Gulberg Town, Karachi · OUJ Performance is a Markaz brand</span>
       <div class="fbelt"><i style="background:#fff"></i><i style="background:#F4C430"></i><i style="background:#2E9E52"></i><i style="background:#4B76EC"></i><i style="background:#D8121A"></i><i style="background:#0B1533"></i></div>
     </div>
@@ -2053,6 +2201,21 @@ footer li a:hover{color:#FFC9CB;transform:translateX(4px)}
       <h3 style="margin-bottom:12px">Checkout</h3>
       <div class="fld" style="margin-bottom:11px"><label>Your name</label><input id="coN" type="text" placeholder="Full name"></div>
       <div class="fld" style="margin-bottom:11px"><label>Phone</label><input id="coP" type="tel" placeholder="03xx xxxxxxx"></div>
+      <div class="fld" style="margin-bottom:11px"><label>Delivery address</label>
+        <textarea id="coAddr" placeholder="House / flat no., street, block, area" style="min-height:66px"></textarea></div>
+      <div class="fr" style="grid-template-columns:1.4fr 1fr;gap:11px;margin-bottom:11px">
+        <div class="fld"><label>City</label>
+          <select id="coCity">
+            <option>Karachi</option><option>Hyderabad</option><option>Lahore</option>
+            <option>Islamabad / Rawalpindi</option><option>Faisalabad</option><option>Multan</option>
+            <option>Peshawar</option><option>Quetta</option><option>Other city</option>
+          </select></div>
+        <div class="fld"><label>Nearest landmark</label><input id="coLmk" type="text" placeholder="Optional"></div>
+      </div>
+      <div class="ship-note" id="shipNote">
+        <svg viewBox="0 0 24 24"><path d="M1 3h13v13H1zM14 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+        <span id="shipTxt">Karachi delivery <b>Rs 200</b> · 1–2 working days</span>
+      </div>
       <div class="fld" style="margin-bottom:11px">
         <label>Payment method</label>
         <div class="pay-opts">
@@ -2244,12 +2407,23 @@ function parseHash(){const raw=location.hash.replace(/^#/,'');
   if(raw.startsWith('/')){const p=raw.slice(1).split('#');return{page:PAGES.includes(p[0])?p[0]:'home',sec:p[1]||null}}
   return{page:null,sec:raw}}
 let cur='home';
+function moveTabInd(n){
+  const ind=document.getElementById('tabInd');if(!ind)return;
+  const b=document.querySelector('.tabs button[data-p="'+n+'"]');if(!b)return;
+  if(getComputedStyle(b.parentElement).display==='none')return;
+  ind.style.width=b.offsetWidth+'px';
+  ind.style.transform='translateX('+b.offsetLeft+'px)';
+}
+addEventListener('resize',()=>moveTabInd(cur));
+addEventListener('load',()=>setTimeout(()=>moveTabInd(cur),60));
+
 function showPage(n){
   if(!PAGES.includes(n))n='home';
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
   const e=document.getElementById('p-'+n);if(e)e.classList.add('on');
   document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.p===n));
   document.querySelectorAll('#mobar a[data-mp]').forEach(a=>a.classList.toggle('on',a.dataset.mp===n));
+  moveTabInd(n);
   const sn=document.getElementById('subnav');
   if(sn)sn.classList.toggle('show',n==='home');
   cur=n;setTimeout(bindRv,50);
@@ -4051,7 +4225,8 @@ function closeCart(){document.getElementById('cartMo').classList.remove('on');sC
 function showCheckout(){if(!CART.length)return;
   document.getElementById('coTotal').textContent=fmtRs(cartTotal());
   document.getElementById('cartView').style.display='none';
-  document.getElementById('checkoutView').style.display='';sClk()}
+  document.getElementById('checkoutView').style.display='';sClk();updateShipNote();
+}
 function backToCart(){document.getElementById('checkoutView').style.display='none';
   document.getElementById('cartView').style.display='';renderCart();sClk()}
 
@@ -4120,10 +4295,29 @@ function bindSSInput(inputId,prevId,lblId){
 bindSSInput('coSS','ssPreview','ssLabel');
 bindSSInput('coSSW','ssPreviewW','ssLabelW');
 
+/* delivery zones — fee + ETA by city */
+const SHIP={'Karachi':[200,'1–2 working days'],'Hyderabad':[300,'2–3 working days'],
+ 'Lahore':[350,'3–4 working days'],'Islamabad / Rawalpindi':[350,'3–4 working days'],
+ 'Faisalabad':[350,'3–4 working days'],'Multan':[350,'3–4 working days'],
+ 'Peshawar':[400,'4–5 working days'],'Quetta':[400,'4–5 working days'],'Other city':[400,'4–6 working days']};
+function shipFor(){const c=(document.getElementById('coCity')||{}).value||'Karachi';return SHIP[c]||SHIP['Other city']}
+function updateShipNote(){
+  const t=document.getElementById('shipTxt');if(!t)return;
+  const c=(document.getElementById('coCity')||{}).value||'Karachi',s2=shipFor();
+  t.innerHTML=c+' delivery <b>'+fmtRs(s2[0])+'</b> · '+s2[1]+(cartTotal()>=15000?' · <b>free over Rs 15,000</b>':'');
+}
+(function(){const c=document.getElementById('coCity');if(c)c.addEventListener('change',()=>{updateShipNote();sClk()})})();
+
 function sendOrder(){
   const n=document.getElementById('coN').value.trim(),p=document.getElementById('coP').value.trim();
   const m=document.getElementById('coM').value.trim();
+  const ad=(document.getElementById('coAddr')||{value:''}).value.trim();
+  const ct=(document.getElementById('coCity')||{value:'Karachi'}).value;
+  const lm=(document.getElementById('coLmk')||{value:''}).value.trim();
   if(!n||!p){toast('Add your name and phone');sClk();return}
+  if(!ad){toast('Add your delivery address');sClk();
+    const a=document.getElementById('coAddr');if(a){a.focus();a.style.borderColor='var(--red)';
+    setTimeout(()=>a.style.borderColor='',1800)}return}
   if(!CART.length){toast('Your cart is empty');sClk();return}
   if(WALLETS[PAYMENT]&&WALLETS[PAYMENT].needsSS&&!SS_FILE){toast('Upload your payment screenshot first');sClk();return}
   const lines=CART.map(c=>'• '+P[c.i].n+' × '+c.q+' — '+P[c.i].p).join('\n');
@@ -4131,8 +4325,14 @@ function sendOrder(){
   if(PAYMENT==='online')payLine='Payment: Bank transfer (Meezan Bank — screenshot attached in this chat)';
   else if(PAYMENT==='jazzcash')payLine='Payment: JazzCash (screenshot attached in this chat)';
   else if(PAYMENT==='easypaisa')payLine='Payment: Easypaisa (screenshot attached in this chat)';
+  const sh=shipFor(), free=cartTotal()>=15000, fee=free?0:sh[0];
   const t=encodeURIComponent('Assalam o Alaikum, I would like to order from the Markaz Store.\n\n'+lines+
-    '\n\nTotal: '+fmtRs(cartTotal())+'\n\nName: '+n+'\nPhone: '+p+'\n'+payLine+(m?'\nNotes: '+m:''));
+    '\n\nSubtotal: '+fmtRs(cartTotal())+
+    '\nDelivery ('+ct+'): '+(free?'FREE':fmtRs(fee))+
+    '\nTotal: '+fmtRs(cartTotal()+fee)+
+    '\n\nName: '+n+'\nPhone: '+p+
+    '\nDeliver to: '+ad+(lm?'\nLandmark: '+lm:'')+'\nCity: '+ct+
+    '\nETA: '+sh[1]+'\n'+payLine+(m?'\nNotes: '+m:''));
   sBell();open('https://wa.me/923002672558?text='+t,'_blank');
   if(WALLETS[PAYMENT]&&WALLETS[PAYMENT].needsSS)setTimeout(function(){toast('Now attach your screenshot in the WhatsApp chat')},900);
   CART=[];saveCart();updateCartBadge();resetPayment();closeCart()}
@@ -4281,7 +4481,7 @@ function build(THREE, OrbitControls){
   mat.rotation.x=-Math.PI/2; mat.position.y=-H/2+.01; cage.add(mat);
   const ring=new THREE.Mesh(new THREE.RingGeometry(R*.42,R*.46,S),
     new THREE.MeshBasicMaterial({color:0xE01B24,side:THREE.DoubleSide,transparent:true,opacity:.55}));
-  ring.rotation.x=-Math.PI/2+Math.PI; ring.position.y=-H/2+.02; cage.add(ring);  /* flipped 180° top-to-bottom */
+  ring.rotation.x=-Math.PI/2; ring.position.y=-H/2+.02; cage.add(ring);
 
   /* embers */
   const N=small?420:1100, pos=new Float32Array(N*3), spd=new Float32Array(N);
@@ -4304,32 +4504,19 @@ function build(THREE, OrbitControls){
     controls=new OrbitControls(camera,canvas);
     controls.enableDamping=true; controls.dampingFactor=.06;
     controls.enableZoom=false; controls.enablePan=false;
-    controls.autoRotate=true; controls.autoRotateSpeed=1.1;
+    controls.autoRotate=true; controls.autoRotateSpeed=.55;
     controls.minPolarAngle=Math.PI*.28; controls.maxPolarAngle=Math.PI*.62;
-    controls.update();
   }
+  /* Markaz sound hooks — unlock audio + bell hit on tap */
+  canvas.addEventListener('pointerdown',()=>{
+    if(window.ac)window.ac();
+    if(window.sHit)window.sHit();
+  });
+
   canvas.addEventListener('pointermove',e=>{
     const r=canvas.getBoundingClientRect();
     const x=((e.clientX-r.left)/r.width)*2-1, y=-((e.clientY-r.top)/r.height)*2+1;
     follow.position.set(x*5,y*3+1,4.2);
-  });
-
-  /* tap/click the cage — a little "hit the ring" easter egg: sound + camera punch + spark flash */
-  let punching=false;
-  canvas.addEventListener('pointerdown',()=>{
-    if(punching||reducedM)return; punching=true;
-    if(window.ac)window.ac();
-    if(window.sHit)window.sHit();
-    rim.intensity=60;
-    const baseZ=camera.position.z, baseFov=camera.fov;
-    let t0=performance.now();
-    (function shake(now){
-      const p=Math.min((now-t0)/260,1), e=Math.sin(p*Math.PI)*(1-p);
-      camera.position.z=baseZ-e*.35; camera.fov=baseFov+e*3; camera.updateProjectionMatrix();
-      rim.intensity=26+e*70;
-      if(p<1)requestAnimationFrame(shake);
-      else{camera.position.z=baseZ;camera.fov=baseFov;camera.updateProjectionMatrix();rim.intensity=26;punching=false}
-    })(t0);
   });
 
   function resize(){
@@ -4354,7 +4541,7 @@ function build(THREE, OrbitControls){
 
   const p=eg.attributes.position;
   function loop(){
-    if(!controls) cage.rotation.y+=.005;
+    if(!controls) cage.rotation.y+=.0016;
     for(let i=0;i<N;i++){ let y=p.getY(i)+spd[i]; if(y>5.4) y=-5.4; p.setY(i,y); }
     p.needsUpdate=true;
     embers.rotation.y+=.0004;
@@ -4363,121 +4550,6 @@ function build(THREE, OrbitControls){
   }
   renderer.setAnimationLoop(loop);
 }
-</script>
-
-<!-- ═══════ THREE.JS — small decorative 3D icons (store glove, coach belt) ═══════ -->
-<script type="module">
-const reducedM2 = matchMedia('(prefers-reduced-motion: reduce)').matches;
-function spinIcon3D(canvasId, build){
-  const canvas = document.getElementById(canvasId);
-  if(!canvas || reducedM2) return;
-  const io = new IntersectionObserver(async es=>{
-    if(!es[0].isIntersecting) return; io.disconnect();
-    let THREE;
-    try{ THREE = await import('three'); }catch(err){ return; }
-    const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-    const scene=new THREE.Scene();
-    const camera=new THREE.PerspectiveCamera(40,1,.1,50);
-    camera.position.set(0,0,6);
-    const group=new THREE.Group(); scene.add(group);
-    build(THREE,group);
-    scene.add(new THREE.AmbientLight(0xffffff,.65));
-    const key=new THREE.DirectionalLight(0xffffff,1.4); key.position.set(3,4,5); scene.add(key);
-    const rim=new THREE.PointLight(0xE01B24,16,10); rim.position.set(-3,-1,3); scene.add(rim);
-    function resize(){
-      const w=canvas.clientWidth||150, h=canvas.clientHeight||150;
-      renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
-    }
-    addEventListener('resize',resize); resize();
-    let visible=true;
-    new IntersectionObserver(es2=>{ visible=es2[0].isIntersecting;
-      visible?renderer.setAnimationLoop(loop):renderer.setAnimationLoop(null); },{threshold:0})
-      .observe(canvas);
-    function loop(){
-      group.rotation.y+=.006; group.rotation.x=Math.sin(Date.now()*.0004)*.14;
-      renderer.render(scene,camera);
-    }
-    renderer.setAnimationLoop(loop);
-  },{threshold:.05});
-  io.observe(canvas);
-}
-
-/* store hero — floating boxing glove */
-spinIcon3D('glove3d',(THREE,g)=>{
-  const mitt=new THREE.Mesh(new THREE.SphereGeometry(1.05,24,18),
-    new THREE.MeshStandardMaterial({color:0xD8121A,roughness:.5,metalness:.15}));
-  mitt.scale.set(1,.92,1.08); g.add(mitt);
-  const cuff=new THREE.Mesh(new THREE.CylinderGeometry(.7,.88,1.05,20),
-    new THREE.MeshStandardMaterial({color:0x0B1533,roughness:.6}));
-  cuff.position.set(0,-1.1,0); g.add(cuff);
-  const strap=new THREE.Mesh(new THREE.TorusGeometry(.72,.09,10,24),
-    new THREE.MeshStandardMaterial({color:0xffffff,roughness:.45}));
-  strap.position.set(0,-.55,0); strap.rotation.x=Math.PI/2; g.add(strap);
-});
-
-/* achievements — floating gold trophy */
-spinIcon3D('trophy3d',(THREE,g)=>{
-  const gold=new THREE.MeshStandardMaterial({color:0xD4A017,metalness:.9,roughness:.25,
-    emissive:0x3a2600,emissiveIntensity:.3});
-  const cup=new THREE.Mesh(new THREE.SphereGeometry(.62,20,16,0,Math.PI*2,0,Math.PI*.62),gold);
-  cup.position.y=.55; cup.rotation.x=Math.PI; g.add(cup);
-  const neck=new THREE.Mesh(new THREE.CylinderGeometry(.16,.3,.5,16),gold);
-  neck.position.y=-.05; g.add(neck);
-  [-1,1].forEach(side=>{
-    const h=new THREE.Mesh(new THREE.TorusGeometry(.28,.055,8,16,Math.PI*1.3),gold);
-    h.position.set(side*.62,.42,0); h.rotation.z=side>0?Math.PI*.35:Math.PI*.65-Math.PI; g.add(h);
-  });
-  const base=new THREE.Mesh(new THREE.CylinderGeometry(.48,.55,.22,20),gold);
-  base.position.y=-.42; g.add(base);
-  const plinth=new THREE.Mesh(new THREE.BoxGeometry(.9,.24,.9),
-    new THREE.MeshStandardMaterial({color:0x1a1210,roughness:.7}));
-  plinth.position.y=-.66; g.add(plinth);
-});
-
-/* coach hero — floating championship belt */
-spinIcon3D('belt3d',(THREE,g)=>{
-  const strap=new THREE.Mesh(new THREE.TorusGeometry(1.25,.3,16,48,Math.PI*1.5),
-    new THREE.MeshStandardMaterial({color:0x1a1210,roughness:.75}));
-  strap.rotation.x=Math.PI/2; g.add(strap);
-  const plate=new THREE.Mesh(new THREE.BoxGeometry(1.5,1,.18),
-    new THREE.MeshStandardMaterial({color:0xD4A017,metalness:.85,roughness:.28,
-      emissive:0x4a3300,emissiveIntensity:.35}));
-  plate.position.set(0,0,.5); g.add(plate);
-  const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.22),
-    new THREE.MeshStandardMaterial({color:0xD8121A,metalness:.6,roughness:.2,
-      emissive:0x440000,emissiveIntensity:.45}));
-  gem.position.set(0,0,.62); g.add(gem);
-});
-
-/* coach book section — floating open book */
-spinIcon3D('book3d',(THREE,g)=>{
-  const mat=new THREE.MeshStandardMaterial({color:0xFAFBFD,roughness:.6});
-  const coverMat=new THREE.MeshStandardMaterial({color:0xD8121A,roughness:.45,metalness:.1});
-  const pageL=new THREE.Mesh(new THREE.BoxGeometry(1,.05,1.2),mat);
-  pageL.position.set(-.5,0,0); pageL.rotation.z=.12; g.add(pageL);
-  const pageR=new THREE.Mesh(new THREE.BoxGeometry(1,.05,1.2),mat);
-  pageR.position.set(.5,0,0); pageR.rotation.z=-.12; g.add(pageR);
-  const spine=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,1.2,10),coverMat);
-  spine.rotation.z=Math.PI/2; g.add(spine);
-});
-
-/* members hero — floating gold medal on ribbon */
-spinIcon3D('medal3d',(THREE,g)=>{
-  const gold=new THREE.MeshStandardMaterial({color:0xD4A017,metalness:.85,roughness:.25,
-    emissive:0x3a2600,emissiveIntensity:.3});
-  const disc=new THREE.Mesh(new THREE.CylinderGeometry(.72,.72,.14,28),gold);
-  disc.rotation.x=Math.PI/2; g.add(disc);
-  const star=new THREE.Mesh(new THREE.OctahedronGeometry(.28),
-    new THREE.MeshStandardMaterial({color:0xD8121A,metalness:.5,roughness:.2,
-      emissive:0x440000,emissiveIntensity:.4}));
-  star.position.z=.09; g.add(star);
-  [-.22,.22].forEach(x=>{
-    const rib=new THREE.Mesh(new THREE.BoxGeometry(.24,.02,.9),
-      new THREE.MeshStandardMaterial({color:0x1240C8,roughness:.55}));
-    rib.position.set(x,.55,-.05); rib.rotation.x=-.25; g.add(rib);
-  });
-});
 </script>
 </body>
 </html>
