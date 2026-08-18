@@ -1903,6 +1903,105 @@ header .brand::before,header .brand::after{content:none !important;display:none 
   opacity:.78;
 }
 
+
+/* ================= MASCOT RIG — your artwork, cut and articulated ================= */
+.mk-rig{
+  transition:transform .72s cubic-bezier(.22,.92,.28,1);
+  position:relative;z-index:2;width:100%;height:100%;
+  aspect-ratio:374/456;max-height:100%;margin-inline:auto;
+  filter:drop-shadow(0 24px 32px rgba(11,21,51,.20));
+}
+.mk-p{
+  position:absolute;object-fit:contain;
+  transition:transform .72s cubic-bezier(.22,.92,.28,1);
+  will-change:transform;
+}
+.mk-img{display:none}
+
+/* joints lead and follow, so the movement uncoils instead of snapping */
+#mkTorso{transition-delay:0ms}
+#mkLegR ,#mkLegL{transition-delay:40ms}
+#mkArmR ,#mkArmL{transition-delay:70ms}
+#mkHead {transition-delay:100ms}
+.mk-rig{transition-delay:0ms}
+/* the seams sit under the torso, so nothing can look detached */
+#mkTorso{z-index:3}
+#mkArmL,#mkArmR{z-index:4}
+#mkHead{z-index:5}
+#mkLegL,#mkLegR{z-index:2}
+.mk-p{backface-visibility:hidden;transform-style:preserve-3d}
+
+#mkLegL{left:0.000%;top:47.368%;width:43.048%;height:52.412%;transform-origin:81.99% 8.37%}
+#mkLegR{left:40.107%;top:47.368%;width:59.893%;height:52.632%;transform-origin:11.61% 8.33%}
+#mkTorso{left:25.134%;top:15.351%;width:38.770%;height:39.693%;transform-origin:41.38% 95.03%}
+#mkArmL{left:28.877%;top:18.860%;width:16.310%;height:28.289%;transform-origin:22.95% 20.16%}
+#mkArmR{left:50.802%;top:17.105%;width:20.588%;height:21.711%;transform-origin:20.78% 30.30%}
+#mkHead{left:32.086%;top:0.000%;width:32.353%;height:26.535%;transform-origin:31.40% 79.34%}
+
+@media (prefers-reduced-motion:reduce){ .mk-p{transition:none} }
+
+
+/* jumping kicks lift off the floor and the shadow shrinks under them */
+.mk-air .mk-shadow2{width:34%;opacity:.42;filter:blur(3px)}
+.mk-air .mk-ring{transform:translateX(-50%) scale(1.12);border-color:rgba(216,18,26,.32)}
+.mk-air .mk-rig{filter:drop-shadow(0 44px 42px rgba(11,21,51,.16))}
+.mk-dots{max-width:300px;row-gap:5px}
+.mk-dots i{width:5px;height:5px}
+.mk-dots i.on{width:15px}
+@media(max-width:575.98px){ .mk-dots{max-width:210px} }
+
+
+/* ---- mascot: sits comfortably inside the hero, never taller than it ---- */
+.mascot{min-height:0 !important;height:auto}
+.mk-rig{width:100%;max-width:clamp(240px,30vw,384px);height:auto;aspect-ratio:374/456;margin-inline:auto}
+@media (min-width:992px){
+  .mascot{margin-right:0}
+  .mk-rig{max-width:clamp(300px,26vw,400px)}
+}
+@media (max-width:991.98px){ .mk-rig{max-width:clamp(230px,42vw,320px)} }
+@media (max-width:575.98px){ .mk-rig{max-width:clamp(200px,58vw,262px)} }
+.mk-glow{inset:8% 6% 12%}
+.mk-ring{width:64%;bottom:6%}
+.mk-shadow2{width:46%;bottom:2%}
+.mk-label{bottom:-14px;padding:10px 22px;min-width:196px}
+.mk-label b{font-size:19px}
+.mk-dots{bottom:-46px}
+
+/* ---- gallery: capped tile heights ---- */
+.mosaic{grid-auto-rows:96px;gap:10px}
+@media(max-width:1365px){ .mosaic{grid-auto-rows:88px} }
+@media(max-width:900px){ .mosaic{grid-auto-rows:84px} }
+@media(max-width:480px){ .mosaic{grid-auto-rows:70px;gap:8px} }
+.mo-a{grid-column:span 2;grid-row:span 2}
+.mo-f{grid-row:span 2}
+
+
+/* ================= PRICING v3 — reference structure ================= */
+.pr{padding:26px 24px 24px !important;border-radius:24px;display:flex;flex-direction:column;overflow:visible}
+.pr-top{padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(18,64,200,.14)}
+.pr-name{font:700 15px/1.2 var(--f-cond);letter-spacing:.10em;text-transform:uppercase;color:var(--ink);margin-bottom:14px}
+.pr-price{display:flex;align-items:baseline;gap:5px;font-family:var(--f-num);font-weight:700;
+  font-size:clamp(36px,4vw,50px);line-height:1;color:var(--ink);letter-spacing:-.025em}
+.pr-price small{font-family:var(--f-cond);font-weight:600;font-size:15px;letter-spacing:.1em;color:var(--mut)}
+.pr-sub{font-size:12.5px;color:var(--mut);margin:9px 0 20px}
+.pr-cta{height:50px}
+.pr-list{list-style:none;margin:0;flex:1;display:grid;gap:12px;align-content:start}
+.pr-list li{position:relative;padding-left:28px;font-size:13.5px;line-height:1.5;color:#4A5878}
+.pr-list li::before{content:'';position:absolute;left:0;top:1px;width:18px;height:18px;border-radius:50%;
+  background:rgba(18,64,200,.13);box-shadow:0 0 0 1px rgba(18,64,200,.22) inset}
+.pr-list li::after{content:'';position:absolute;left:5.2px;top:6.6px;width:6.4px;height:3.2px;
+  border-left:2.2px solid var(--blue);border-bottom:2.2px solid var(--blue);transform:rotate(-45deg)}
+.pr-hot .pr-list li::before{background:rgba(216,18,26,.13);box-shadow:0 0 0 1px rgba(216,18,26,.24) inset}
+.pr-hot .pr-list li::after{border-color:var(--red)}
+.pr-list li:has(s){color:var(--dim)}
+.pr-list li s{text-decoration:line-through;text-decoration-thickness:1px}
+.pr-list li:has(s)::before{background:rgba(11,21,51,.05);box-shadow:0 0 0 1px rgba(11,21,51,.10) inset}
+.pr-list li:has(s)::after{border-color:var(--dim);opacity:.55}
+.pr-badge{top:-13px;padding:8px 17px;font-size:10.5px;display:inline-flex;align-items:center;gap:7px}
+.pr-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+.pr-ic,.pr-head,.pr-body,.pr-foot{display:none}
+@media(min-width:768px){ .pr-hot{transform:translateY(-18px)} .pr-hot:hover{transform:translateY(-25px)} }
+
 /* ==================================================================
    MOBILE BUG FIXES
    ================================================================== */
@@ -2289,9 +2388,14 @@ body.menu{overflow:hidden}
         <div class="mascot" id="mascot">
           <div class="mk-glow"></div>
           <div class="mk-ring" aria-hidden="true"></div>
-          <img class="mk-img" id="mkImg" src="mascot.png"
-               alt="Markaz Taekwondo practitioner in fighting stance" fetchpriority="high"
-               onerror="this.style.display='none'">
+          <div class="mk-rig" id="mkRig" role="img" aria-label="Markaz Taekwondo practitioner demonstrating stances">
+            <img class="mk-p" id="mkLegL" alt="" src="data:image/png;base64,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">
+            <img class="mk-p" id="mkLegR" alt="" src="data:image/png;base64,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">
+            <img class="mk-p" id="mkTorso" alt="" src="data:image/png;base64,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">
+            <img class="mk-p" id="mkArmL" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD0AAACBCAYAAABzarLnAAAFWklEQVR42u2cMYgdRRjH/7O+IuAWVyQbBMEiZ2fg4LZIYaGgYHEBiwQjCkkgqbxCSERBBYsIWliFkIQ0gSSgSNDirCJYiJUbQjCdJygJeKzXCNsEEsbCWXludmZnZme+mTf7Bh4c7+29md/+/98338zuW8Y5R4Tt2bwo7/e8z5q6AgDkRWn95RnibPdlH7SwLXwK0McAcIWKvAtuA88isvdaXpR3dMbc/mEK3J6smKC5Zpyy7hsq+L7vjAWaGyQmNrazLBJbG52gFKDvUHcYHFqm8pgpSdWaugoO/aJtDrAFBoBZYOgfKVTufl+sFdmoMnPoBIaEXlGAnfQFHBr6iGKgx8bGtSpEQsb0Fcn7rwK45UPhmGP6XrLztCKed3yqHBK6VA3YIHNzm6kuFPTPis9e8aVwUGiFkl8BOOW77xDZWzXVvAvgT9Pva+qKmZxsSmidNfOOha3vmroriwjYNo7XTMPJt9LbeVEeMDj+hO7JEcDMJn/MIlN30yUwZfY+mxelrZ3XNY9jpnHsU2kvsdtRed/YpelsUWAF8DMAdseuxWeLACuAXx5bl/8XG5b73lVelOuOoVSbhL8BWHW142KayF4XSWodRE1kah3gz3RdZ6I0mZU70DqZ+qW8KH/QzexZ5MCnNQ5bmQN2pvQLeVH+EgBYR7W+i/dOlCYH1hz8J5K7FQZVHJyyAtn6ps9wG1L6y0C2PiKLXxf5ZUjpNyKytbNkGtUWsGKfi7u8hh3bvjejmC6zyFX2Uh9kEas8FphHDd3U1UPKCjAWpffM/X3Vd20Q4wW84747yCKwtk9bc2No6hKUqr9sTF3uuJHduqiC3iAaw2NqV6mgvyEawyaA65QOiiF77wJ4i7LDLIIktkGdMIMqLaar4wRdcR1oslMfYmdGBr2WKrAKOkfCLcN0Gh+CfjBFpScJvZOyxZdKT6XJoB8tlU4srpf27lkMLO2dSGNLey+hl9DpxPMQ9N9TVPr3KUI/StHaQ9DfJhvYijsGeaiNu5BKJ9tkVya3KVWeq/OfB7DtwWlsENrwZ0VjQFkIpfvszX3Dinu454EfiH7b1zkA71ElMm/JS6Fsb5+qnzeMsfYTSvt40IpEWdNY92ZvLun4oc0Zl8C29t1EwDZTqSwGzQ0VudAD1bXwefEKWpw8EVdNXX2Hf+87kcXcYQBbkRcxTKq0ZNAbGgmJ21pflUOCLDjEoHhelN0HLbwpgPkYhcX/saauWIgNyEwjZj9v6uqgiO+m/cXsGJU6oKypqz9iKEPn2/sAPgDwdl6U11x0Kk4Y9zQvK+MZANjT+9a9VWCmII7BmfEmgotYswA4TRXT0bS8KK/4Vtm7vWObn7WUTvV61qC9m7q6nJwNOOfKIkPMz6t5Uf6agrVbpYcOOgtgOyWrSxcc3Vq7W5IuutJaB6YC/L9ENmDfVSTUdIuT76cI/dzUoG8uyOUdZgytALs0qYpMJLdblAOiqAda6HOSzy8vCDCzgf5Q8vkmcTxfoOgvG4jnVWKV98aQvbcI7cpA9IiRIegDY4ANnwy519LaxiX0zJdVDQG0Lh+RKG179cJwB/Q2gEOUCXMWUmFh69cA/EUxVZnW3r7axwDuLeyvai1V3s2Lcn+sq6zBZqHWpwAuxry0dFo+iuNXRtp63LOAA2z6fZEX5TuxbyK4juUzMSwtSTYGQ9+BEGrKeuzr3jAyaIv6+qmodk5Mkpm4R+ywwfE/xWDrPqVZ5zXUtgwUvk5xh4ELezPZSwB8pAlyI1QRIgXr3tnvQBHeUfloXpRfuxxzVKssxaBY30kJ1bw9c0wxJzMdl/hSuTemA1+HZoqXs/YPIjkUVLg3ZZEAAAAASUVORK5CYII=">
+            <img class="mk-p" id="mkArmR" alt="" src="data:image/png;base64,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">
+            <img class="mk-p" id="mkHead" alt="" src="data:image/png;base64,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">
+          </div>
           <div class="mk-shadow2" aria-hidden="true"></div>
           <div class="mk-label"><b id="mkName">Gibon Jase</b><span id="mkEn">Fighting stance</span></div>
           <div class="mk-dots" id="mkDots"></div>
@@ -2684,62 +2788,65 @@ body.menu{overflow:hidden}
 
             <div class="col-12 col-md-4" data-rv style="--i:0">
               <article class="pr h-100">
-                <div class="pr-head">
-                  <span class="pr-ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.4L20 9.2l-4 3.9.9 5.5L12 16l-4.9 2.6.9-5.5-4-3.9 5.4-.8z"/></svg></span>
+                <div class="pr-top">
                   <div class="pr-name">Taekwondo</div>
-                  <div class="pr-price">Rs 2,500<small>/month</small></div>
-                  <div class="pr-sub">Above 5 years · admission Rs 1,000</div>
+                  <div class="pr-price">Rs 2,500<small>/mo</small></div>
+                  <div class="pr-sub">Above 5 years &middot; admission Rs 1,000</div>
+                  <a class="btn btn-o btn-full pr-cta" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Taekwondo.">Get started
+                    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
                 </div>
-                <div class="pr-body">
                 <ul class="pr-list">
-                  <li>Tue, Thu, Sat &middot; 7:30&ndash;9:00 PM</li>
-                  <li>Full WTF syllabus &amp; gradings</li>
+                  <li>Tue, Thu &amp; Sat &middot; 7:30&ndash;9:00 PM</li>
+                  <li>Full WTF syllabus</li>
                   <li>Monthly Grading Day</li>
+                  <li>Poomsae &amp; sparring</li>
                   <li>Free first class</li>
+                  <li><s>Striking programs</s></li>
+                  <li><s>Fighters Squad</s></li>
                 </ul>
-                <a class="btn btn-o btn-full" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Taekwondo.">Get started</a>
-                </div>
               </article>
             </div>
 
             <div class="col-12 col-md-4" data-rv style="--i:1">
               <article class="pr pr-hot h-100">
                 <span class="pr-badge">Most chosen</span>
-                <div class="pr-head">
-                  <span class="pr-ic"><svg viewBox="0 0 24 24"><path d="M6.5 4.5h8a3 3 0 013 3v3a3 3 0 01-3 3h-8z"/><path d="M6.5 13.5v4a2 2 0 002 2h4a2 2 0 002-2v-4"/></svg></span>
+                <div class="pr-top">
                   <div class="pr-name">Boxing &middot; KB &middot; MMA</div>
-                  <div class="pr-price">Rs 3,000<small>/month</small></div>
-                  <div class="pr-sub">Above 15 years · admission Rs 1,000</div>
+                  <div class="pr-price">Rs 3,000<small>/mo</small></div>
+                  <div class="pr-sub">Above 15 years &middot; admission Rs 1,000</div>
+                  <a class="btn btn-r btn-full pr-cta" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Boxing%20%2F%20Kickboxing%20%2F%20MMA.">Get started
+                    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
                 </div>
-                <div class="pr-body">
                 <ul class="pr-list">
-                  <li>Tue, Thu, Sat &middot; 7:30&ndash;9:00 PM</li>
-                  <li>Striking, grappling &amp; live rounds</li>
+                  <li>Tue, Thu &amp; Sat &middot; 7:30&ndash;9:00 PM</li>
+                  <li>Boxing, kickboxing &amp; MMA</li>
+                  <li>Grappling &amp; ground work</li>
+                  <li>Live rounds with coaches</li>
                   <li>Fighters Squad pathway</li>
+                  <li>Conditioning &amp; pad work</li>
                   <li>Free first class</li>
                 </ul>
-                <a class="btn btn-r btn-full" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Boxing%20%2F%20Kickboxing%20%2F%20MMA.">Get started</a>
-                </div>
               </article>
             </div>
 
             <div class="col-12 col-md-4" data-rv style="--i:2">
               <article class="pr h-100">
-                <div class="pr-head">
-                  <span class="pr-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18.5h6"/></svg></span>
+                <div class="pr-top">
                   <div class="pr-name">Taekwondo &middot; Female Only</div>
-                  <div class="pr-price">Rs 3,000<small>/month</small></div>
-                  <div class="pr-sub">Females above 5 · admission Rs 1,000</div>
+                  <div class="pr-price">Rs 3,000<small>/mo</small></div>
+                  <div class="pr-sub">Females above 5 &middot; admission Rs 1,000</div>
+                  <a class="btn btn-o btn-full pr-cta" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20the%20Female-Only%20class.">Get started
+                    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
                 </div>
-                <div class="pr-body">
                 <ul class="pr-list">
-                  <li>Tue, Wed, Fri &middot; 5:00&ndash;7:00 PM</li>
+                  <li>Tue, Wed &amp; Fri &middot; 5:00&ndash;7:00 PM</li>
                   <li>Closed women-only session</li>
-                  <li>Taekwondo &amp; self-defence</li>
+                  <li>Full WTF syllabus</li>
+                  <li>Self-defence module</li>
                   <li>Free first class</li>
+                  <li><s>Mixed batches</s></li>
+                  <li><s>Fighters Squad</s></li>
                 </ul>
-                <a class="btn btn-o btn-full" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20the%20Female-Only%20class.">Get started</a>
-                </div>
               </article>
             </div>
 
@@ -3708,35 +3815,67 @@ const selProg=buildSel($('#selProg')), selWho=buildSel($('#selWho'));
 })();
 
 
-/* ================= MASCOT — real artwork, automatic action cycle ================= */
+/* ================= MASCOT — real artwork, real articulation ================= */
 (function(){
-  const root=$('#mascot'), img=$('#mkImg'); if(!root||!img) return;
-  // each entry: [scale, rotate, translateX, translateY, skewX, flip] + name
+  const root=$('#mascot'), rig=$('#mkRig'); if(!root||!rig) return;
+  const P={head:$('#mkHead'),armR:$('#mkArmR'),armL:$('#mkArmL'),
+           legR:$('#mkLegR'),legL:$('#mkLegL'),torso:$('#mkTorso')};
+  // [headRot, armR, armL, legR, legL, torsoRot, rigX%, rigY%, rigRot]
+  // [headRot, armR, armL, legR, legL, torsoRot, rigX%, rigY%, rigRot]
+  // [headRot, armR, armL, legR, legL, torsoRot, rigX%, rigY%, rigRot]
+  // limbs are cut-outs, so joint angles stay inside what the seams can hide;
+  // the *feel* of a kick comes from whole-body lean, lift and rotation.
   const ACTS=[
-    {n:'Gibon Jase',    e:'Fighting stance',  t:'scale(1) rotate(0deg) translate(0,0)',            f:0},
-    {n:'Junbi',         e:'Ready',            t:'scale(.97) rotate(-1.5deg) translate(-1%,1%)',    f:0},
-    {n:'Ap Seogi',      e:'Walking stance',   t:'scale(1.02) rotate(1.5deg) translate(3%,0)',      f:0},
-    {n:'Momtong Jireugi',e:'Middle punch',    t:'scale(1.05) rotate(-2.5deg) translate(4%,-1%)',   f:0},
-    {n:'Are Makgi',     e:'Low block',        t:'scale(1.01) rotate(3deg) translate(-2%,1%)',      f:0},
-    {n:'Eolgul Makgi',  e:'High block',       t:'scale(1.03) rotate(-3deg) translate(1%,-2%)',     f:0},
-    {n:'Ap Chagi',      e:'Front kick',       t:'scale(1.06) rotate(-5deg) translate(3%,-3%)',     f:0},
-    {n:'Dollyo Chagi',  e:'Roundhouse kick',  t:'scale(1.07) rotate(-8deg) translate(2%,-4%)',     f:1},
-    {n:'Yeop Chagi',    e:'Side kick',        t:'scale(1.05) rotate(7deg) translate(-3%,-3%)',     f:1},
-    {n:'Naeryeo Chagi', e:'Axe kick',         t:'scale(1.08) rotate(-4deg) translate(1%,-5%)',     f:0},
-    {n:'Dwit Chagi',    e:'Back kick',        t:'scale(1.04) rotate(9deg) translate(-4%,-2%)',     f:1},
-    {n:'Kyeongnye',     e:'Bow',              t:'scale(.95) rotate(2deg) translate(0,2%)',         f:0},
+    {n:'Gibon Jase',       e:'Fighting stance',    v:[  0,   0,   0,   0,   0,   0,  0,  0,  0]},
+    {n:'Charyeot',         e:'Attention',          v:[ -1, -14,  12,  -6,   6,   0,  0,  1,  0]},
+    {n:'Kyeongnye',        e:'Bow',                v:[  9, -12,  10,  -5,   5,   7,  0,  2,  0]},
+    {n:'Junbi',            e:'Ready stance',       v:[  0, -10,   8,  -4,   4,   0,  0,  1,  0]},
+    {n:'Juchum Seogi',     e:'Horse stance',       v:[  0,  -5,   4,   7,  -8,   0,  0,  2,  0]},
+    {n:'Ap Kubi',          e:'Front stance',       v:[ -1,  -4,   5, -10,   5,  -3,  2,  1, -2]},
+    {n:'Dwit Kubi',        e:'Back stance',        v:[  2,  -3,   6,   6,  -9,   4, -2,  1,  3]},
+    {n:'Beom Seogi',       e:'Tiger stance',       v:[  1,  -8,   9,  -5,  -3,   3, -1,  2,  2]},
+    {n:'Are Makgi',        e:'Low block',          v:[  3,  22, -13,   0,   0,   4, -1,  0,  2]},
+    {n:'Momtong Makgi',    e:'Middle block',       v:[ -2,   9, -17,   0,   0,  -3,  0,  0, -1]},
+    {n:'Eolgul Makgi',     e:'High block',         v:[ -5, -15, -29,   0,   0,  -5,  0, -1, -2]},
+    {n:'Sonnal Makgi',     e:'Knife-hand block',   v:[ -3,  15, -21,   4,  -4,  -4, -1,  1, -2]},
+    {n:'Hechyo Makgi',     e:'Wedge block',        v:[ -3, -12, -12,   0,   0,  -2,  0,  0,  0]},
+    {n:'Momtong Jireugi',  e:'Middle punch',       v:[ -3, -15,  20,  -2,   2,  -6,  2, -1, -3]},
+    {n:'Eolgul Jireugi',   e:'High punch',         v:[ -5, -23,  25,  -2,   2,  -8,  2, -1, -4]},
+    {n:'Are Jireugi',      e:'Low punch',          v:[  2,   4,  21,  -1,   2,   3,  1,  0,  2]},
+    {n:'Dubeon Jireugi',   e:'Double punch',       v:[ -4, -20,  23,  -2,   3,  -7,  3, -1, -4]},
+    {n:'Sonnal Mok Chigi', e:'Knife-hand strike',  v:[ -4, -27,  10,  -1,   2,  -7,  2, -1, -4]},
+    {n:'Palkup Chigi',     e:'Elbow strike',       v:[ -4,  -9,  27,  -1,   2,  -8,  3, -1, -5]},
+    {n:'Deung Jumeok',     e:'Backfist strike',    v:[ -5, -25,  13,  -2,   2,  -6,  2, -2, -4]},
+    {n:'Ap Chagi',         e:'Front kick',         v:[ -3,  -7,  11, -30,   5,  -6,  5, -4, -5]},
+    {n:'Dollyo Chagi',     e:'Roundhouse kick',    v:[ -5, -11,  15, -37,   6,  -9,  6, -5, -9]},
+    {n:'Yeop Chagi',       e:'Side kick',          v:[ -7, -17,   8, -40,   7, -11,  7, -5,-13]},
+    {n:'Naeryeo Chagi',    e:'Axe kick',           v:[ -4, -10,  13, -44,   5,  -6,  4, -7, -5]},
+    {n:'Dwit Chagi',       e:'Back kick',          v:[  9,  13,  -9, -33,   6,  11, -5, -4, 10]},
+    {n:'Bandae Dollyo',    e:'Spinning hook kick', v:[ 13,  20, -17, -38,   8,  15, -6, -5, 15]},
+    {n:'Miro Chagi',       e:'Push kick',          v:[ -4,  -6,  10, -27,   4,  -7,  5, -3, -6]},
+    {n:'Bakat Chagi',      e:'Outward crescent',   v:[ -5, -14,  17, -35,   6, -10,  5, -5, -8]},
+    {n:'An Chagi',         e:'Inward crescent',    v:[  6,  11, -10, -33,   6,   9, -4, -5,  9]},
+    {n:'Twio Ap Chagi',    e:'Jumping front kick', v:[ -6, -20,  22, -40, -18,  -9,  5,-12, -7]},
+    {n:'Twio Yeop Chagi',  e:'Jumping side kick',  v:[ -8, -23,  11, -44, -15, -12,  6,-14,-14]},
+    {n:'Naeryeo Seogi',    e:'Landing',            v:[  1,  -3,   4,  -7,   7,   2,  0,  3,  1]},
   ];
   const dots=$('#mkDots');
   ACTS.forEach(()=>dots.appendChild(document.createElement('i')));
   let i=0, timer=null;
   function apply(k){
-    const a=ACTS[k];
-    img.style.transform=a.t+(a.f?' scaleX(-1)':'');
-    img.classList.remove('mk-hit'); void img.offsetWidth; img.classList.add('mk-hit');
-    $('#mkName').textContent=a.n;
-    $('#mkEn').textContent=a.e;
+    const [hd,aR,aL,lR,lL,to,rx,ry,rr]=ACTS[k].v;
+    P.head.style.transform =`rotate(${hd+to*.5}deg)`;
+    P.armR.style.transform =`rotate(${aR}deg)`;
+    P.armL.style.transform =`rotate(${aL}deg)`;
+    P.legR.style.transform =`rotate(${lR}deg)`;
+    P.legL.style.transform =`rotate(${lL}deg)`;
+    P.torso.style.transform=`rotate(${to}deg)`;
+    rig.style.transform=`translate(${rx}%,${ry}%) rotate(${rr}deg)`;
+    $('#mkName').textContent=ACTS[k].n;
+    $('#mkEn').textContent=ACTS[k].e;
     [...dots.children].forEach((d,j)=>d.classList.toggle('on',j===k));
-    root.classList.toggle('mk-strike', /Chagi|Jireugi/.test(a.n));
+    root.classList.toggle('mk-strike', /Chagi|Jireugi|Chigi|Jumeok/.test(ACTS[k].n));
+    root.classList.toggle('mk-air', /^Twio/.test(ACTS[k].n));
   }
   function next(){ i=(i+1)%ACTS.length; apply(i); }
   function start(){ if(RM||timer) return; timer=setInterval(next,1000); }
