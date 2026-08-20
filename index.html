@@ -2887,6 +2887,183 @@ header .btn-r,header .btn-r:hover{
   border-color:rgba(255,255,255,.5) !important;
 }
 .mobar .btn-r{border-color:rgba(216,18,26,.55) !important}
+/* ==================================================================
+   PATCH 03 — THE DOCK
+   The old bar was a full-bleed glass strip glued to the top edge.
+   This is a detached capsule: floating, inset, self-contained, with a
+   sliding indicator that tracks the section you are actually reading
+   and a scroll-progress ring drawn around the menu button.
+   ================================================================== */
+:root{
+  --dock-h:62px;          /* the capsule itself          */
+  --dock-top:14px;        /* how far it floats off the top */
+  --nav:90px;             /* what the page must reserve  */
+}
+
+/* the <header> is now just a positioning frame — the capsule is .dock */
+header#hdr{
+  position:fixed;top:0;left:0;right:0;z-index:90;
+  height:auto !important;padding:var(--dock-top) 0 0 !important;
+  background:none !important;background-image:none !important;
+  backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+  border-bottom:0 !important;box-shadow:none !important;
+  pointer-events:none;                    /* only the capsule is clickable */
+  transition:padding .45s var(--ez2);
+}
+header#hdr.sc{background:none !important;box-shadow:none !important;border-bottom-color:transparent !important}
+@media (min-width:901px){ header#hdr.sc{padding-top:9px !important} }
+
+.dock{
+  pointer-events:auto;
+  position:relative;margin:0 auto;
+  width:min(1240px,calc(100% - 34px));height:var(--dock-h);
+  display:flex;align-items:center;gap:14px;padding:0 10px 0 12px;
+  border-radius:100px;
+  background-image:linear-gradient(150deg,rgba(255,255,255,.86) 0%,rgba(237,242,254,.62) 52%,rgba(255,255,255,.80) 100%);
+  backdrop-filter:blur(28px) saturate(1.9);-webkit-backdrop-filter:blur(28px) saturate(1.9);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:
+      0 1px 0 rgba(255,255,255,.95) inset,
+      0 -1px 2px rgba(18,64,200,.06) inset,
+      0 14px 34px -14px rgba(11,21,51,.28),
+      0 40px 80px -50px rgba(18,64,200,.5);
+  transition:width .5s var(--ez2),height .45s var(--ez2),
+             box-shadow .45s var(--ez2),background .4s var(--ez);
+  overflow:hidden;
+}
+/* the capsule tightens as you scroll instead of growing a border */
+@media (min-width:901px){
+  header#hdr.sc .dock{
+    width:min(1150px,calc(100% - 34px));height:56px;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.95) inset,
+        0 18px 42px -16px rgba(11,21,51,.34),
+        0 50px 90px -56px rgba(18,64,200,.55);
+  }
+  header#hdr.sc .dbrand__txt .dbs{opacity:0;max-height:0}
+  /* compact mode drops the section numerals — that is what buys back the
+     width the capsule just gave up, so nothing has to clip */
+  header#hdr.sc .tabs a{padding:9px 12px}
+  header#hdr.sc .tabs a i{display:none}
+}
+
+/* ---- brand: a solid mark with a cut corner, then the wordmark ---- */
+.dbrand{display:flex;align-items:center;gap:11px;flex:0 0 auto;min-width:0;padding:0;background:none !important;border:0 !important;box-shadow:none !important}
+.dbrand__mark{
+  position:relative;width:38px;height:38px;flex:none;display:grid;place-items:center;
+  border-radius:13px;background:var(--ink);overflow:hidden;
+  box-shadow:0 6px 16px -8px rgba(11,21,51,.7);
+  transition:transform .4s var(--ez2),border-radius .4s var(--ez2);
+}
+/* the sporty tell: a red wedge sliced off the bottom-right of the mark */
+.dbrand__mark::after{
+  content:'';position:absolute;right:-1px;bottom:-1px;width:15px;height:15px;
+  background:var(--red);clip-path:polygon(100% 0,100% 100%,0 100%);
+}
+.dbrand:hover .dbrand__mark{transform:rotate(-5deg) scale(1.05);border-radius:16px}
+.dbrand__mark img{width:26px;height:26px;object-fit:contain;position:relative;z-index:1}
+.dbrand__txt{display:flex;flex-direction:column;line-height:1}
+.dbrand__txt .dbt{font-family:var(--dsp);font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);font-weight:400}
+.dbrand__txt .bs{
+  font-family:var(--scr);font-size:10.5px;letter-spacing:.02em;color:var(--red);
+  margin-top:2px;text-transform:none;overflow:hidden;max-height:16px;
+  transition:opacity .35s var(--ez),max-height .35s var(--ez);
+}
+.dbrand__txt .dbt,.dbrand__txt .dbs{padding:0;margin:0;background:none;border:0;box-shadow:none;display:block;font-weight:400}
+.dock__rule{width:1px;height:26px;flex:none;background:linear-gradient(180deg,transparent,var(--edge),transparent)}
+
+/* ---- tabs with a sliding indicator ---- */
+.tabs{position:relative;display:flex;align-items:center;gap:0;margin:0 auto;padding:0;min-width:0}
+.tabs__ind{
+  position:absolute;top:50%;left:0;height:36px;width:0;transform:translate(0,-50%);
+  border-radius:100px;background:var(--ink);z-index:0;opacity:0;
+  box-shadow:0 6px 16px -8px rgba(11,21,51,.75);
+  transition:transform .48s var(--ez2),width .48s var(--ez2),opacity .3s var(--ez);
+}
+.tabs a{
+  position:relative;z-index:1;display:inline-flex;align-items:center;gap:7px;
+  padding:9px 15px;border:0;border-radius:100px;background:none;
+  font-family:var(--tall);font-weight:400;font-size:15px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--mut);transition:color .3s var(--ez);
+}
+.tabs a i{
+  font:700 8.5px/1 var(--f-cond);font-style:normal;letter-spacing:.14em;
+  color:var(--dim);transition:color .3s var(--ez),opacity .3s var(--ez);opacity:.75;
+}
+.tabs a:hover{color:var(--ink);background:none;border-color:transparent}
+.tabs a:hover i{color:var(--red);opacity:1}
+.tabs a.on{color:#fff;background:none;border-color:transparent}
+.tabs a.on i{color:var(--red-lt);opacity:1}
+
+/* ---- right cluster ---- */
+.nav-r{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.sndb{
+  width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.55);
+  border:1px solid var(--line);box-shadow:none;
+}
+.sndb:hover{background:#fff;border-color:var(--blue);transform:none}
+.dock__cta{height:40px;padding:0 17px;font-size:12px;letter-spacing:.13em}
+
+/* the menu button carries the scroll-progress ring */
+.mbtn{
+  position:relative;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.55);border:1px solid var(--line);box-shadow:none;
+  display:grid;place-items:center;
+}
+.mbtn:hover{background:#fff;border-color:var(--red);transform:none}
+.mbtn__ring{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);transform:rotate(-90deg);pointer-events:none}
+.mbtn__trk{fill:none;stroke:transparent;stroke-width:2}
+.mbtn__val{
+  fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:125.6;stroke-dashoffset:125.6;
+}
+.mbtn__bars{display:flex;flex-direction:column;gap:4px;align-items:center}
+.mbtn i{display:block;width:15px;height:1.8px;background:var(--ink);border-radius:2px;transition:.3s var(--ez)}
+body.menu .mbtn i:nth-child(1){transform:translateY(5.8px) rotate(45deg)}
+body.menu .mbtn i:nth-child(2){opacity:0}
+body.menu .mbtn i:nth-child(3){transform:translateY(-5.8px) rotate(-45deg)}
+body.menu .mbtn{background:var(--ink);border-color:var(--ink)}
+body.menu .mbtn i{background:#fff}
+
+/* the old top-edge progress line is now the ring — retire it */
+.sprog{display:none !important}
+
+/* ---- the panel hangs off the capsule ---- */
+.navpanel{top:calc(var(--dock-top) + var(--dock-h) + 10px) !important}
+
+/* ---- tablet: tabs collapse, capsule keeps its shape ---- */
+@media (max-width:1100px) and (min-width:901px){
+  .tabs a{padding:9px 11px;font-size:14px}
+  .tabs a i{display:none}
+}
+@media (max-width:900px){
+  :root{--dock-h:58px;--dock-top:11px;--nav:80px}
+  .dock{width:calc(100% - 22px);gap:10px;padding:0 8px 0 10px}
+  .dock__rule{display:none}
+  .tabs{display:none}
+  .mbtn{display:grid}
+  .dbrand__mark{width:34px;height:34px;border-radius:11px}
+  .dbrand__mark img{width:23px;height:23px}
+  .dbrand__txt .dbt{font-size:17px}
+  .dbrand__txt .dbs{font-size:9.5px}
+  .nav-r{gap:6px;margin-left:auto}
+  .sndb{width:36px;height:36px}
+  .mbtn{width:38px;height:38px}
+  .dock__cta{height:36px;padding:0 14px;font-size:10.5px;letter-spacing:.1em}
+}
+/* the bottom bar already carries Call + Free Trial on a phone, so the
+   capsule drops its CTA rather than squeezing four things into 320px */
+@media (max-width:520px){
+  .dock__cta{display:none}
+  .dbrand__txt .dbt{font-size:18px}
+  .dock{gap:8px}
+}
+@media (max-width:360px){
+  .dbrand__txt .dbs{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .dock,.tabs__ind,.dbrand__mark{transition:none}
+}
 </style>
 </head>
 <body>
@@ -2903,25 +3080,41 @@ header .btn-r,header .btn-r:hover{
 <!-- ==================== HEADER ==================== -->
 <div class="sprog" id="sprog"></div>
 <header id="hdr">
-  <div class="container-xxl navbar-inner">
-    <a class="brand" href="#top">
-      <img src="markaz-logo.png" alt="Markaz logo" class="lg" onerror="this.classList.add('lg-miss');this.removeAttribute('src')">
-      <span class="bt lift">Markaz<span class="bs">Way of Honor</span></span>
+  <div class="dock">
+    <a class="dbrand" href="#top" aria-label="Markaz — home">
+      <span class="dbrand__mark">
+        <img src="markaz-logo.png" alt="" class="lg" onerror="this.classList.add('lg-miss');this.removeAttribute('src')">
+      </span>
+      <span class="dbrand__txt">
+        <b class="dbt">Markaz</b>
+        <span class="dbs">Way of Honor</span>
+      </span>
     </a>
-    <nav class="tabs" id="tabs">
-      <a href="#why" class="on">Why Markaz</a>
-      <a href="#programs">Programs</a>
-      <a href="#belts">Belts</a>
-      <a href="#schedule">Schedule</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#contact">Contact</a>
+
+    <span class="dock__rule" aria-hidden="true"></span>
+
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <span class="tabs__ind" id="tabInd" aria-hidden="true"></span>
+      <a href="#why" class="on"><i>01</i>Why</a>
+      <a href="#programs"><i>02</i>Programs</a>
+      <a href="#belts"><i>04</i>Belts</a>
+      <a href="#schedule"><i>05</i>Schedule</a>
+      <a href="#gallery"><i>08</i>Gallery</a>
+      <a href="#contact"><i>13</i>Contact</a>
     </nav>
+
     <div class="nav-r">
       <button class="sndb" id="sndBtn" aria-pressed="false" aria-label="Toggle sound">
         <svg id="sndIcon" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M17 8l4 8M21 8l-4 8"/></svg>
       </button>
-      <a class="btn btn-r btn-sm" href="https://wa.me/923002672558?text=Assalam%20o%20Alaikum%2C%20I%20want%20a%20free%20trial%20class%20at%20Markaz.">Free Trial</a>
-      <button class="mbtn" id="mbtn" type="button" aria-controls="navPanel" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+      <a class="btn btn-r btn-sm dock__cta" href="https://wa.me/923002672558?text=Assalam%20o%20Alaikum%2C%20I%20want%20a%20free%20trial%20class%20at%20Markaz.">Free Trial</a>
+      <button class="mbtn" id="mbtn" type="button" aria-controls="navPanel" aria-label="Menu" aria-expanded="false">
+        <svg class="mbtn__ring" viewBox="0 0 44 44" aria-hidden="true">
+          <circle class="mbtn__trk" cx="22" cy="22" r="20"/>
+          <circle class="mbtn__val" cx="22" cy="22" r="20" id="mbtnProg"/>
+        </svg>
+        <span class="mbtn__bars"><i></i><i></i><i></i></span>
+      </button>
     </div>
   </div>
 </header>
@@ -5127,6 +5320,84 @@ const BELTS=[
     place();
     cycle();
   })();
+})();
+</script>
+
+<!-- ========== PATCH 03 · dock indicator + progress ring ========== -->
+<script>
+(function(){
+  'use strict';
+  var tabs = document.getElementById('tabs');
+  var ind  = document.getElementById('tabInd');
+  var ring = document.getElementById('mbtnProg');
+  var dock = document.querySelector('.dock');
+  if(!tabs || !ind) return;
+
+  var LEN = 2 * Math.PI * 20;   /* r=20 on the 44-viewBox ring */
+
+  /* ---- the pill slides to whichever tab the scrollspy marked ---- */
+  function moveInd(){
+    var on = tabs.querySelector('a.on');
+    if(!on || getComputedStyle(tabs).display === 'none'){ ind.style.opacity = 0; return; }
+    var a = on.getBoundingClientRect(), t = tabs.getBoundingClientRect();
+    ind.style.width = a.width + 'px';
+    ind.style.transform = 'translate(' + (a.left - t.left) + 'px,-50%)';
+    ind.style.opacity = 1;
+  }
+
+  /* The original scrollspy used an IntersectionObserver at threshold .3.
+     A section taller than the viewport can never show 30% of itself, so
+     the long sections never fired and the tabs mostly sat inert. Replaced
+     with a position test against a line just under the dock. */
+  try { if (typeof spy !== 'undefined' && spy.disconnect) spy.disconnect(); } catch(e){}
+
+  var links = [].slice.call(tabs.querySelectorAll('a'));
+  var targets = links.map(function(a){
+    return { a:a, el:document.querySelector(a.getAttribute('href')) };
+  }).filter(function(t){ return t.el; });
+
+  var queued = false;
+  function spyNow(){
+    queued = false;
+    var line = 150, cur = null;
+    targets.forEach(function(t){
+      if (t.el.getBoundingClientRect().top <= line) cur = t;
+    });
+    links.forEach(function(a){ a.classList.toggle('on', !!cur && a === cur.a); });
+    moveInd();
+  }
+  function queue(){ if(!queued){ queued = true; requestAnimationFrame(spyNow); } }
+  addEventListener('scroll', queue, {passive:true});
+  addEventListener('resize', queue, {passive:true});
+  spyNow();
+
+  addEventListener('resize', moveInd, {passive:true});
+  addEventListener('load', moveInd);
+  document.fonts && document.fonts.ready.then(moveInd);
+  setTimeout(moveInd, 60);
+  setTimeout(moveInd, 400);
+
+  /* ---- scroll progress, drawn around the menu button ---- */
+  function progress(){
+    if(!ring) return;
+    var h = document.documentElement.scrollHeight - innerHeight;
+    var p = h > 0 ? Math.min(1, Math.max(0, scrollY / h)) : 0;
+    ring.style.strokeDashoffset = (LEN * (1 - p)).toFixed(1);
+  }
+  addEventListener('scroll', progress, {passive:true});
+  progress();
+
+  /* ---- a tap on a tab moves the pill immediately, before the spy ---- */
+  tabs.addEventListener('click', function(e){
+    var a = e.target.closest('a'); if(!a) return;
+    tabs.querySelectorAll('a').forEach(function(x){ x.classList.remove('on'); });
+    a.classList.add('on');
+  });
+
+  /* ---- the capsule lifts a touch while the menu is open ---- */
+  new MutationObserver(function(){
+    if(dock) dock.classList.toggle('is-open', document.body.classList.contains('menu'));
+  }).observe(document.body, {attributes:true, attributeFilter:['class']});
 })();
 </script>
 </body>
