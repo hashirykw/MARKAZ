@@ -3291,6 +3291,107 @@ body.menu .mbtn i{background:#fff}
 
 /* no blue flash anywhere on tap */
 a,button,[role="button"],[tabindex]{-webkit-tap-highlight-color:transparent}
+/* ==================================================================
+   PATCH 06 — GRID ALIGNMENT
+   Two faults, one cause. Bootstrap rows space their columns with
+   negative margins and gutter padding, never with `gap`. Several
+   sections had `gap` added on top of exact 50% / 25% columns, so
+   50% + 50% + gap overflowed the row and every second card wrapped
+   onto its own line — leaving the half-width, half-empty stacks.
+   These grids are now real CSS grids that own their own spacing.
+   ================================================================== */
+
+/* ---------- 6a. FIRST 90 DAYS ---------- */
+.path{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  /* an older rule capped these rows at 120px; harmless while the row was
+     a flex container, but it clipped every card the moment it became a
+     real grid — the descriptions were being cut off entirely */
+  grid-auto-rows:auto !important;
+  gap:14px;margin:0 !important;--bs-gutter-x:0;--bs-gutter-y:0;
+}
+.path > [class*=col-]{
+  width:auto !important;max-width:none !important;flex:none !important;
+  padding:0 !important;margin:0 !important;display:flex !important;
+}
+.path .pth{width:100%;height:100%}
+
+/* ---------- 6b. PROGRAMS ---------- */
+.pg{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-auto-rows:auto !important;
+  gap:16px;margin:0 !important;--bs-gutter-x:0;--bs-gutter-y:0;
+}
+.pg > [class*=col-]{
+  width:auto !important;max-width:none !important;flex:none !important;
+  padding:0 !important;margin:0 !important;display:flex !important;
+}
+.pg .pc{width:100%;height:100%}
+/* seven cards into a four-wide grid leaves a hole on the last row —
+   the odd one out stretches to close it */
+@media (min-width:1200px){
+  .pg > [class*=col-]:last-child:nth-child(4n+3){grid-column:span 2}
+}
+
+@media (max-width:1199.98px){
+  .path{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+  .pg{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .pg > [class*=col-]:last-child:nth-child(3n+1){grid-column:span 3}
+}
+@media (max-width:900px){
+  .path{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .pg{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .pg > [class*=col-]:last-child:nth-child(odd){grid-column:span 2}
+  .pg > [class*=col-]:last-child:nth-child(3n+1){grid-column:auto}
+}
+@media (max-width:640px){
+  .path{gap:10px}
+  .pg{gap:10px}
+  .pth{padding:18px 15px}
+  .pth h4{font-size:16px}
+  .pth p{font-size:12.5px;line-height:1.5}
+  .pth .st{width:34px;height:34px;font-size:15px;margin-bottom:11px}
+  .pth .wk{font-size:10px;letter-spacing:.2em}
+}
+@media (max-width:420px){
+  .path{grid-template-columns:1fr}
+  .pg{grid-template-columns:1fr}
+  .pg > [class*=col-]:last-child:nth-child(odd){grid-column:auto}
+  /* the connector rail only reads across a row, so it goes on one column */
+  .path::before{display:none}
+}
+
+/* ---------- 6c. THE MENU BOXES ---------- */
+/* At two columns the sub-line had to wrap, and a wrapped line inside a
+   fixed row is what threw the boxes out of true. On a phone the title
+   carries the meaning on its own, so every box is now one clean line
+   at one height — and all thirteen fit without a scroll. */
+@media (max-width:640px){
+  .np-grid a{
+    align-items:center;min-height:54px;padding:0 12px;gap:10px;
+  }
+  .np-grid a > span{min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .np-grid b{
+    font-size:12.5px;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .np-grid span > span,.np-grid a > span > span{display:none}
+  .np-grid em{width:26px;height:26px;font-size:10px;margin-top:0}
+  /* an odd count leaves one box orphaned in the left column — it spans
+     the full width instead, so the grid closes square */
+  .np-grid > a:last-child:nth-child(odd){grid-column:span 2}
+  .np-foot .btn{flex:1 1 0;min-width:0;padding:0 12px;font-size:11.5px;letter-spacing:.1em}
+}
+@media (max-width:380px){
+  .np-grid > a:last-child:nth-child(odd){grid-column:auto}
+  .np-grid b{font-size:12px}
+}
+/* the coarse-pointer minimum must not fight the row height above */
+@media (pointer:coarse){
+  .np-grid a{min-height:54px}
+}
 </style>
 </head>
 <body>
