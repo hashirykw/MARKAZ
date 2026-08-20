@@ -904,22 +904,6 @@ section,footer{overflow-x:clip}
 section[id],[id]{scroll-margin-top:calc(var(--nav) + 22px)}
 
 
-/* ================= [9] EVENT COUNTDOWN ================= */
-(function(){
-  if(!$('#evD')) return;
-  function next(){ const n=new Date(); let d=new Date(n.getFullYear(),7,23,16,0,0);
-    if(d<n) d=new Date(n.getFullYear()+1,7,23,16,0,0); return d; }
-  const t=next(), p=v=>String(Math.max(0,v)).padStart(2,'0');
-  setInterval(()=>{ let s2=Math.floor((t-Date.now())/1000); if(s2<0) s2=0;
-    $('#evD').textContent=p(Math.floor(s2/86400));
-    $('#evH').textContent=p(Math.floor(s2/3600)%24);
-    $('#evM').textContent=p(Math.floor(s2/60)%60);
-    $('#evS').textContent=p(s2%60);
-  },1000);
-  new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){
-    $('#tlFill').style.width='100%'; }}),{threshold:.3}).observe($('#tl'));
-})();
-
 /* ================= [8] GALLERY MOSAIC ================= */
 .mosaic{
   position:relative;z-index:1;display:grid;gap:12px;
@@ -2292,6 +2276,617 @@ body.menu{overflow:hidden}
   header,.mobar,.modal,.modal-backdrop,.navpanel,.navbd,#scene,#beltCanvas,.mq,.sprog{display:none !important}
   body{color:#000;background:#fff}
   }
+
+/* ==================================================================
+   MASCOT — halo centred on the figure, tighter hero, less dead air
+   The rig carries inline transforms from JS (stance poses), so the
+   lift lives on .mascot instead. Symmetric negative block margins
+   shrink what the column contributes to the row without shifting the
+   figure off centre.
+   ================================================================== */
+.mascot{
+  place-items:center center;
+  height:auto;
+  transform:translateY(var(--mk-lift,0px));
+  will-change:transform;
+}
+.hero-visw{align-self:center}
+
+/* ---- the ring now sits dead behind the figure, not under its feet ---- */
+.mk-ring{
+  left:50%;top:50%;bottom:auto;
+  width:auto;height:96%;aspect-ratio:1;
+  transform:translate(-50%,-50%);
+}
+.mk-strike .mk-ring{transform:translate(-50%,-50%) scale(1.05)}
+.mk-air    .mk-ring{transform:translate(-50%,-50%) scale(1.10)}
+
+/* ---- the glow is the thing that kills the white void behind him ---- */
+.mk-glow{
+  inset:auto;left:50%;top:50%;
+  width:auto;height:124%;aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  filter:blur(64px);
+  background:
+    radial-gradient(50% 50% at 50% 44%,rgba(18,64,200,.30),transparent 68%),
+    radial-gradient(48% 48% at 60% 68%,rgba(216,18,26,.22),transparent 72%);
+}
+/* a second, wider wash so the right half of the hero is never bare white */
+.mascot::before{
+  content:'';position:absolute;left:50%;top:48%;z-index:0;pointer-events:none;
+  width:auto;height:190%;aspect-ratio:1;border-radius:50%;
+  transform:translate(-50%,-50%);filter:blur(90px);opacity:.7;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(18,64,200,.16),transparent 70%);
+}
+
+/* desktop: the figure gets the room, and comes up into the headline band */
+@media (min-width:1200px){
+  .mk-rig{max-width:clamp(340px,32vw,472px)}
+  .mascot{--mk-lift:-34px;margin-block:-44px}
+}
+@media (min-width:992px) and (max-width:1199.98px){
+  .mk-rig{max-width:clamp(300px,33vw,412px)}
+  .mascot{--mk-lift:-24px;margin-block:-30px}
+}
+/* stacked layouts: a small lift only — no negative margin, the dots
+   must stay clear of the contact bar */
+@media (max-width:991.98px){
+  .mk-rig{max-width:clamp(236px,44vw,332px)}
+  .mascot{--mk-lift:-10px;margin-block:0}
+  .mascot::before{height:150%;opacity:.55}
+}
+@media (max-width:575.98px){
+  .mk-rig{max-width:clamp(204px,58vw,272px)}
+  .mascot{--mk-lift:-6px}
+}
+@media (prefers-reduced-motion:reduce){ .mascot{will-change:auto} }
+
+/* ==================================================================
+   HERO — close the dead band. No fixed viewport height, less padding,
+   columns pulled toward each other.
+   ================================================================== */
+@media (min-width:901px){
+  .hero{
+    min-height:auto !important;
+    padding:calc(var(--nav) + 30px) 0 116px !important;
+    align-items:center !important;
+  }
+}
+@media (min-width:901px) and (max-height:820px){
+  .hero{padding:calc(var(--nav) + 22px) 0 108px !important}
+}
+@media (min-width:992px){
+  .hero-grid{--bs-gutter-x:1.75rem}
+  .hero-in{max-width:600px}
+}
+
+/* ==================================================================
+   PATCH 01 — NAV ALIGNMENT · COMPACT BENTO · GLASS CTAs
+   Loaded last so it wins the cascade. Three fixes:
+   1. header + nav panel geometry (even gutters, no scrollbar shove)
+   2. #stats bento becomes a real CSS grid — denser, less scroll
+   3. the glossy light-red CTAs become tinted glass buttons
+   ================================================================== */
+
+/* ---------- 1a. HEADER — even rhythm, nothing cramped ---------- */
+.navbar-inner{gap:14px}
+.nav-r{gap:8px}
+.tabs{gap:1px}
+.tabs a{padding:8px 13px;font-size:14.5px}
+
+@media (max-width:900px){
+  .navbar-inner{gap:9px}
+  .nav-r{gap:6px}
+  .brand{gap:9px}
+  .brand img{width:31px;height:31px}
+  .bt{font-size:16px}
+  .bs{font-size:9.5px}
+  .sndb,.mbtn{width:40px;height:40px}
+  header .btn-sm{height:40px;padding:0 15px;font-size:11.5px;letter-spacing:.1em}
+}
+@media (max-width:400px){
+  .navbar-inner{gap:7px}
+  .brand img{width:28px;height:28px}
+  .bt{font-size:14.5px;letter-spacing:.03em}
+  .bs{font-size:8.5px}
+  .sndb,.mbtn{width:36px;height:36px}
+  header .btn-sm{height:36px;padding:0 11px;font-size:10px;letter-spacing:.08em}
+}
+
+/* ---------- 1b. NAV PANEL — symmetric gutters, real grid ---------- */
+.navpanel{
+  top:calc(var(--nav) + 10px);
+  padding:16px;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable both-edges;      /* keeps the grid optically centred */
+  scrollbar-width:thin;
+  scrollbar-color:rgba(18,64,200,.26) transparent;
+}
+.navpanel::-webkit-scrollbar{width:6px}
+.navpanel::-webkit-scrollbar-track{background:transparent}
+.navpanel::-webkit-scrollbar-thumb{background:rgba(18,64,200,.24);border-radius:99px}
+.navpanel::-webkit-scrollbar-thumb:hover{background:rgba(18,64,200,.42)}
+
+/* the panel was a bootstrap flex row pretending to be a grid — make it one */
+.navpanel > .row.np-grid{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;margin:0 !important;--bs-gutter-x:0;--bs-gutter-y:0;
+}
+.np-grid > a{
+  width:auto !important;max-width:none !important;flex:none !important;
+  padding:0 !important;margin:0 !important;
+}
+.np-grid a{padding:11px 13px;gap:11px;align-items:center;border-radius:13px}
+.np-grid a:hover{transform:none;background:#fff;border-color:var(--blue);box-shadow:var(--s2)}
+.np-grid em{width:27px;height:27px;font-size:11px;border-radius:8px}
+.np-grid b{font-size:13.5px;line-height:1.15}
+.np-grid span{font-size:11px;line-height:1.34}
+.np-foot{margin-top:14px;padding-top:14px}
+
+@media (max-width:1199.98px){ .navpanel > .row.np-grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:900px){
+  .navpanel{top:calc(var(--nav) + 8px);width:calc(100% - 24px);padding:14px}
+  .navpanel > .row.np-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+}
+@media (max-width:640px){
+  .np-grid a{padding:10px;gap:9px;align-items:flex-start;border-radius:12px}
+  .np-grid em{width:24px;height:24px;font-size:9.5px;border-radius:7px;margin-top:1px}
+  .np-grid b{font-size:12px}
+  .np-grid span{
+    font-size:10px;line-height:1.3;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .np-foot{margin-top:12px;padding-top:12px;gap:8px}
+  .np-foot .btn{min-width:0;flex:1 1 0}
+}
+@media (max-width:380px){
+  .navpanel > .row.np-grid{grid-template-columns:1fr}
+}
+
+/* ---------- 2. #STATS BENTO — tighter cards, half the scroll ---------- */
+.bento{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-auto-rows:128px;gap:12px;
+  margin:0 !important;--bs-gutter-x:0;--bs-gutter-y:0;
+}
+.bento > [class*=col-]{
+  width:auto !important;max-width:none !important;flex:none !important;
+  padding:0 !important;margin:0 !important;min-height:0 !important;
+  grid-column:span 1;
+}
+.bento > .bt-tall{grid-column:span 2;grid-row:span 2;min-height:0 !important}
+.bento > .col-12:not(.bt-tall){grid-column:span 2}
+.bento > [class*=col-]:nth-last-child(-n+2){grid-column:span 2}
+.bento .bt{height:100%;padding:16px;border-radius:20px}
+.bento .bv{font-size:36px}
+.bento .bt.feat .bv{font-size:clamp(50px,6vw,84px)}
+.bento .gauge{width:76px;height:76px}
+.bento .gauge b{font-size:19px}
+.bento .spark{height:40px}
+.bento .bars{height:40px}
+.bento .bl{font-size:9.5px;letter-spacing:.15em}
+.bento .bs{font-size:10.5px}
+
+@media (max-width:1199.98px){
+  .bento{grid-auto-rows:120px;gap:11px}
+  .bento .bv{font-size:33px}
+}
+@media (max-width:900px){
+  .bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:112px;gap:10px}
+  .bento > .bt-tall{grid-column:span 2;grid-row:span 2}
+  .bento > .col-12:not(.bt-tall),
+  .bento > [class*=col-]:nth-last-child(-n+2){grid-column:span 2}
+  .bento > .col-6{grid-column:span 1}
+  .bento > [class*=col-]:nth-last-child(-n+2).col-6{grid-column:span 1}
+  .bento .bt{padding:14px;border-radius:18px}
+  .bento .gauge{width:68px;height:68px}
+  .bento .gauge b{font-size:17px}
+  .bento .bv{font-size:30px}
+}
+@media (max-width:640px){
+  .bento{grid-auto-rows:104px;gap:8px}
+  .bento .bt{padding:13px;border-radius:16px}
+  .bento .bv{font-size:27px}
+  .bento .bt.feat .bv{font-size:clamp(44px,13vw,62px)}
+  .bento .gauge{width:64px;height:64px}
+  .bento .gauge b{font-size:16px}
+  .bento .gauge b small{font-size:9px !important}
+  .bento .spark,.bento .bars{height:32px}
+  .bento .bl{font-size:8.5px;letter-spacing:.13em}
+  .bento .bs{font-size:9.5px}
+  .bento .ptrk{margin-top:10px !important}
+}
+@media (max-width:400px){
+  .bento{grid-auto-rows:96px;gap:7px}
+  .bento .bt{padding:11px;min-height:0}
+  .bento .bv{font-size:25px}
+  .bento .gauge{width:58px;height:58px}
+  .bento .gauge b{font-size:14px}
+}
+
+/* ---------- 3. CTAs — tinted glass instead of glossy light red ---------- */
+.btn-r::before{display:none !important}       /* kills the washed-out top gloss */
+.btn-r{
+  background:transparent !important;
+  background-image:linear-gradient(150deg,rgba(255,255,255,.42) 0%,rgba(216,18,26,.10) 52%,rgba(216,18,26,.17) 100%) !important;
+  color:var(--red-dk) !important;
+  border:1px solid rgba(216,18,26,.30) !important;
+  backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);
+  box-shadow:
+      0 1px 0 rgba(255,255,255,.66) inset,
+      0 -1px 2px rgba(216,18,26,.08) inset,
+      0 10px 26px -14px rgba(216,18,26,.42) !important;
+}
+.btn-r:hover{
+  background-image:linear-gradient(150deg,rgba(216,18,26,.22) 0%,rgba(216,18,26,.14) 55%,rgba(216,18,26,.24) 100%) !important;
+  border-color:rgba(216,18,26,.52) !important;
+  color:var(--red-dk) !important;
+  transform:translateY(-2px);
+  box-shadow:
+      0 1px 0 rgba(255,255,255,.7) inset,
+      0 16px 34px -16px rgba(216,18,26,.5) !important;
+}
+.btn-r::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent)}
+header .btn-r,header .btn-r:hover{box-shadow:
+      0 1px 0 rgba(255,255,255,.66) inset,
+      0 6px 16px -10px rgba(216,18,26,.4) !important}
+
+/* on the dark surfaces the same button goes white-glass so it stays legible */
+.bookbar .btn-r,.bt.feat .btn-r,.ouj .btn-r,footer .btn-r,.ev-feat .btn-r{
+  background-image:linear-gradient(150deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.09) 55%,rgba(255,255,255,.15) 100%) !important;
+  color:#fff !important;
+  border-color:rgba(255,255,255,.34) !important;
+  box-shadow:
+      0 1px 0 rgba(255,255,255,.26) inset,
+      0 12px 30px -16px rgba(0,0,0,.6) !important;
+}
+.bookbar .btn-r:hover,.bt.feat .btn-r:hover,.ouj .btn-r:hover,footer .btn-r:hover,.ev-feat .btn-r:hover{
+  background-image:linear-gradient(150deg,rgba(216,18,26,.42) 0%,rgba(216,18,26,.26) 100%) !important;
+  border-color:rgba(255,255,255,.5) !important;
+  color:#fff !important;
+}
+
+/* the sticky mobile bar: glass on glass, so give it a little more definition */
+.mobar .btn-r{border-color:rgba(216,18,26,.38) !important}
+/* ==================================================================
+   PATCH 02 — LAYERED GLASS DECKS · REVIEW RACK · FIXED FRAMES
+   Ported from the reference site's card layering, rebuilt on the
+   Markaz red/blue/ink palette with a harder, sportier geometry:
+   a diagonal accent bar, condensed jersey numerals, squared chips.
+   ================================================================== */
+
+/* ---------- 3a. FEES — the layered deck ---------- */
+.pdk-h{
+  position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;margin-bottom:18px;
+}
+.pdk-eyb{
+  font:700 11.5px/1 var(--f-cond);letter-spacing:.26em;text-transform:uppercase;color:var(--mut);
+  display:inline-flex;align-items:center;gap:9px;
+}
+.pdk-eyb::before{content:'';width:26px;height:2px;background:linear-gradient(90deg,var(--red),var(--blue))}
+.pdk-hint{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;
+  font:600 10.5px/1 var(--f-cond);letter-spacing:.19em;text-transform:uppercase;color:var(--mut);
+  background:rgba(255,255,255,.6);border:1px solid var(--line);backdrop-filter:blur(14px);
+}
+.pdk-hint i{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pdkPulse 2.4s var(--ez) infinite}
+@keyframes pdkPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+
+.pdeck{position:relative;z-index:1;perspective:1500px;perspective-origin:50% 46%;padding:6px 0 2px}
+.pdeck__rail{
+  position:relative;display:flex;justify-content:center;align-items:center;gap:0;
+  min-height:430px;transform-style:preserve-3d;
+  padding-left:clamp(56px,12vw,180px);
+}
+.pdeck__c{
+  position:relative;width:min(320px,74vw);flex:0 0 auto;
+  border-radius:20px;overflow:hidden;cursor:pointer;text-align:left;
+  background:linear-gradient(150deg,rgba(255,255,255,.90) 0%,rgba(237,242,254,.70) 48%,rgba(255,255,255,.82) 100%);
+  border:1px solid var(--edge);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 26px 60px rgba(11,21,51,.15);
+  backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);
+  transform-style:preserve-3d;
+  transform:translateX(calc(var(--i) * -46%)) rotateY(-24deg) scale(.9);
+  opacity:0;
+  transition:transform .9s cubic-bezier(.22,.9,.28,1),
+             opacity .6s var(--ez),
+             box-shadow .5s var(--ez),
+             border-color .4s var(--ez);
+}
+/* the spread, once the section is in view */
+.pdeck.in .pdeck__c{
+  opacity:1;
+  transform:translateX(calc(var(--i) * -14%)) translateZ(calc(var(--i) * -74px)) rotateY(-24deg);
+  transition-delay:calc(var(--i) * 130ms);
+}
+.pdeck.set .pdeck__c{transition-delay:0s !important}
+
+/* the sheen that runs across each face */
+.pdeck__glass{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(112deg,rgba(255,255,255,.55),transparent 42%,rgba(255,255,255,.18) 78%,transparent);
+  opacity:.7;transition:opacity .5s var(--ez);
+}
+/* sporty: a raked accent bar across the top edge */
+.pdeck__bar{
+  position:absolute;left:0;right:0;top:0;height:3px;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,var(--blue) 0%,var(--blue-lt) 38%,var(--red) 100%);
+  transform:scaleX(.34);transform-origin:left;transition:transform .6s var(--ez2);
+}
+.pdeck__c--hot .pdeck__bar{background:linear-gradient(90deg,var(--red) 0%,var(--red-lt) 42%,var(--blue) 100%)}
+.pdeck__c.on .pdeck__bar{transform:scaleX(1)}
+
+.pdeck__n{
+  position:absolute;right:16px;top:10px;z-index:0;pointer-events:none;
+  font-family:var(--dsp);font-size:3.4rem;line-height:1;letter-spacing:.02em;
+  color:rgba(18,64,200,.10);
+}
+.pdeck__c--hot .pdeck__n{color:rgba(216,18,26,.12)}
+.pdeck__badge{
+  position:absolute;left:0;top:0;z-index:4;
+  font:700 9.5px/1 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(135deg,#C21019,#8E0A11);padding:9px 15px;border-radius:0 0 14px 0;
+  box-shadow:0 8px 20px -10px rgba(142,10,17,.8);
+}
+.pdeck__c--hot .pdeck__in{padding-top:46px}
+.pdeck__c--hot .pdeck__n{top:16px}
+.pdeck__in{position:relative;z-index:2;padding:24px 22px 20px;display:flex;flex-direction:column;min-height:410px}
+.pdeck__code{
+  align-self:flex-start;font:600 10px/1 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--blue);border:1px solid var(--edge);border-radius:100px;padding:7px 13px;
+  background:rgba(255,255,255,.6);
+}
+.pdeck__c--hot .pdeck__code{color:var(--red);border-color:rgba(216,18,26,.24)}
+.pdeck__t{font-family:var(--dsp2);font-size:18px;line-height:1.14;color:var(--ink);margin:15px 0 10px;letter-spacing:-.005em}
+.pdeck__price{font-family:var(--num);font-weight:700;font-size:34px;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.pdeck__price small{font-family:var(--f-cond);font-weight:600;font-size:13px;letter-spacing:.14em;color:var(--mut);margin-left:5px}
+.pdeck__d{font-size:13px;line-height:1.55;color:var(--mut);margin:11px 0 14px;max-width:34ch}
+.pdeck__chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.pchip{
+  font:600 9.5px/1 var(--f-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--txt);
+  border:1px solid var(--line);border-radius:7px;padding:7px 10px;background:rgba(255,255,255,.55);
+}
+.pchip--hot{color:var(--red);border-color:rgba(216,18,26,.26);background:rgba(216,18,26,.06)}
+.pdeck__adm{display:block;margin-top:12px;font:600 9.5px/1 var(--f-cond);letter-spacing:.17em;text-transform:uppercase;color:var(--dim)}
+
+/* what unfolds when a card is chosen */
+.pdeck__more{max-height:0;overflow:hidden;opacity:0;transition:max-height .6s var(--ez),opacity .4s var(--ez)}
+.pdeck__list{list-style:none;margin:16px 0 14px;padding:0}
+.pdeck__list li{position:relative;padding-left:23px;font-size:12.5px;line-height:1.45;color:var(--txt);margin-bottom:9px}
+.pdeck__list li::before{
+  content:'';position:absolute;left:0;top:3px;width:14px;height:14px;border-radius:5px;
+  background:rgba(18,64,200,.1);box-shadow:0 0 0 1px rgba(18,64,200,.2) inset;
+}
+.pdeck__list li::after{
+  content:'';position:absolute;left:4px;top:6.5px;width:6px;height:3px;
+  border-left:1.8px solid var(--blue);border-bottom:1.8px solid var(--blue);transform:rotate(-45deg);
+}
+.pdeck__c--hot .pdeck__list li::before{background:rgba(216,18,26,.1);box-shadow:0 0 0 1px rgba(216,18,26,.2) inset}
+.pdeck__c--hot .pdeck__list li::after{border-color:var(--red)}
+.pdeck__list li.no{color:var(--dim);text-decoration:none}
+.pdeck__list li.no::before{background:rgba(113,128,158,.08);box-shadow:0 0 0 1px rgba(113,128,158,.16) inset}
+.pdeck__list li.no::after{
+  left:4.5px;top:7.5px;width:5px;height:0;border-bottom:1.8px solid var(--dim);border-left:0;transform:none;
+}
+
+/* ---- desktop behaviour ---- */
+@media (min-width:901px){
+  /* the rail sits in front of the pushed-back cards in a preserve-3d context,
+     so it must be transparent to the pointer or it swallows every press */
+  .pdeck,.pdeck__rail{pointer-events:none}
+  .pdeck__c{pointer-events:auto}
+  .pdeck.in .pdeck__c:hover{
+    transform:translateX(calc(var(--i) * -14%)) translateZ(calc(var(--i) * -74px + 40px)) rotateY(-18deg);
+    border-color:var(--blue);
+  }
+  .pdeck.in .pdeck__c.on{
+    transform:translateX(calc(var(--i) * -14%)) translateZ(90px) rotateY(0deg);
+    border-color:var(--red);z-index:5;
+    box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 40px 90px rgba(11,21,51,.24);
+  }
+  .pdeck.in .pdeck__c.on .pdeck__glass{opacity:.28}
+  .pdeck.in .pdeck__c.on .pdeck__more{max-height:640px;opacity:1}
+  .pdeck.in .pdeck__c.on .pdeck__in{min-height:0}
+  /* an open card is taller than a closed one, so the rail has to grow with
+     it or the unfolded list spills past the deck and over the note below */
+  .pdeck__rail{transition:min-height .55s var(--ez2)}
+  .pdeck.picked .pdeck__rail{min-height:660px}
+  .pdeck.in.picked .pdeck__c:not(.on){opacity:.42;filter:saturate(.72)}
+}
+
+/* ---- phones: one card at a time, swiped ---- */
+@media (max-width:900px){
+  .pdeck{perspective:none;padding:2px 0}
+  .pdeck__rail{
+    display:flex;gap:12px;min-height:0;overflow-x:auto;
+    scroll-snap-type:x mandatory;justify-content:flex-start;
+    padding:12px max(14px,calc((100% - min(305px,84vw)) / 2 + 14px)) 18px;
+    margin-inline:-14px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .pdeck__rail::-webkit-scrollbar{display:none}
+  .pdeck__c{
+    width:min(305px,84vw);scroll-snap-align:center;
+    transform:translateY(16px);opacity:0;
+    transition:transform .55s cubic-bezier(.22,.9,.28,1),opacity .5s var(--ez),
+               box-shadow .45s var(--ez),border-color .35s var(--ez),filter .45s var(--ez);
+  }
+  .pdeck.in .pdeck__c{transform:none;opacity:1;transition-delay:calc(var(--i) * 90ms)}
+  .pdeck__in{min-height:0;padding:19px 17px 16px}
+  .pdeck__t{font-size:16.5px;margin:13px 0 8px}
+  .pdeck__price{font-size:30px}
+  .pdeck__d{font-size:12.5px;margin-bottom:12px}
+  .pdeck__n{font-size:2.6rem;right:13px;top:9px}
+  .pdeck.in .pdeck__c.on{
+    transform:translateY(-6px) scale(1.02);border-color:var(--red);z-index:5;
+    box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 24px 54px rgba(11,21,51,.22);
+  }
+  .pdeck__c.on .pdeck__more{max-height:620px;opacity:1}
+  .pdeck__c.on .pdeck__glass{opacity:.3}
+  .pdeck.in.picked .pdeck__c:not(.on){opacity:.5;filter:saturate(.72);transform:scale(.965)}
+  .pdeck__dots{display:flex;justify-content:center;gap:6px;margin-top:2px}
+  .pdeck__dots i{width:6px;height:6px;border-radius:50%;background:var(--cloud);transition:.3s var(--ez)}
+  .pdeck__dots i.on{background:var(--red);width:19px;border-radius:99px}
+}
+@media (min-width:901px){ .pdeck__dots{display:none} }
+@media (prefers-reduced-motion:reduce){
+  .pdeck__c,.pdeck.in .pdeck__c,.pdeck.in .pdeck__c.on{transform:none;transition:none;opacity:1}
+}
+
+/* ---------- 3b. REVIEWS — the slat rack ---------- */
+.rvw{position:relative;z-index:1;max-width:1040px}
+.rvw__h{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.rvw__count{font:700 11px/1 var(--f-cond);letter-spacing:.24em;text-transform:uppercase;color:var(--mut);
+  display:inline-flex;align-items:center;gap:9px}
+.rvw__count::before{content:'';width:7px;height:7px;background:var(--red);transform:rotate(45deg)}
+.rvw__nav{display:flex;gap:8px}
+.rvw__nav button{
+  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:rgba(255,255,255,.72);border:1px solid var(--edge);box-shadow:var(--s1);
+  backdrop-filter:blur(14px);transition:.28s var(--ez);
+}
+.rvw__nav button:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:var(--s2)}
+.rvw__nav button:hover svg{stroke:var(--red)}
+.rvw__nav button:focus-visible{outline:2.5px solid var(--blue);outline-offset:3px}
+.rvw__nav svg{width:15px;height:15px;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:.28s}
+
+.rvw__rack{display:flex;align-items:stretch;gap:9px;min-height:320px;perspective:1400px}
+.rvw__c{
+  position:relative;flex:0 0 76px;border-radius:18px;overflow:hidden;cursor:pointer;text-align:left;padding:0;
+  border:1px solid var(--edge);
+  background:linear-gradient(155deg,rgba(255,255,255,.88),rgba(237,242,254,.62));
+  backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,var(--s1);
+  transition:flex-basis .68s cubic-bezier(.24,.9,.28,1),transform .6s var(--ez2),
+             box-shadow .5s var(--ez),border-color .4s var(--ez);
+}
+.rvw__c.on{
+  flex:1 1 auto;transform:translateY(-10px);border-color:var(--red);z-index:2;
+  box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 26px 56px rgba(11,21,51,.18);
+}
+/* the upright name, shown only while the card is a slat */
+.rvw__spine{position:absolute;inset:0;display:grid;place-items:center;transition:opacity .35s var(--ez)}
+.rvw__spine b{
+  writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;
+  font-family:var(--dsp2);font-size:13px;letter-spacing:.03em;color:var(--ink);
+}
+.rvw__c.on .rvw__spine{opacity:0}
+/* what appears once it has lifted */
+.rvw__body{
+  position:absolute;inset:0;padding:26px 26px 22px;display:flex;flex-direction:column;
+  justify-content:center;gap:14px;opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity .4s var(--ez) .18s,transform .5s var(--ez) .18s;
+}
+.rvw__c.on .rvw__body{opacity:1;transform:none;pointer-events:auto}
+.rvw__stars{color:var(--red);font-size:13px;letter-spacing:.2em;font-style:normal}
+.rvw__q{font-size:clamp(15px,1.5vw,17.5px);line-height:1.6;color:var(--ink);max-width:52ch;font-style:normal}
+.rvw__who{display:flex;align-items:center;gap:13px}
+.rvw__av{
+  width:46px;height:46px;flex:none;border-radius:14px;display:grid;place-items:center;
+  font-family:var(--dsp2);font-size:17px;color:var(--blue);
+  background:rgba(18,64,200,.09);border:1px solid var(--edge);
+}
+.rvw__c.on .rvw__av{transform:rotate(-3deg)}
+.rvw__who b{display:block;font-family:var(--dsp2);font-size:14px;color:var(--ink);letter-spacing:.01em}
+.rvw__tag{
+  display:inline-block;margin-top:5px;font:600 9.5px/1 var(--f-cond);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:7px;padding:5px 9px;
+}
+.rvw__dots{display:none;gap:6px;margin-top:14px;justify-content:center}
+.rvw__dots i{width:6px;height:6px;border-radius:50%;background:var(--cloud);transition:.3s var(--ez)}
+.rvw__dots i.on{background:var(--red);width:19px;border-radius:99px}
+
+.rvw__foot{
+  position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:14px;margin-top:22px;padding:16px 20px;border-radius:18px;
+  background:rgba(255,255,255,.62);border:1px solid var(--line);backdrop-filter:blur(18px);
+  max-width:1040px;
+}
+.rvw__score{display:flex;align-items:center;gap:14px}
+.rvw__score b{font-family:var(--num);font-weight:700;font-size:32px;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.rvw__score span{display:block;font-size:12px;color:var(--mut)}
+.rvw__score .rvw__stars{display:block;font-size:12px;margin-bottom:2px}
+
+@media (max-width:860px){
+  .rvw__rack{min-height:0;display:block;perspective:none}
+  .rvw__c{display:none;flex:none;width:100%;min-height:250px;transform:none}
+  .rvw__c.on{display:block;transform:none;animation:rvIn .5s var(--ez)}
+  @keyframes rvIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .rvw__spine{display:none}
+  .rvw__body{position:relative;inset:auto;opacity:1;transform:none;padding:22px 19px;pointer-events:auto;transition:none}
+  .rvw__q{font-size:14.5px}
+  .rvw__dots{display:flex}
+  .rvw__foot{padding:14px 16px}
+  .rvw__score b{font-size:27px}
+}
+@media (prefers-reduced-motion:reduce){ .rvw__c,.rvw__body{transition:none;animation:none} }
+
+/* ---------- 3c. GALLERY — one fixed frame for every photo ---------- */
+.mosaic{
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  grid-auto-rows:auto !important;
+  gap:12px !important;
+}
+.mo,.mo-a,.mo-b,.mo-c,.mo-d,.mo-e,.mo-f,.mo-g,.mo-h{
+  grid-column:span 1 !important;grid-row:span 1 !important;
+}
+.mo{aspect-ratio:4 / 5;border-radius:18px;min-height:0;min-width:0}
+.mo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+/* a thin inner rule so every frame reads as a mounted print */
+.mo::before{
+  content:'';position:absolute;inset:7px;z-index:3;pointer-events:none;
+  border:1px solid rgba(255,255,255,.18);border-radius:11px;
+  opacity:.55;transition:opacity .45s var(--ez),inset .45s var(--ez2);
+}
+.mo:hover::before,.mo:focus-visible::before{opacity:.9;inset:10px}
+@media (max-width:900px){
+  .mosaic{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:10px !important}
+}
+@media (max-width:640px){
+  .mosaic{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:9px !important}
+  .mo{aspect-ratio:1 / 1;border-radius:15px}
+}
+
+/* ---------- 3d. THE CTA — ink glass, crimson edge, no pink ---------- */
+.btn-r{
+  background:transparent !important;
+  background-image:linear-gradient(150deg,rgba(16,28,64,.90) 0%,rgba(11,21,51,.94) 55%,rgba(28,16,26,.92) 100%) !important;
+  color:#fff !important;
+  border:1px solid rgba(216,18,26,.55) !important;
+  backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);
+  box-shadow:
+      0 1px 0 rgba(255,255,255,.16) inset,
+      0 0 0 1px rgba(216,18,26,.10),
+      0 12px 30px -14px rgba(11,21,51,.6) !important;
+}
+.btn-r:hover{
+  background-image:linear-gradient(150deg,#C21019 0%,#9C0B12 100%) !important;
+  border-color:rgba(255,255,255,.28) !important;
+  color:#fff !important;
+  transform:translateY(-2px);
+  box-shadow:
+      0 1px 0 rgba(255,255,255,.24) inset,
+      0 16px 36px -16px rgba(162,13,20,.72) !important;
+}
+.btn-r::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent)}
+header .btn-r,header .btn-r:hover{
+  box-shadow:0 1px 0 rgba(255,255,255,.16) inset,0 8px 20px -12px rgba(11,21,51,.7) !important;
+}
+/* on the dark surfaces it inverts: light glass, crimson edge */
+.bookbar .btn-r,.bt.feat .btn-r,.ouj .btn-r,footer .btn-r,.ev-feat .btn-r{
+  background-image:linear-gradient(150deg,rgba(255,255,255,.20) 0%,rgba(255,255,255,.08) 55%,rgba(255,255,255,.14) 100%) !important;
+  color:#fff !important;
+  border-color:rgba(255,255,255,.38) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.26) inset,0 12px 30px -16px rgba(0,0,0,.6) !important;
+}
+.bookbar .btn-r:hover,.bt.feat .btn-r:hover,.ouj .btn-r:hover,footer .btn-r:hover,.ev-feat .btn-r:hover{
+  background-image:linear-gradient(150deg,#C21019 0%,#9C0B12 100%) !important;
+  border-color:rgba(255,255,255,.5) !important;
+}
+.mobar .btn-r{border-color:rgba(216,18,26,.55) !important}
 </style>
 </head>
 <body>
@@ -2342,10 +2937,11 @@ body.menu{overflow:hidden}
     <a class="col-12 col-md-6 col-xl-4" href="#squad"><em>06</em><span><b>Fight Squad</b><span>Athletes on the record</span></span></a>
     <a class="col-12 col-md-6 col-xl-4" href="#path"><em>07</em><span><b>First 90 Days</b><span>Walking in to holding your own</span></span></a>
     <a class="col-12 col-md-6 col-xl-4" href="#gallery"><em>08</em><span><b>Gallery</b><span>Inside the room</span></span></a>
-    <a class="col-12 col-md-6 col-xl-4" href="#events"><em>09</em><span><b>Events</b><span>Gradings, camps, tournaments</span></span></a>
-    <a class="col-12 col-md-6 col-xl-4" href="#ouj"><em>10</em><span><b>OUJ Performance</b><span>The conditioning arm</span></span></a>
-    <a class="col-12 col-md-6 col-xl-4" href="#faq"><em>11</em><span><b>FAQ</b><span>Before you walk in</span></span></a>
-    <a class="col-12 col-md-6 col-xl-4" href="#contact"><em>12</em><span><b>Contact</b><span>Visit, call or message</span></span></a>
+    <a class="col-12 col-md-6 col-xl-4" href="#reviews"><em>09</em><span><b>Reviews</b><span>What the room says back</span></span></a>
+    <a class="col-12 col-md-6 col-xl-4" href="#events"><em>10</em><span><b>Events</b><span>Gradings, camps, tournaments</span></span></a>
+    <a class="col-12 col-md-6 col-xl-4" href="#ouj"><em>11</em><span><b>OUJ Performance</b><span>The conditioning arm</span></span></a>
+    <a class="col-12 col-md-6 col-xl-4" href="#faq"><em>12</em><span><b>FAQ</b><span>Before you walk in</span></span></a>
+    <a class="col-12 col-md-6 col-xl-4" href="#contact"><em>13</em><span><b>Contact</b><span>Visit, call or message</span></span></a>
   </div>
   <div class="np-foot flex-wrap gap-2">
     <a class="btn btn-r" href="https://wa.me/923002672558?text=Assalam%20o%20Alaikum%2C%20I%20want%20a%20free%20trial%20class.">Book free trial</a>
@@ -2781,79 +3377,117 @@ body.menu{overflow:hidden}
       </div>
 
       </div>
-      <div class="col-12 col-xl-6">
-        <div class="pricing" id="pricing">
-          <span class="pr-ghost" aria-hidden="true">Fees</span>
-          <div class="row g-3">
 
-            <div class="col-12 col-md-4" data-rv style="--i:0">
-              <article class="pr h-100">
-                <div class="pr-top">
-                  <div class="pr-name">Taekwondo</div>
-                  <div class="pr-price">Rs 2,500<small>/mo</small></div>
-                  <div class="pr-sub">Above 5 years &middot; admission Rs 1,000</div>
-                  <a class="btn btn-o btn-full pr-cta" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Taekwondo.">Get started
-                    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-                </div>
-                <ul class="pr-list">
-                  <li>Tue, Thu &amp; Sat &middot; 7:30&ndash;9:00 PM</li>
-                  <li>Full WTF syllabus</li>
+    <!-- ---------- FEES · layered deck (glass, tap to open) ---------- -->
+    <div class="pricing" id="pricing">
+      <span class="pr-ghost" aria-hidden="true">Fees</span>
+      <div class="pdk-h" data-rv>
+        <span class="pdk-eyb">Monthly fees</span>
+        <span class="pdk-hint"><i></i> Tap a card for everything included</span>
+      </div>
+
+      <div class="pdeck" id="pdeck">
+        <div class="pdeck__rail" id="pdeckRail">
+
+          <article class="pdeck__c" style="--i:0" tabindex="0" role="button"
+                   aria-expanded="false" aria-label="Taekwondo — Rs 2,500 per month">
+            <span class="pdeck__glass" aria-hidden="true"></span>
+            <span class="pdeck__bar" aria-hidden="true"></span>
+            <span class="pdeck__n" aria-hidden="true">01</span>
+            <div class="pdeck__in">
+              <span class="pdeck__code">Above 5 yrs</span>
+              <h3 class="pdeck__t">Taekwondo</h3>
+              <div class="pdeck__price">Rs 2,500<small>/mo</small></div>
+              <p class="pdeck__d">Full WTF syllabus — poomsae, sparring and official belt gradings on Monthly Grading Day.</p>
+              <div class="pdeck__chips">
+                <span class="pchip">Tue · Thu · Sat</span>
+                <span class="pchip">7:30–9:00 PM</span>
+              </div>
+              <div class="pdeck__more">
+                <ul class="pdeck__list">
+                  <li>Full WTF syllabus, white to black</li>
+                  <li>Poomsae &amp; controlled sparring</li>
                   <li>Monthly Grading Day</li>
-                  <li>Poomsae &amp; sparring</li>
+                  <li>Kids and adults, same syllabus</li>
                   <li>Free first class</li>
-                  <li><s>Striking programs</s></li>
-                  <li><s>Fighters Squad</s></li>
+                  <li class="no">Striking programs</li>
+                  <li class="no">Fighters Squad</li>
                 </ul>
-              </article>
+                <a class="btn btn-r btn-full" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Taekwondo.">Start free trial
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+              <span class="pdeck__adm">+ Rs 1,000 admission, once</span>
             </div>
+          </article>
 
-            <div class="col-12 col-md-4" data-rv style="--i:1">
-              <article class="pr pr-hot h-100">
-                <span class="pr-badge">Most chosen</span>
-                <div class="pr-top">
-                  <div class="pr-name">Boxing &middot; KB &middot; MMA</div>
-                  <div class="pr-price">Rs 3,000<small>/mo</small></div>
-                  <div class="pr-sub">Above 15 years &middot; admission Rs 1,000</div>
-                  <a class="btn btn-r btn-full pr-cta" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Boxing%20%2F%20Kickboxing%20%2F%20MMA.">Get started
-                    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-                </div>
-                <ul class="pr-list">
-                  <li>Tue, Thu &amp; Sat &middot; 7:30&ndash;9:00 PM</li>
+          <article class="pdeck__c pdeck__c--hot" style="--i:1" tabindex="0" role="button"
+                   aria-expanded="false" aria-label="Boxing, Kickboxing and MMA — Rs 3,000 per month">
+            <span class="pdeck__glass" aria-hidden="true"></span>
+            <span class="pdeck__bar" aria-hidden="true"></span>
+            <span class="pdeck__n" aria-hidden="true">02</span>
+            <span class="pdeck__badge">Most chosen</span>
+            <div class="pdeck__in">
+              <span class="pdeck__code">Above 15 yrs</span>
+              <h3 class="pdeck__t">Boxing · KB · MMA</h3>
+              <div class="pdeck__price">Rs 3,000<small>/mo</small></div>
+              <p class="pdeck__d">Striking and grappling in one system. Live rounds start when your fundamentals are ready — not before.</p>
+              <div class="pdeck__chips">
+                <span class="pchip">Tue · Thu · Sat</span>
+                <span class="pchip pchip--hot">Fight track</span>
+              </div>
+              <div class="pdeck__more">
+                <ul class="pdeck__list">
                   <li>Boxing, kickboxing &amp; MMA</li>
                   <li>Grappling &amp; ground work</li>
                   <li>Live rounds with coaches</li>
-                  <li>Fighters Squad pathway</li>
                   <li>Conditioning &amp; pad work</li>
+                  <li>Fighters Squad pathway</li>
+                  <li>Tournament preparation</li>
                   <li>Free first class</li>
                 </ul>
-              </article>
+                <a class="btn btn-r btn-full" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20Boxing%20%2F%20Kickboxing%20%2F%20MMA.">Start free trial
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+              <span class="pdeck__adm">+ Rs 1,000 admission, once</span>
             </div>
+          </article>
 
-            <div class="col-12 col-md-4" data-rv style="--i:2">
-              <article class="pr h-100">
-                <div class="pr-top">
-                  <div class="pr-name">Taekwondo &middot; Female Only</div>
-                  <div class="pr-price">Rs 3,000<small>/mo</small></div>
-                  <div class="pr-sub">Females above 5 &middot; admission Rs 1,000</div>
-                  <a class="btn btn-o btn-full pr-cta" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20the%20Female-Only%20class.">Get started
-                    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-                </div>
-                <ul class="pr-list">
-                  <li>Tue, Wed &amp; Fri &middot; 5:00&ndash;7:00 PM</li>
+          <article class="pdeck__c" style="--i:2" tabindex="0" role="button"
+                   aria-expanded="false" aria-label="Female-only Taekwondo — Rs 3,000 per month">
+            <span class="pdeck__glass" aria-hidden="true"></span>
+            <span class="pdeck__bar" aria-hidden="true"></span>
+            <span class="pdeck__n" aria-hidden="true">03</span>
+            <div class="pdeck__in">
+              <span class="pdeck__code">Females 5+</span>
+              <h3 class="pdeck__t">Taekwondo · Female Only</h3>
+              <div class="pdeck__price">Rs 3,000<small>/mo</small></div>
+              <p class="pdeck__d">A closed, women-only room running the same syllabus, with a dedicated self-defence module.</p>
+              <div class="pdeck__chips">
+                <span class="pchip">Tue · Wed · Fri</span>
+                <span class="pchip">5:00–7:00 PM</span>
+              </div>
+              <div class="pdeck__more">
+                <ul class="pdeck__list">
                   <li>Closed women-only session</li>
                   <li>Full WTF syllabus</li>
                   <li>Self-defence module</li>
+                  <li>Female coaching staff on the mat</li>
                   <li>Free first class</li>
-                  <li><s>Mixed batches</s></li>
-                  <li><s>Fighters Squad</s></li>
+                  <li class="no">Mixed batches</li>
+                  <li class="no">Fighters Squad</li>
                 </ul>
-              </article>
+                <a class="btn btn-r btn-full" href="https://wa.me/923002672558?text=I%20want%20the%20free%20first%20class%20for%20the%20Female-Only%20class.">Start free trial
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+              <span class="pdeck__adm">+ Rs 1,000 admission, once</span>
             </div>
+          </article>
 
-          </div>
-          <p class="pr-note">Rs 1,000 admission fee applies once, on joining. First class is free on every program.</p>
         </div>
+        <div class="pdeck__dots" id="pdeckDots" aria-hidden="true"></div>
       </div>
+
+      <p class="pr-note">Rs 1,000 admission fee applies once, on joining. The first class is free on every program — walk in before you pay anything.</p>
     </div>
   </div>
 </section>
@@ -2979,10 +3613,46 @@ body.menu{overflow:hidden}
 </section>
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Gallery image"><button class="cl" id="lbC" aria-label="Close">×</button><img id="lbImg" src="" alt=""></div>
 
+<!-- ==================== 09 · REVIEWS ==================== -->
+<section id="reviews"><div class="bgph" style="--ph:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=70')"></div>
+  <div class="chev"></div>
+  <div class="ghostn r tl">09</div>
+  <div class="container-xxl wrap">
+    <div class="sh" data-rv>
+      <div class="eyb">The verdict</div>
+      <h2>What the room <em>says back</em></h2>
+      <p>4.1★ across 612 public Google reviews. Click a name on either side to read that one.</p>
+    </div>
+
+    <div class="rvw" data-rv>
+      <div class="rvw__h">
+        <span class="rvw__count" id="rvCount">1 of 3</span>
+        <div class="rvw__nav">
+          <button type="button" id="rvPrev" aria-label="Previous review">
+            <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" id="rvNext" aria-label="Next review">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+      <div class="rvw__rack" id="rvRack"></div>
+      <div class="rvw__dots" id="rvDots" aria-hidden="true"></div>
+    </div>
+
+    <div class="rvw__foot" data-rv>
+      <div class="rvw__score">
+        <b>4.1</b>
+        <span><i class="rvw__stars">★★★★☆</i>612 reviews on Google</span>
+      </div>
+      <a class="btn btn-o btn-sm" href="https://wa.me/923002672558?text=I%20trained%20at%20Markaz%20and%20want%20to%20leave%20a%20review.">Leave a review
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== 09 · EVENTS ==================== -->
 <section id="events"><div class="bgph" style="--ph:url('https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?w=900&q=70')"></div>
   <div class="chev"></div>
-  <div class="ghostn r tl">09</div>
+  <div class="ghostn r tl">10</div>
   <div class="container-xxl wrap">
     <div class="sh" data-rv>
       <div class="eyb">Mark your calendar</div>
@@ -3053,7 +3723,7 @@ body.menu{overflow:hidden}
 <!-- ==================== 10 · OUJ ==================== -->
 <section class="ouj" id="ouj">
   <div class="glow r"></div><div class="glow b"></div>
-  <div class="ghostn b tr">10</div>
+  <div class="ghostn b tr">11</div>
   <div class="container-xxl wrap">
     <div class="row g-4 g-lg-5 align-items-center ouj-in">
       <div class="col-12 col-lg-6" data-rv>
@@ -3083,7 +3753,7 @@ body.menu{overflow:hidden}
 <!-- ==================== 11 · FAQ ==================== -->
 <section id="faq"><div class="bgph" style="--ph:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=900&q=70')"></div>
   <div class="chev"></div>
-  <div class="ghostn r tl">11</div>
+  <div class="ghostn r tl">12</div>
   <div class="container-xxl wrap">
     <div class="sh" data-rv>
       <div class="eyb">Questions</div>
@@ -3125,7 +3795,7 @@ body.menu{overflow:hidden}
 <!-- ==================== 12 · CONTACT ==================== -->
 <section id="contact"><div class="bgph tint" style="--ph:url('https://images.unsplash.com/photo-1555597673-b21d5c935865?w=900&q=70')"></div>
   <div class="chev"></div>
-  <div class="ghostn b tr">12</div>
+  <div class="ghostn b tr">13</div>
   <div class="container-xxl wrap">
     <div class="sh" data-rv>
       <div class="eyb b">Find us</div>
@@ -3216,6 +3886,7 @@ body.menu{overflow:hidden}
             <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -4276,6 +4947,186 @@ const BELTS=[
   document.addEventListener('visibilitychange',()=>{ document.hidden?stop():(!RM&&restart()); });
 
   show(0);
+})();
+</script>
+
+<!-- ========== PATCH 02 · deck + review rack ========== -->
+<script>
+(function(){
+  'use strict';
+  var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ---------------- FEES DECK ---------------- */
+  (function deck(){
+    var deck = document.getElementById('pdeck');
+    if(!deck) return;
+    var rail  = document.getElementById('pdeckRail');
+    var dotsW = document.getElementById('pdeckDots');
+    var cards = [].slice.call(rail.querySelectorAll('.pdeck__c'));
+    if(!cards.length) return;
+
+    dotsW.innerHTML = cards.map(function(){ return '<i></i>'; }).join('');
+    var dots = [].slice.call(dotsW.children);
+
+    /* the spread plays once the section scrolls in; .set then drops the
+       stagger so a press answers straight away instead of queueing */
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(!e.isIntersecting) return;
+          deck.classList.add('in');
+          setTimeout(function(){ deck.classList.add('set'); }, 900);
+          io.disconnect();
+        });
+      }, {threshold:.2});
+      io.observe(deck);
+    } else {
+      deck.classList.add('in','set');
+    }
+
+    function pick(card){
+      var open = card.classList.contains('on');
+      cards.forEach(function(c){
+        c.classList.remove('on');
+        c.setAttribute('aria-expanded','false');
+      });
+      if(open){ deck.classList.remove('picked'); return; }
+      card.classList.add('on');
+      card.setAttribute('aria-expanded','true');
+      deck.classList.add('picked');
+      if(window.SFX && SFX.tap) SFX.tap();
+    }
+
+    cards.forEach(function(c){
+      c.addEventListener('click', function(e){
+        if(e.target.closest('a')) return;      // the CTA is a real link
+        pick(c);
+      });
+      c.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(c); }
+      });
+    });
+
+    /* dots follow the horizontal scroll on phones */
+    function mark(){
+      var mid = rail.scrollLeft + rail.clientWidth / 2, best = 0, bd = 1e9;
+      cards.forEach(function(c,i){
+        var d = Math.abs(c.offsetLeft + c.offsetWidth/2 - mid);
+        if(d < bd){ bd = d; best = i; }
+      });
+      dots.forEach(function(d,i){ d.classList.toggle('on', i === best); });
+    }
+    mark();
+    var tick;
+    rail.addEventListener('scroll', function(){
+      clearTimeout(tick); tick = setTimeout(mark, 60);
+    }, {passive:true});
+    dots.forEach(function(d,i){
+      d.addEventListener('click', function(){
+        cards[i].scrollIntoView({behavior:RM?'auto':'smooth', inline:'center', block:'nearest'});
+      });
+    });
+  })();
+
+  /* ---------------- REVIEW RACK ---------------- */
+  /* ==================================================================
+     REVIEWS — PLACEHOLDER COPY. Markaz has 612 public Google reviews;
+     paste three real ones in here (name, tag, text) before this goes
+     live. Leave `pic` empty and the initial is used instead.
+     Set MARKAZ_REVIEWS = [] and the whole section hides itself.
+     ================================================================== */
+  var MARKAZ_REVIEWS = [
+    { name:'Ayesha R.',   tag:'Parent · Taekwondo',   pic:'',
+      text:'PLACEHOLDER — swap in a real Google review. A parent review lands hardest when it names something concrete: the belt their child graded to, how the coaches handled a nervous first class, what changed at home.' },
+    { name:'Hamza S.',    tag:'Student · MMA',        pic:'',
+      text:'PLACEHOLDER — swap in a real Google review. Ask a senior student for a line about the live rounds or the conditioning specifically. Generic praise reads as invented even when it is not.' },
+    { name:'Sana K.',     tag:'Student · Female-only', pic:'',
+      text:'PLACEHOLDER — swap in a real Google review. For the female-only batch, a line about how the room actually feels is worth more than any number on this page.' }
+  ];
+
+  (function reviews(){
+    var sec = document.getElementById('reviews');
+    if(!sec) return;
+    if(!MARKAZ_REVIEWS.length){ sec.style.display = 'none'; return; }
+
+    var rack  = document.getElementById('rvRack');
+    var dotsW = document.getElementById('rvDots');
+    var count = document.getElementById('rvCount');
+    var esc = function(v){
+      return String(v == null ? '' : v).replace(/[&<>"]/g, function(ch){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch];
+      });
+    };
+
+    rack.innerHTML = MARKAZ_REVIEWS.map(function(r,i){
+      var av = r.pic
+        ? '<img src="' + esc(r.pic) + '" alt="" class="rvw__av">'
+        : '<span class="rvw__av">' + esc(r.name.charAt(0)) + '</span>';
+      return '<button type="button" class="rvw__c" data-rv-i="' + i + '" ' +
+        'aria-label="Review from ' + esc(r.name) + '">' +
+        '<span class="rvw__spine"><b>' + esc(r.name) + '</b></span>' +
+        '<span class="rvw__body">' +
+          '<i class="rvw__stars">★★★★★</i>' +
+          '<span class="rvw__q">“' + esc(r.text) + '”</span>' +
+          '<span class="rvw__who">' + av + '<span><b>' + esc(r.name) + '</b>' +
+            (r.tag ? '<span class="rvw__tag">' + esc(r.tag) + '</span>' : '') +
+          '</span></span>' +
+        '</span></button>';
+    }).join('');
+    dotsW.innerHTML = MARKAZ_REVIEWS.map(function(){ return '<i></i>'; }).join('');
+
+    var cards = [].slice.call(rack.children),
+        marks = [].slice.call(dotsW.children),
+        n = cards.length, at = 0, timer = null, held = false;
+
+    function place(){
+      cards.forEach(function(c,j){ c.classList.toggle('on', j === at); });
+      marks.forEach(function(m,j){ m.classList.toggle('on', j === at); });
+      if(count) count.textContent = (at + 1) + ' of ' + n;
+    }
+
+    /* a card rests long enough to actually be read, then hands over */
+    var HOLD = 5200;
+    function cycle(){
+      clearTimeout(timer);
+      if(held || n < 2 || RM) return;
+      timer = setTimeout(function(){ at = (at + 1) % n; place(); cycle(); }, HOLD);
+    }
+    function step(by){ at = (at + by + n) % n; place(); cycle(); }
+
+    cards.forEach(function(c,i){
+      c.addEventListener('click', function(){
+        held = true; at = i; place(); clearTimeout(timer);
+        setTimeout(function(){ held = false; cycle(); }, 9000);
+      });
+    });
+    document.getElementById('rvNext').addEventListener('click', function(){ step(1); });
+    document.getElementById('rvPrev').addEventListener('click', function(){ step(-1); });
+    marks.forEach(function(m,i){ m.addEventListener('click', function(){ at = i; place(); cycle(); }); });
+
+    /* it stops while someone is reading, and while the section is off screen */
+    rack.addEventListener('mouseenter', function(){ held = true; clearTimeout(timer); });
+    rack.addEventListener('mouseleave', function(){ held = false; cycle(); });
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting) cycle(); else clearTimeout(timer); });
+      }, {threshold:.3}).observe(rack);
+    }
+
+    /* swipe on phones */
+    var sx = 0, sy = 0, live = false;
+    rack.addEventListener('touchstart', function(e){
+      sx = e.changedTouches[0].clientX; sy = e.changedTouches[0].clientY; live = true;
+    }, {passive:true});
+    rack.addEventListener('touchend', function(e){
+      if(!live) return; live = false;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if(Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
+    }, {passive:true});
+
+    place();
+    cycle();
+  })();
 })();
 </script>
 </body>
