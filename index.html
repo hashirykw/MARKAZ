@@ -3064,6 +3064,233 @@ body.menu .mbtn i{background:#fff}
 @media (prefers-reduced-motion:reduce){
   .dock,.tabs__ind,.dbrand__mark{transition:none}
 }
+/* ==================================================================
+   PATCH 04 — SPATIAL GALLERY
+   A curved wall of panels rather than a flat grid: the front frame
+   faces you square, its neighbours rake away on both sides, and a
+   glass plate reads over the front one. Controls dock underneath.
+   ================================================================== */
+.spg{position:relative;z-index:1;margin-top:6px}
+.spg__stage{
+  position:relative;height:clamp(420px,46vw,560px);
+  perspective:1800px;perspective-origin:50% 46%;
+  cursor:grab;touch-action:pan-y;user-select:none;
+}
+.spg__stage:active{cursor:grabbing}
+.spg__track{position:absolute;inset:0;transform-style:preserve-3d}
+
+.spg__c{
+  position:absolute;top:50%;left:50%;margin:0;
+  width:clamp(230px,25vw,330px);height:clamp(330px,36vw,470px);
+  border-radius:22px;overflow:hidden;
+  background:var(--cloud);
+  border:1px solid rgba(255,255,255,.5);
+  box-shadow:0 30px 70px -28px rgba(11,21,51,.5);
+  transform-origin:50% 50%;will-change:transform,opacity;
+  transition:transform .72s var(--ez2),opacity .5s var(--ez),box-shadow .5s var(--ez);
+}
+.spg__c img{width:100%;height:100%;object-fit:cover;display:block}
+.spg__veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(11,21,51,.10) 0%,transparent 34%,rgba(11,21,51,.62) 100%);
+  transition:opacity .5s var(--ez);
+}
+/* the panels off to the side sit back in the light */
+.spg__c:not(.is-front){filter:saturate(.92) brightness(.97)}
+.spg__c:not(.is-front) .spg__veil{opacity:.55}
+.spg__c.is-front{
+  box-shadow:0 44px 96px -30px rgba(11,21,51,.6),0 0 0 1px rgba(255,255,255,.6);
+}
+
+/* ---- the glass plate over the front panel ---- */
+.spg__hud{position:absolute;inset:0;pointer-events:none;z-index:20}
+.spg__hud > *{pointer-events:auto}
+
+.spg__expand,.spg__nav{
+  position:absolute;top:calc(50% - clamp(330px,36vw,470px)/2 + 12px);
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;
+  background:rgba(255,255,255,.20);
+  backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);
+  border:1px solid rgba(255,255,255,.42);color:#fff;
+  box-shadow:0 8px 22px -10px rgba(11,21,51,.6),0 1px 0 rgba(255,255,255,.4) inset;
+  transition:.3s var(--ez);
+}
+.spg__expand{
+  left:50%;transform:translateX(-50%);height:34px;padding:0 15px;border-radius:100px;
+  font:700 10.5px/1 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;
+}
+.spg__nav{width:34px;height:34px;border-radius:50%}
+.spg__nav--l{left:calc(50% - clamp(230px,25vw,330px)/2 + 12px)}
+.spg__nav--r{left:auto;right:calc(50% - clamp(230px,25vw,330px)/2 + 12px)}
+.spg__expand:hover,.spg__nav:hover{background:rgba(216,18,26,.55);border-color:rgba(255,255,255,.7)}
+.spg__expand svg,.spg__nav svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.spg__expand:focus-visible,.spg__nav:focus-visible{outline:2.5px solid #fff;outline-offset:3px}
+
+.spg__plate{
+  position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(50% - clamp(330px,36vw,470px)/2 + 12px);
+  width:calc(clamp(230px,25vw,330px) - 24px);
+  padding:14px 16px 15px;border-radius:16px;
+  background:rgba(11,21,51,.42);
+  backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);
+  border:1px solid rgba(255,255,255,.26);
+  box-shadow:0 1px 0 rgba(255,255,255,.30) inset,0 18px 40px -18px rgba(0,0,0,.7);
+  color:#fff;
+}
+.spg__plate-h{display:flex;flex-direction:column;gap:3px;margin-bottom:9px}
+.spg__plate-h b{font-family:var(--dsp2);font-size:14.5px;letter-spacing:.01em;line-height:1.15}
+.spg__plate-h span{font:600 9px/1 var(--f-cond);letter-spacing:.2em;text-transform:uppercase;color:var(--red-lt)}
+.spg__q{font-size:12px;line-height:1.5;color:rgba(255,255,255,.86);margin:0 0 11px;font-style:italic}
+.spg__meta{display:flex;gap:16px;padding-top:10px;border-top:1px solid rgba(255,255,255,.16)}
+.spg__meta span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.spg__meta i{font:600 8px/1 var(--f-cond);font-style:normal;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.spg__meta b{font:600 10.5px/1.3 var(--bdy);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---- the floating tool rail ---- */
+.spg__rail{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:22;
+  display:flex;flex-direction:column;gap:8px;padding:9px 8px;border-radius:100px;
+  background:rgba(255,255,255,.58);border:1px solid var(--line);
+  backdrop-filter:blur(20px) saturate(1.6);box-shadow:var(--s2);
+}
+.spg__railb{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.7)}
+.spg__railb svg{width:15px;height:15px;fill:none;stroke:var(--mut);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---- the docked control bar ---- */
+.spg__bar{
+  position:relative;z-index:22;margin:-26px auto 0;
+  width:min(430px,calc(100% - 28px));
+  display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:100px;
+  background-image:linear-gradient(150deg,rgba(255,255,255,.88),rgba(237,242,254,.66));
+  backdrop-filter:blur(26px) saturate(1.8);-webkit-backdrop-filter:blur(26px) saturate(1.8);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 18px 40px -18px rgba(11,21,51,.4);
+}
+.spg__barb{
+  width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:rgba(255,255,255,.6);border:1px solid var(--line);transition:.28s var(--ez);
+}
+.spg__barb:hover{background:#fff;border-color:var(--red)}
+.spg__barb:hover svg{stroke:var(--red)}
+.spg__barb svg{width:15px;height:15px;fill:none;stroke:var(--ink);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;transition:.28s}
+.spg__barb--go{background:var(--ink);border-color:var(--ink)}
+.spg__barb--go svg{stroke:#fff;stroke-width:1.9}
+.spg__barb--go:hover{background:var(--red);border-color:var(--red)}
+.spg__barb--go:hover svg{stroke:#fff}
+.spg__barb:focus-visible{outline:2.5px solid var(--blue);outline-offset:3px}
+.spg__thumb{
+  width:40px;height:40px;flex:none;border-radius:13px;background-size:cover;background-position:center;
+  border:1px solid var(--edge);box-shadow:var(--s1);transition:background-image .3s var(--ez);
+}
+.spg__who{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.spg__who b{font-family:var(--dsp2);font-size:12.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spg__who span{font:600 8.5px/1 var(--f-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.spg__dots{display:flex;justify-content:center;gap:6px;margin-top:15px}
+.spg__dots i{width:6px;height:6px;border-radius:50%;background:var(--cloud);cursor:pointer;transition:.3s var(--ez)}
+.spg__dots i.on{background:var(--red);width:20px;border-radius:99px}
+
+@media (max-width:1100px){
+  .spg__rail{display:none}
+}
+@media (max-width:900px){
+  .spg__stage{height:clamp(380px,74vw,460px);perspective:1300px}
+  .spg__c{width:min(250px,64vw);height:min(360px,92vw)}
+  .spg__plate{width:calc(min(250px,64vw) - 20px);padding:12px 13px 13px;border-radius:14px}
+  .spg__plate-h b{font-size:13px}
+  .spg__q{font-size:11px;margin-bottom:9px}
+  .spg__meta{gap:12px}
+  .spg__expand,.spg__nav{top:calc(50% - min(360px,92vw)/2 + 10px)}
+  .spg__nav--l{left:calc(50% - min(250px,64vw)/2 + 9px)}
+  .spg__nav--r{right:calc(50% - min(250px,64vw)/2 + 9px)}
+  .spg__plate{bottom:calc(50% - min(360px,92vw)/2 + 10px)}
+  .spg__bar{margin-top:-20px;width:min(360px,calc(100% - 22px));gap:9px}
+}
+@media (max-width:400px){
+  .spg__c{width:70vw;height:96vw}
+  .spg__plate{width:calc(70vw - 18px)}
+  .spg__expand span{display:none}
+  .spg__who span{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .spg__c{transition:none}
+}
+/* ==================================================================
+   PATCH 05 — TOUCH LAYER + IN-PAGE LINKING
+   Everything that only ever answered a mouse now answers a finger,
+   and the cards that describe another section now travel to it.
+   ================================================================== */
+
+/* while the wall is being dragged the panels must not lag behind the
+   finger, so the settle transition is suspended for the duration */
+.spg__stage.is-drag .spg__c{transition:none !important}
+.spg__stage:focus-visible{outline:2.5px solid var(--blue);outline-offset:6px;border-radius:24px}
+
+/* ---------- 5a. anything that jumps to a section ---------- */
+[data-go]{cursor:pointer;-webkit-tap-highlight-color:transparent}
+[data-go]:focus-visible{outline:2.5px solid var(--blue);outline-offset:3px}
+/* a small arrow tells you the tile is a door, not just a statistic */
+.bt[data-go]{position:relative}
+.bt[data-go]::after{
+  content:'';position:absolute;right:14px;bottom:14px;width:15px;height:15px;z-index:4;
+  background:no-repeat center/contain
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2371809E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7M9 7h8v8'/%3E%3C/svg%3E");
+  opacity:.42;transition:opacity .3s var(--ez),transform .3s var(--ez2);
+}
+.bt[data-go]:hover::after,.bt[data-go]:focus-visible::after{opacity:1;transform:translate(2px,-2px)}
+.bt.feat[data-go]::after{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7M9 7h8v8'/%3E%3C/svg%3E");
+  opacity:.55;
+}
+
+/* ---------- 5b. touch input ---------- */
+@media (hover:none){
+  /* every press gets an answer, since there is no hover to give one */
+  .bt,.pc,.pth,.nc,.slot,.ev,.sqc,.mo,.spg__c,.cf-chip,.tl-card,
+  .np-grid a,.pdeck__c,.rvw__c,.tabs a,.dchip,.tslot,.ladder button,
+  .hfact a,.htag,.spg__barb,.rvw__nav button,.sndb,.mbtn{
+    transition:transform .16s var(--ez),opacity .16s var(--ez),box-shadow .2s var(--ez);
+  }
+  .bt:active,.pc:active,.pth:active,.nc:active,.slot:active,.ev:active,
+  .sqc:active,.mo:active,.cf-chip:active,.tl-card:active,.np-grid a:active,
+  .pdeck__c:active,.rvw__c:active{transform:scale(.978)}
+  .btn:active,.spg__barb:active,.rvw__nav button:active,.sndb:active,
+  .mbtn:active,.spg__nav:active,.spg__expand:active,.tabs a:active{transform:scale(.93)}
+  .lift:active{transform:scale(.978);box-shadow:var(--s2)}
+
+  /* things that were only revealed on hover are simply always on */
+  .spg__c:not(.is-front){filter:none}
+  .bt[data-go]::after{opacity:.75}
+  .pc .lk,.nc .nc-go{opacity:1 !important;transform:none !important}
+
+  /* the fees deck reads flat rather than raked, so a thumb can hit it */
+  .pdeck.in .pdeck__c:hover{transform:none}
+}
+
+/* fingers need a target, not a pixel */
+@media (pointer:coarse){
+  .spg__barb,.rvw__nav button,.spg__nav{min-width:44px;min-height:44px}
+  .spg__expand{min-height:44px;padding:0 20px}
+  .spg__dots i,.pdeck__dots i,.rvw__dots i{
+    position:relative;
+  }
+  .spg__dots i::after,.pdeck__dots i::after,.rvw__dots i::after{
+    content:'';position:absolute;inset:-16px -7px;   /* invisible thumb pad */
+  }
+  .tabs a{padding:11px 15px}
+  .np-grid a{min-height:52px}
+  .il,.lk{padding-block:3px}
+}
+
+/* a horizontal rail should never eat the page's vertical scroll */
+.spg__stage,.pdeck__rail,.sqw,.rvw__rack{touch-action:pan-y}
+.spg__stage{touch-action:pan-y pinch-zoom}
+
+/* iOS momentum + no rubber-band on the inner rails */
+.pdeck__rail,.sqw{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+
+/* no blue flash anywhere on tap */
+a,button,[role="button"],[tabindex]{-webkit-tap-highlight-color:transparent}
 </style>
 </head>
 <body>
@@ -3414,7 +3641,7 @@ body.menu .mbtn i{background:#fff}
         </linearGradient>
       </defs></svg>
 
-      <div class="col-12 col-md-6 bt-tall" data-rv data-bt><div class="bt lift feat h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1555597673-b21d5c935865?w=700&q=70')"></div>
+      <div class="col-12 col-md-6 bt-tall" data-rv data-bt><div class="bt lift feat h-100 phcard" data-go="#programs"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1555597673-b21d5c935865?w=700&q=70')"></div>
         <div class="glow b"></div>
         <div class="bl"><i></i> Members training</div>
         <div style="margin-top:auto">
@@ -3424,17 +3651,17 @@ body.menu .mbtn i{background:#fff}
         </div>
       </div></div>
 
-      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?w=700&q=70')"></div>
+      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard" data-go="#why"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?w=700&q=70')"></div>
         <div class="bl"><i></i> Years on mat</div>
         <div class="gauge"><svg viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="42"/><circle class="val" cx="48" cy="48" r="42" data-p="80"/></svg><b><span data-c="12">0</span><small style="font-size:11px;color:var(--mut);display:block;font-family:var(--f-cond);letter-spacing:.14em">YEARS</small></b></div>
       </div></div>
 
-      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift b h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=700&q=70')"></div>
+      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift b h-100 phcard" data-go="#reviews"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=700&q=70')"></div>
         <div class="bl"><i></i> Google rating</div>
         <div class="gauge b"><svg viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="42"/><circle class="val" cx="48" cy="48" r="42" data-p="82"/></svg><b>4.1★</b></div>
       </div></div>
 
-      <div class="col-12 col-md-6" data-rv data-bt><div class="bt lift wide b h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1517438476312-10d79c077509?w=700&q=70')"></div>
+      <div class="col-12 col-md-6" data-rv data-bt><div class="bt lift wide b h-100 phcard" data-go="#reviews"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1517438476312-10d79c077509?w=700&q=70')"></div>
         <div class="bl"><i></i> Reviews on Google</div>
         <div class="bv" data-c="612">0</div>
         <div class="spark"><svg viewBox="0 0 300 56" preserveAspectRatio="none" style="width:100%;height:100%;display:block">
@@ -3443,17 +3670,17 @@ body.menu .mbtn i{background:#fff}
         </svg></div>
       </div></div>
 
-      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=700&q=70')"></div>
+      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard" data-go="#programs"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=700&q=70')"></div>
         <div class="bl"><i></i> Programs</div>
         <div style="margin-top:auto"><div class="bv" data-c="6">0</div><div class="bs">Disciplines</div></div>
       </div></div>
 
-      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?w=700&q=70')"></div>
+      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard" data-go="#squad"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?w=700&q=70')"></div>
         <div class="bl"><i></i> National golds</div>
         <div style="margin-top:auto"><div class="bv" data-c="3">0</div><div class="bs">Competition record</div></div>
       </div></div>
 
-      <div class="col-12 col-md-6" data-rv data-bt><div class="bt lift wide h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=70')"></div>
+      <div class="col-12 col-md-6" data-rv data-bt><div class="bt lift wide h-100 phcard" data-go="#schedule"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=70')"></div>
         <div class="glow r"></div>
         <div class="bl"><i></i> Weekly batches</div>
         <div class="bars">
@@ -3463,12 +3690,12 @@ body.menu .mbtn i{background:#fff}
         <div class="bs" style="margin-top:10px">Mon — Sun · doors open 9:00 AM</div>
       </div></div>
 
-      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift b h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=70')"></div>
+      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift b h-100 phcard" data-go="#schedule"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=70')"></div>
         <div class="bl"><i></i> Start age</div>
         <div style="margin-top:auto"><div class="bv" data-c="5">0</div><div class="bs">Years and up</div></div>
       </div></div>
 
-      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=700&q=70')"></div>
+      <div class="col-6 col-md-3" data-rv data-bt><div class="bt lift h-100 phcard" data-go="#belts"><div class="ph-bg" style="background-image:url('https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=700&q=70')"></div>
         <div class="bl"><i></i> Belt ranks</div>
         <div style="margin-top:auto"><div class="bv" data-c="11">0</div><div class="bs">White to black</div></div>
       </div></div>
@@ -3775,33 +4002,118 @@ body.menu .mbtn i{background:#fff}
       <h2>The <em class="b">room</em></h2>
       <p>Swipe anywhere across the images, or use the arrows. Tap the front panel to enlarge.</p>
     </div>
-    <div class="mosaic" id="mosaic">
-      <figure class="mo mo-a" data-rv style="--i:0" tabindex="0" role="button" aria-label="Enlarge: Belt ceremony"><span class="veil"></span><img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=900&q=72" alt="Belt ceremony" loading="lazy">
-        <figcaption><b>Belt ceremony</b><i>Enlarge</i></figcaption>
-      </figure>
-      <figure class="mo mo-b" data-rv style="--i:1" tabindex="0" role="button" aria-label="Enlarge: Bag work"><span class="veil"></span><img src="https://images.unsplash.com/photo-1517438476312-10d79c077509?w=900&q=72" alt="Bag work" loading="lazy">
-        <figcaption><b>Bag work</b><i>Enlarge</i></figcaption>
-      </figure>
-      <figure class="mo mo-c" data-rv style="--i:2" tabindex="0" role="button" aria-label="Enlarge: Kids batch"><span class="veil"></span><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=900&q=72" alt="Kids batch" loading="lazy">
-        <figcaption><b>Kids batch</b><i>Enlarge</i></figcaption>
-      </figure>
-      <figure class="mo mo-d" data-rv style="--i:3" tabindex="0" role="button" aria-label="Enlarge: Sparring"><span class="veil"></span><img src="https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=900&q=72" alt="Sparring" loading="lazy">
-        <figcaption><b>Sparring</b><i>Enlarge</i></figcaption>
-      </figure>
-      <figure class="mo mo-e" data-rv style="--i:4" tabindex="0" role="button" aria-label="Enlarge: Female-only class"><span class="veil"></span><img src="https://images.unsplash.com/photo-1544216717-3bbf52512659?w=900&q=72" alt="Female-only class" loading="lazy">
-        <figcaption><b>Female-only class</b><i>Enlarge</i></figcaption>
-      </figure>
-      <figure class="mo mo-f" data-rv style="--i:5" tabindex="0" role="button" aria-label="Enlarge: Tournament day"><span class="veil"></span><img src="https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?w=900&q=72" alt="Tournament day" loading="lazy">
-        <figcaption><b>Tournament day</b><i>Enlarge</i></figcaption>
-      </figure>
-      <figure class="mo mo-g" data-rv style="--i:6" tabindex="0" role="button" aria-label="Enlarge: Conditioning"><span class="veil"></span><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=72" alt="Conditioning" loading="lazy">
-        <figcaption><b>Conditioning</b><i>Enlarge</i></figcaption>
-      </figure>
-      <figure class="mo mo-h" data-rv style="--i:7" tabindex="0" role="button" aria-label="Enlarge: Grappling"><span class="veil"></span><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=900&q=72" alt="Grappling" loading="lazy">
-        <figcaption><b>Grappling</b><i>Enlarge</i></figcaption>
-      </figure>
+    <!-- ---------- spatial gallery: a curved wall of panels ---------- -->
+    <div class="spg" id="spg" data-rv>
+
+      <!-- the floating tool rail, pinned to the left of the wall -->
+      <div class="spg__rail" aria-hidden="true">
+        <span class="spg__railb"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
+        <span class="spg__railb"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.6-7-9.5A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 3.5C19 16.4 12 21 12 21z"/></svg></span>
+        <span class="spg__railb"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg></span>
+      </div>
+
+      <div class="spg__stage" id="spgStage">
+        <div class="spg__track" id="spgTrack">
+
+          <figure class="spg__c" data-i="0"
+                  data-t="Belt ceremony" data-q="The belt goes on in front of the whole room. That is the point of it."
+                  data-m="Monthly Grading Day" data-d="Main hall · Block 10">
+            <img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=900&amp;q=72" alt="Belt ceremony" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+          <figure class="spg__c" data-i="1"
+                  data-t="Bag work" data-q="Hands before combinations, combinations before rounds. Nobody skips the order."
+                  data-m="Boxing · Kickboxing" data-d="Evening batch · 7:30 PM">
+            <img src="https://images.unsplash.com/photo-1517438476312-10d79c077509?w=900&amp;q=72" alt="Bag work" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+          <figure class="spg__c" data-i="2"
+                  data-t="Kids batch" data-q="Five years old and up. Discipline is taught the same way it is taught to adults, just slower."
+                  data-m="Taekwondo · Above 5 yrs" data-d="Tue · Thu · Sat">
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=900&amp;q=72" alt="Kids batch" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+          <figure class="spg__c" data-i="3"
+                  data-t="Sparring" data-q="Controlled rounds, matched by weight and belt. You spar when your guard is ready, not before."
+                  data-m="All disciplines" data-d="Coach-supervised">
+            <img src="https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=900&amp;q=72" alt="Sparring" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+          <figure class="spg__c" data-i="4"
+                  data-t="Female-only class" data-q="A closed room, the full syllabus, and a self-defence module built into it."
+                  data-m="Females above 5" data-d="Tue · Wed · Fri · 5:00 PM">
+            <img src="https://images.unsplash.com/photo-1544216717-3bbf52512659?w=900&amp;q=72" alt="Female-only class" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+          <figure class="spg__c" data-i="5"
+                  data-t="Tournament day" data-q="The squad competes nationally. Three national golds on the record so far."
+                  data-m="Fighters Squad" data-d="By invitation">
+            <img src="https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?w=900&amp;q=72" alt="Tournament day" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+          <figure class="spg__c" data-i="6"
+                  data-t="Conditioning" data-q="Strength work that serves the sport — the engine behind every round you finish standing."
+                  data-m="OUJ Performance" data-d="The conditioning arm">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&amp;q=72" alt="Conditioning" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+          <figure class="spg__c" data-i="7"
+                  data-t="Grappling" data-q="Takedowns, clinch, control, submissions. The ground game that sits inside MMA."
+                  data-m="Within MMA" data-d="Above 15 years">
+            <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=900&amp;q=72" alt="Grappling" loading="lazy">
+            <span class="spg__veil"></span>
+          </figure>
+
+        </div>
+
+        <!-- the glass plate that reads over the front panel -->
+        <div class="spg__hud" id="spgHud">
+          <button class="spg__nav spg__nav--l" id="spgPrev" type="button" aria-label="Previous image">
+            <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="spg__expand" id="spgExpand" type="button">
+            <svg viewBox="0 0 24 24"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg>Expand</button>
+          <button class="spg__nav spg__nav--r" id="spgNext" type="button" aria-label="Next image">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+
+          <div class="spg__plate" id="spgPlate">
+            <div class="spg__plate-h">
+              <b id="spgT">Belt ceremony</b>
+              <span id="spgM">Monthly Grading Day</span>
+            </div>
+            <p class="spg__q" id="spgQ">The belt goes on in front of the whole room.</p>
+            <div class="spg__meta">
+              <span><i>Where</i><b id="spgD">Main hall · Block 10</b></span>
+              <span><i>Frame</i><b id="spgN">01 / 08</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- the docked control bar under the wall -->
+      <div class="spg__bar">
+        <button class="spg__barb" id="spgPrev2" type="button" aria-label="Previous image">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <span class="spg__thumb" id="spgThumb" aria-hidden="true"></span>
+        <span class="spg__who">
+          <b id="spgT2">Belt ceremony</b>
+          <span id="spgM2">Monthly Grading Day</span>
+        </span>
+        <button class="spg__barb spg__barb--go" id="spgZoom" type="button" aria-label="Open full size">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2M11 8.5v5M8.5 11h5"/></svg></button>
+        <button class="spg__barb" id="spgNext2" type="button" aria-label="Next image">
+          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+
+      <div class="spg__dots" id="spgDots" aria-hidden="true"></div>
     </div>
-    <p class="note text-center">Tap any frame to open it full size.</p>
+    <p class="note text-center">Drag across the wall, or use the arrows. Tap the front panel to open it full size.</p>
   </div>
 </section>
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Gallery image"><button class="cl" id="lbC" aria-label="Close">×</button><img id="lbImg" src="" alt=""></div>
@@ -5398,6 +5710,327 @@ const BELTS=[
   new MutationObserver(function(){
     if(dock) dock.classList.toggle('is-open', document.body.classList.contains('menu'));
   }).observe(document.body, {attributes:true, attributeFilter:['class']});
+})();
+</script>
+
+<!-- ========== PATCH 04 · spatial gallery ========== -->
+<script>
+(function(){
+  'use strict';
+  var stage = document.getElementById('spgStage');
+  if(!stage) return;
+  var track = document.getElementById('spgTrack');
+  var cards = [].slice.call(track.querySelectorAll('.spg__c'));
+  var n = cards.length;
+  if(!n) return;
+
+  var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var at = 0;      /* the settled frame            */
+  var pos = 0;     /* where the wall actually is, mid-drag included */
+
+  var el = {
+    t:  document.getElementById('spgT'),  m:  document.getElementById('spgM'),
+    q:  document.getElementById('spgQ'),  d:  document.getElementById('spgD'),
+    nn: document.getElementById('spgN'),
+    t2: document.getElementById('spgT2'), m2: document.getElementById('spgM2'),
+    thumb: document.getElementById('spgThumb'),
+    dots:  document.getElementById('spgDots')
+  };
+
+  el.dots.innerHTML = cards.map(function(){ return '<i></i>'; }).join('');
+  var dots = [].slice.call(el.dots.children);
+
+  /* how far a panel sits from the front one, taking the shorter way round
+     so the wall can spin past the ends instead of dead-ending */
+  function delta(i, from){
+    var d = i - (from === undefined ? pos : from);
+    while(d >  n/2) d -= n;
+    while(d < -n/2) d += n;
+    return d;
+  }
+
+  function layout(){
+    var narrow = innerWidth < 901;
+    var gapX   = narrow ? 118 : 168;   /* how far each step slides sideways */
+    var depth  = narrow ? 130 : 190;   /* how far each step sinks backwards */
+    var rot    = narrow ? 30  : 34;    /* the rake on each step             */
+    var reach  = narrow ? 2   : 3;     /* how many are kept on screen       */
+
+    cards.forEach(function(c,i){
+      var d  = delta(i), ad = Math.abs(d);
+      var on = ad < .5;   /* fractional, so the front panel hands over mid-drag */
+      c.classList.toggle('is-front', on);
+      if(ad > reach){
+        c.style.opacity = 0;
+        c.style.pointerEvents = 'none';
+        c.style.transform = 'translate(-50%,-50%) translateX(' + (d * gapX) + 'px) translateZ(-900px)';
+        c.style.zIndex = 0;
+        return;
+      }
+      c.style.opacity = on ? 1 : (ad <= 1 ? .95 : (ad <= 2 ? .74 : .46));
+      c.style.pointerEvents = 'auto';
+      c.style.zIndex = 10 - Math.round(ad);
+      c.setAttribute('aria-current', on ? 'true' : 'false');
+      c.style.transform =
+        'translate(-50%,-50%)' +
+        ' translateX(' + (d * gapX) + 'px)' +
+        ' translateZ(' + (on ? 60 : -ad * depth) + 'px)' +
+        ' rotateY(' + (-d * rot) + 'deg)' +
+        ' scale(' + (on ? 1 : 1 - ad * .04) + ')';
+    });
+  }
+
+  function paint(){
+    var c = cards[at];
+    el.t.textContent  = c.dataset.t;
+    el.m.textContent  = c.dataset.m;
+    el.q.textContent  = '“' + c.dataset.q + '”';
+    el.d.textContent  = c.dataset.d;
+    el.nn.textContent = String(at + 1).padStart(2,'0') + ' / ' + String(n).padStart(2,'0');
+    el.t2.textContent = c.dataset.t;
+    el.m2.textContent = c.dataset.m;
+    el.thumb.style.backgroundImage = 'url("' + c.querySelector('img').src + '")';
+    dots.forEach(function(x,i){ x.classList.toggle('on', i === at); });
+  }
+
+  function go(i){
+    at  = ((Math.round(i) % n) + n) % n;
+    pos = at;
+    layout(); paint();
+  }
+  function step(by){ go(at + by); }
+
+  /* ---- controls ---- */
+  ['spgPrev','spgPrev2'].forEach(function(id){
+    var b = document.getElementById(id); if(b) b.addEventListener('click', function(e){ e.stopPropagation(); step(-1); });
+  });
+  ['spgNext','spgNext2'].forEach(function(id){
+    var b = document.getElementById(id); if(b) b.addEventListener('click', function(e){ e.stopPropagation(); step(1); });
+  });
+  dots.forEach(function(x,i){ x.addEventListener('click', function(){ go(i); }); });
+
+  /* a side panel is a target, the front one opens */
+  cards.forEach(function(c,i){
+    c.addEventListener('click', function(){
+      if(i === at) openLb(); else go(i);
+    });
+  });
+
+  /* ---- the lightbox, reusing the one already in the page ---- */
+  var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbC = document.getElementById('lbC');
+  function openLb(){
+    if(!lb) return;
+    var img = cards[at].querySelector('img');
+    lbImg.src = img.src.replace(/w=\d+/, 'w=1800');
+    lbImg.alt = img.alt;
+    lb.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    if(lbC) lbC.focus();
+  }
+  function closeLb(){
+    if(!lb) return;
+    lb.classList.remove('on');
+    document.body.style.overflow = '';
+  }
+  ['spgExpand','spgZoom'].forEach(function(id){
+    var b = document.getElementById(id); if(b) b.addEventListener('click', function(e){ e.stopPropagation(); openLb(); });
+  });
+  if(lbC) lbC.addEventListener('click', closeLb);
+  if(lb) lb.addEventListener('click', function(e){ if(e.target === lb) closeLb(); });
+  addEventListener('keydown', function(e){
+    if(lb && lb.classList.contains('on')){
+      if(e.key === 'Escape')     closeLb();
+      if(e.key === 'ArrowRight'){ step(1);  openLb(); }
+      if(e.key === 'ArrowLeft') { step(-1); openLb(); }
+    }
+  });
+
+  /* ---- drag: the wall follows the finger, then settles ----
+     A threshold-then-jump swipe feels dead on a touchscreen — nothing
+     moves until it suddenly does. Here the panels track the pointer
+     one-to-one, and let go with whatever momentum they were carrying. */
+  var drag = null;
+
+  function stepPx(){ return innerWidth < 901 ? 150 : 210; }  /* travel per frame */
+
+  stage.addEventListener('pointerdown', function(e){
+    if(e.target.closest('button')) return;
+    drag = {
+      x: e.clientX, y: e.clientY,
+      startX: e.clientX, startPos: pos,
+      t: Date.now(), v: 0, live: false
+    };
+    try { stage.setPointerCapture(e.pointerId); } catch(err){}
+  });
+
+  stage.addEventListener('pointermove', function(e){
+    if(!drag) return;
+    var dx = e.clientX - drag.startX, dy = e.clientY - drag.y;
+
+    /* let a vertical gesture belong to the page, not the wall */
+    if(!drag.live){
+      if(Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)){ drag = null; return; }
+      if(Math.abs(dx) < 6) return;
+      drag.live = true;
+      stage.classList.add('is-drag');
+    }
+
+    var now = Date.now(), dt = Math.max(16, now - drag.t);
+    drag.v = (e.clientX - drag.x) / dt;   /* px per ms, for the throw */
+    drag.x = e.clientX; drag.t = now;
+
+    pos = drag.startPos - dx / stepPx();
+    layout();
+    var near = ((Math.round(pos) % n) + n) % n;
+    if(near !== at){ at = near; paint(); }
+  });
+
+  function release(){
+    if(!drag) return;
+    var was = drag.live, v = drag.v;
+    drag = null;
+    stage.classList.remove('is-drag');
+    /* recorded here, not in a separate pointerup listener: on the target
+       element listeners fire in registration order, so the class is gone
+       by the time a later one could read it */
+    stage.dataset.moved = was ? '1' : '0';
+    if(!was) return;
+    /* a flick carries past the nearest frame; a slow drag just settles */
+    var throwBy = Math.max(-2, Math.min(2, Math.round(-v * 2.2)));
+    go(Math.round(pos) + throwBy);
+  }
+  ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+    stage.addEventListener(ev, release);
+  });
+
+  /* a drag must not also count as a tap on the panel underneath */
+  stage.addEventListener('click', function(e){
+    if(stage.dataset.moved === '1'){ e.stopPropagation(); stage.dataset.moved = '0'; }
+  }, true);
+
+  /* the wheel turns the wall only when the gesture is clearly sideways */
+  var wheelLock = 0;
+  stage.addEventListener('wheel', function(e){
+    if(Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    if(Date.now() < wheelLock) return;
+    wheelLock = Date.now() + 260;
+    step(e.deltaX > 0 ? 1 : -1);
+  }, {passive:false});
+
+  /* arrow keys when the wall has focus */
+  stage.setAttribute('tabindex','0');
+  stage.setAttribute('role','group');
+  stage.setAttribute('aria-label','Gallery — use arrow keys to change frame');
+  stage.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
+    if(e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+
+  addEventListener('resize', layout, {passive:true});
+  go(0);
+})();
+</script>
+
+<!-- ========== PATCH 05 · touch layer + in-page linking ========== -->
+<script>
+(function(){
+  'use strict';
+
+  /* ------------------------------------------------------------------
+     1. TAP TO TRAVEL
+     Any element carrying data-go="#section" behaves like a link: it
+     clicks, it keys, it announces itself. Delegated, so tiles added
+     later are covered without rebinding.
+     ------------------------------------------------------------------ */
+  function goTo(sel){
+    var el = document.querySelector(sel);
+    if(!el) return;
+    var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    el.scrollIntoView({behavior: RM ? 'auto' : 'smooth', block:'start'});
+    history.replaceState(null, '', sel);
+  }
+
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-go]');
+    if(!t) return;
+    /* a real link or button sitting inside the tile keeps its own job */
+    var inner = e.target.closest('a,button');
+    if(inner && inner !== t && t.contains(inner)) return;
+    e.preventDefault();
+    goTo(t.getAttribute('data-go'));
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    var t = document.activeElement && document.activeElement.closest('[data-go]');
+    if(!t) return;
+    e.preventDefault();
+    goTo(t.getAttribute('data-go'));
+  });
+
+  /* make them reachable and announced before anyone tries to use them */
+  [].forEach.call(document.querySelectorAll('[data-go]'), function(t){
+    if(!t.hasAttribute('tabindex')) t.setAttribute('tabindex','0');
+    if(!t.hasAttribute('role'))     t.setAttribute('role','link');
+    if(!t.hasAttribute('aria-label')){
+      var to = t.getAttribute('data-go').replace('#','');
+      t.setAttribute('aria-label', (t.textContent || '').trim().slice(0,60) + ' — go to ' + to);
+    }
+  });
+
+  /* ------------------------------------------------------------------
+     2. SWIPE, EVERYWHERE IT MAKES SENSE
+     The page already had a swipe helper but only the belt ladder and
+     the lightbox used it. These rails were mouse-only until now.
+     ------------------------------------------------------------------ */
+  function swipe(el, next, prev, min){
+    if(!el) return;
+    var x = 0, y = 0, live = false;
+    min = min || 46;
+    el.addEventListener('touchstart', function(e){
+      x = e.changedTouches[0].clientX; y = e.changedTouches[0].clientY; live = true;
+    }, {passive:true});
+    el.addEventListener('touchend', function(e){
+      if(!live) return; live = false;
+      var dx = e.changedTouches[0].clientX - x, dy = e.changedTouches[0].clientY - y;
+      if(Math.abs(dx) > min && Math.abs(dx) > Math.abs(dy) * 1.3){ (dx < 0 ? next : prev)(); }
+    }, {passive:true});
+  }
+
+  var tap = function(id){ var b = document.getElementById(id); if(b) b.click(); };
+  swipe(document.querySelector('#reviews .rvw__rack'),
+        function(){ tap('rvNext'); }, function(){ tap('rvPrev'); });
+  swipe(document.querySelector('#events .tl'),
+        function(){}, function(){});
+
+  /* ------------------------------------------------------------------
+     3. TOUCH HOUSEKEEPING
+     ------------------------------------------------------------------ */
+  /* a coarse pointer gets the class, so CSS can stop pretending hover exists */
+  if(matchMedia('(hover:none)').matches) document.documentElement.classList.add('is-touch');
+
+  /* iOS fires a 300ms ghost click after a touch on some elements; naming
+     the viewport as touch-action-managed removes the wait */
+  document.documentElement.style.touchAction = 'manipulation';
+
+  /* every in-page anchor scrolls rather than jumps, including ones inside
+     cards that were previously plain hrefs */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var href = a.getAttribute('href');
+    if(href.length < 2) return;
+    var el = document.querySelector(href);
+    if(!el) return;
+    e.preventDefault();
+    var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    el.scrollIntoView({behavior: RM ? 'auto' : 'smooth', block:'start'});
+    history.replaceState(null, '', href);
+    if(document.body.classList.contains('menu')){
+      var mb = document.getElementById('mbtn'); if(mb) mb.click();
+    }
+  });
 })();
 </script>
 </body>
